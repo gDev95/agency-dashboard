@@ -1,0 +1,8 @@
+script:
+  - nguage: node_js
+node_js:
+  - 10
+  - 8
+script:
+  - yarn lint
+  - yarn test
