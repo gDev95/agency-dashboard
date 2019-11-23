@@ -42,7 +42,7 @@
 	},
 	"scripts": {
 		"dev": "REACT_APP_BASE_API_URL=http://localhost:9000 react-scripts start",
-		"start": "REACT_APP_BASE_API_URL=https://agency-grapqhl-api.herokuapp.com/ react-scripts start",
+		"start": "REACT_APP_BASE_API_URL=https://agency-grapqhl-api.herokuapp.com react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"jest": "./node_modules/.bin/jest",
