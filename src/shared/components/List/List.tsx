@@ -34,6 +34,13 @@ const List = (props: Props) => {
 		);
 	}
 
+	const handleDeleteClick = (id: string) => (
+		event: React.MouseEvent<HTMLButtonElement>
+	) => {
+		event.preventDefault();
+		onDelete && onDelete(id);
+	};
+
 	return (
 		<StyledMaterialList
 			subheader={<StyledListSubheader>{subheader}</StyledListSubheader>}
@@ -54,7 +61,7 @@ const List = (props: Props) => {
 										data-testid={`itemSecondaryAction${index}`}
 										edge="end"
 										aria-label={`delete ${subheader}`}
-										onClick={() => onDelete && onDelete(item.id)}
+										onClick={handleDeleteClick(item.id)}
 									>
 										<DeleteIcon />
 									</IconButton>
