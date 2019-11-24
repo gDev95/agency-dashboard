@@ -50,11 +50,11 @@ const Dashboard = () => {
 					await deleteArtist({
 						variables: { id }
 					});
+					refetch();
 				} catch (error) {
 					console.error("Something went wrong", error);
 					setOpen(true);
 				}
-				refetch();
 				break;
 			case ItemTypes.News:
 				break;

@@ -113,7 +113,9 @@ const BasicInformationFormGroup = (props: Props) => {
 							profileImage={profileImageUrl && profileImageUrl}
 							component="div"
 						>
-							<LinkedCameraIcon style={{ fontSize: 60 }} />
+							{!profileImageUrl && (
+								<LinkedCameraIcon style={{ fontSize: 60 }} />
+							)}
 						</ProfileImageButton>
 					</label>
 				</>
