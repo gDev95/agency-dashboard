@@ -6,7 +6,7 @@ import LinkedCameraIcon from "@material-ui/icons/LinkedCamera";
 
 import FormGroupHeader from "../styled-components/FormGroupHeader";
 import ImageUploader from "../styled-components/ImageUploader";
-import ProfileImage from "../styled-components/ProfileImage";
+
 import UploadingProgress from "../styled-components/UploadingProgress";
 
 import { ImageUploadHelper } from "../../../helper/ImageUploadHelper/image-uploader";
@@ -98,28 +98,26 @@ const BasicInformationFormGroup = (props: Props) => {
 				Basic Information
 			</FormGroupHeader>
 			<ImageUploader>
-				{profileImageUrl ? (
-					<ProfileImage
-						data-testid="basicInformationProfilePicture"
-						src={profileImageUrl}
+				<>
+					<input
+						accept="image/*"
+						style={{ display: "none" }}
+						id="profileImageUrl"
+						multiple={true}
+						type="file"
+						onChange={handleImageChange("profileImageUrl")}
 					/>
-				) : (
-					<>
-						<input
-							accept="image/*"
-							style={{ display: "none" }}
-							id="profileImageUrl"
-							multiple={true}
-							type="file"
-							onChange={handleImageChange("profileImageUrl")}
-						/>
-						<label htmlFor="profileImageUrl">
-							<ProfileImageButton component="div">
-								<LinkedCameraIcon style={{ fontSize: 60 }} />
-							</ProfileImageButton>
-						</label>
-					</>
-				)}
+					<label htmlFor="profileImageUrl">
+						<ProfileImageButton
+							data-testid="basicInformationProfilePicture"
+							profileImage={profileImageUrl && profileImageUrl}
+							component="div"
+						>
+							<LinkedCameraIcon style={{ fontSize: 60 }} />
+						</ProfileImageButton>
+					</label>
+				</>
+
 				<input
 					accept="image/*"
 					style={{ display: "none" }}
@@ -134,7 +132,6 @@ const BasicInformationFormGroup = (props: Props) => {
 						Upload Cover Image
 					</Button>
 				</label>
-
 				<input
 					accept="image/*"
 					style={{ display: "none" }}
