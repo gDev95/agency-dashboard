@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Dashboard from "./components/Dashboard";
 import AddArtists from "./components/AddArtist";
 import EditArtist from "./components/EditArtist/EditArtist";
+import PrivateRoute from "./shared/components/PrivateRoute/PrivateRoute";
 
 const StyledAppTitle = styled(Typography)`
 	flex-grow: 1;
@@ -25,9 +26,9 @@ function App() {
 					</Toolbar>
 				</AppBar>
 			</AppBar>
-			<Route exact={true} path="/dashboard" component={Dashboard} />
-			<Route exact={true} path="/dashboard/artists" component={AddArtists} />
-			<Route path="/dashboard/artist/*" component={EditArtist} />
+			<PrivateRoute exact={true} path="/" component={Dashboard} />
+			<PrivateRoute path="/artists" component={AddArtists} />
+			<PrivateRoute path="/artist/*" component={EditArtist} />
 		</Router>
 	);
 }
