@@ -47,7 +47,7 @@ const List = (props: Props) => {
 		>
 			{items.map((item: any, index: number) => {
 				return (
-					<StyledLink key={item.id} to={`/dashboard/${path}/${item.id}`}>
+					<StyledLink key={item.id} to={`/${path}/${item.id}`}>
 						<ListItem button={true}>
 							{children ? children : null}
 							<ListItemText

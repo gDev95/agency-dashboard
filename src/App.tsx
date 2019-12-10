@@ -18,7 +18,7 @@ const StyledAppTitle = styled(Typography)`
 
 function App() {
 	const isAuthenticated = useSelector(selectIsAuthenticated);
-
+	console.log("isAuthenticated", isAuthenticated);
 	return (
 		<Router>
 			<AppBar position="relative">
@@ -27,7 +27,7 @@ function App() {
 						<StyledAppTitle variant="h6">NOBO Bookings</StyledAppTitle>
 
 						{isAuthenticated && (
-							<Button href="/dashboard" color="inherit">
+							<Button href="/" color="inherit">
 								Dashboard
 							</Button>
 						)}

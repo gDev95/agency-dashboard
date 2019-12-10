@@ -94,7 +94,7 @@ export default function FormStepper(props: Props) {
 						) : (
 							<>
 								<Button onClick={handleBack}>Back</Button>
-								<Link to="/dashboard">
+								<Link to="/">
 									<Button>Go to Dashboard</Button>
 								</Link>
 							</>

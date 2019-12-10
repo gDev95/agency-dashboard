@@ -9,7 +9,7 @@ export interface AuthenticationStartAction {
 
 export interface AuthenticationSuccessAction {
 	type: typeof AUTHENTICATION_SUCCESS;
-	payload: { userName: string };
+	payload: {};
 }
 
 export interface AuthenticationFailureAction {
@@ -18,7 +18,6 @@ export interface AuthenticationFailureAction {
 }
 
 export interface AuthenticationState {
-	userName: string;
 	isAuthenticated: boolean;
 	isLoading: boolean;
 	error?: any;
@@ -28,10 +27,8 @@ export function authenticationStartAction(): AuthenticationStartAction {
 	return { type: AUTHENTICATION_START, payload: {} };
 }
 
-export function authenticationSuccessAction(
-	userName: string
-): AuthenticationSuccessAction {
-	return { type: AUTHENTICATION_SUCCESS, payload: { userName } };
+export function authenticationSuccessAction(): AuthenticationSuccessAction {
+	return { type: AUTHENTICATION_SUCCESS, payload: {} };
 }
 
 export function authenticationFailureAction(

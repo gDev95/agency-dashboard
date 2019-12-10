@@ -9,7 +9,6 @@ import {
 } from "../actions/actions";
 
 const initialState: AuthenticationState = {
-	userName: "",
 	isAuthenticated: false,
 	isLoading: false,
 	error: null
@@ -29,8 +28,7 @@ export function authenticationReducer(
 			return {
 				...state,
 				isLoading: false,
-				isAuthenticated: true,
-				userName: action.payload.userName
+				isAuthenticated: true
 			};
 		case AUTHENTICATION_FAILURE:
 			return {

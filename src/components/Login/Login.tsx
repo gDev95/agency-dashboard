@@ -5,7 +5,8 @@ import { TextField, Typography, Button } from "@material-ui/core";
 import FormValidator from "../../shared/helper/FormValidator.helper";
 import {
 	authenticationStartAction,
-	authenticationFailureAction
+	authenticationFailureAction,
+	authenticationSuccessAction
 } from "../../shared/actions/actions";
 import {
 	selectIsLoggingIn,
@@ -15,6 +16,8 @@ import LoadingComponent from "../../shared/components/LoadingComponent/LoadingCo
 
 import LoginContainer from "./styled-components/LoginContainer";
 import LoginPaper from "./styled-components/LoginPaper";
+import { useLoginMutation } from "../../generated/graphql";
+import { withRouter } from "react-router";
 
 interface Credentials {
 	email: string;
@@ -36,12 +39,24 @@ const Login = (props: any) => {
 	const [formErrors, setFormErrors] = useState<Set<string>>(new Set());
 	const dispatch = useDispatch();
 	const validator = new FormValidator();
+	const [login] = useLoginMutation();
 
-	const logIn = (): void => {
+	const logIn = async () => {
+		const { email, password } = credentials;
+
 		dispatch(authenticationStartAction());
 
 		try {
-			throw new Error("Something is wrong");
+			const response = await login({
+				variables: { email, password }
+			});
+
+			if (response && response.errors && response.errors.length > 0) {
+				throw new Error(response.errors[0].message);
+			}
+
+			dispatch(authenticationSuccessAction());
+			props.history.push("/");
 		} catch (error) {
 			dispatch(authenticationFailureAction(error));
 		}
@@ -110,4 +125,4 @@ const Login = (props: any) => {
 	);
 };
 
-export default Login;
+export default withRouter(Login);

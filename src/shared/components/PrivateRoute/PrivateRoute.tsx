@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Redirect, Route, RouteProps } from "react-router";
 
 interface Props extends RouteProps {
@@ -6,17 +6,23 @@ interface Props extends RouteProps {
 }
 
 const PrivateRoute = ({
-	component,
+	component: Component,
 	isAuthenticated = false,
 	...otherProps
-}: Props) => {
-	const routeComponent = (props: any) =>
-		isAuthenticated ? (
-			<Component {...props} />
-		) : (
-			<Redirect to={{ pathname: "/login" }} />
-		);
-	return <Route {...otherProps} render={routeComponent} />;
-};
+}: Props) => (
+	<Route
+		{...otherProps}
+		render={(props: any) =>
+			isAuthenticated ? (
+				// @ts-ignore
+				<Component {...props} {...otherProps} />
+			) : (
+				<Redirect
+					to={{ pathname: "/login", state: { from: props.location } }}
+				/>
+			)
+		}
+	/>
+);
 
 export default PrivateRoute;
