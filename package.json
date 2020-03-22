@@ -51,7 +51,6 @@
 		"start": "REACT_APP_BASE_API_URL=https://agency-grapqhl-api.herokuapp.com react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
-		"jest": "./node_modules/.bin/jest",
 		"eject": "react-scripts eject",
 		"lint": "tslint -c ./tslint.json -p ./tsconfig.json",
 		"codegen": "graphql-codegen --config codegen.yml"
