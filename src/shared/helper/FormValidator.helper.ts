@@ -1,4 +1,4 @@
-export default class ArtistFormValidator {
+export default class FormValidator {
 	public errors = new Set<string>();
 
 	public validate(key: string, value: any): void {

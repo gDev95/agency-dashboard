@@ -113,6 +113,7 @@ export type Mutation = {
 	addArtist?: Maybe<Artist>;
 	updateArtist?: Maybe<Artist>;
 	deleteArtist?: Maybe<Artist>;
+	login?: Maybe<User>;
 };
 
 export type MutationAddArtistArgs = {
@@ -126,6 +127,11 @@ export type MutationUpdateArtistArgs = {
 
 export type MutationDeleteArtistArgs = {
 	id?: Maybe<Scalars["ID"]>;
+};
+
+export type MutationLoginArgs = {
+	email: Scalars["String"];
+	password: Scalars["String"];
 };
 
 export type Rider = {
@@ -174,11 +180,10 @@ export type SocialMediaLinks = {
 
 export type User = {
 	__typename?: "User";
-	email?: Maybe<Scalars["ID"]>;
-	accessToken?: Maybe<Scalars["String"]>;
-	refreshToken?: Maybe<Scalars["String"]>;
-	tokenExpiresIn?: Maybe<Scalars["String"]>;
+	email?: Maybe<Scalars["String"]>;
+	token?: Maybe<Scalars["String"]>;
 };
+
 export type ArtistsQueryVariables = {};
 
 export type ArtistsQuery = { __typename?: "RootQueryType" } & {
@@ -304,6 +309,15 @@ export type DeleteArtistMutation = { __typename?: "Mutation" } & {
 				>;
 			}
 	>;
+};
+
+export type LoginMutationVariables = {
+	email: Scalars["String"];
+	password: Scalars["String"];
+};
+
+export type LoginMutation = { __typename?: "Mutation" } & {
+	login: Maybe<{ __typename?: "User" } & Pick<User, "token">>;
 };
 
 export const ArtistsDocument = gql`
@@ -720,4 +734,73 @@ export type DeleteArtistMutationResult = ApolloReactCommon.MutationResult<
 export type DeleteArtistMutationOptions = ApolloReactCommon.BaseMutationOptions<
 	DeleteArtistMutation,
 	DeleteArtistMutationVariables
+>;
+export const LoginDocument = gql`
+	mutation login($email: String!, $password: String!) {
+		login(email: $email, password: $password) {
+			token
+		}
+	}
+`;
+export type LoginMutationFn = ApolloReactCommon.MutationFunction<
+	LoginMutation,
+	LoginMutationVariables
+>;
+export type LoginComponentProps = Omit<
+	ApolloReactComponents.MutationComponentOptions<
+		LoginMutation,
+		LoginMutationVariables
+	>,
+	"mutation"
+>;
+
+export const LoginComponent = (props: LoginComponentProps) => (
+	<ApolloReactComponents.Mutation<LoginMutation, LoginMutationVariables>
+		mutation={LoginDocument}
+		{...props}
+	/>
+);
+
+export type LoginProps<TChildProps = {}> = ApolloReactHoc.MutateProps<
+	LoginMutation,
+	LoginMutationVariables
+> &
+	TChildProps;
+export function withLogin<TProps, TChildProps = {}>(
+	operationOptions?: ApolloReactHoc.OperationOption<
+		TProps,
+		LoginMutation,
+		LoginMutationVariables,
+		LoginProps<TChildProps>
+	>
+) {
+	return ApolloReactHoc.withMutation<
+		TProps,
+		LoginMutation,
+		LoginMutationVariables,
+		LoginProps<TChildProps>
+	>(LoginDocument, {
+		alias: "login",
+		...operationOptions
+	});
+}
+
+export function useLoginMutation(
+	baseOptions?: ApolloReactHooks.MutationHookOptions<
+		LoginMutation,
+		LoginMutationVariables
+	>
+) {
+	return ApolloReactHooks.useMutation<LoginMutation, LoginMutationVariables>(
+		LoginDocument,
+		baseOptions
+	);
+}
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = ApolloReactCommon.MutationResult<
+	LoginMutation
+>;
+export type LoginMutationOptions = ApolloReactCommon.BaseMutationOptions<
+	LoginMutation,
+	LoginMutationVariables
 >;

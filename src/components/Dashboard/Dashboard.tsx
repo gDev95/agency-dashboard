@@ -27,7 +27,7 @@ import { ListItemExtractor } from "../../shared/helper/ListItemExtractor/list-it
 import LoadingComponent from "../../shared/components/LoadingComponent/LoadingComponent";
 import { ItemTypes } from "../../shared/models/ItemTypes/item.types";
 
-const Dashboard = () => {
+const Dashboard = (props: any) => {
 	const { loading, data, error, refetch } = useArtistsQuery();
 	const [deleteArtist] = useDeleteArtistMutation();
 
@@ -77,6 +77,7 @@ const Dashboard = () => {
 
 	return (
 		<GridContainer
+			{...props}
 			container={true}
 			direction="row"
 			justify="space-around"
@@ -96,7 +97,7 @@ const Dashboard = () => {
 						</ListItemIcon>
 					</List>
 
-					<Link to="/dashboard/artists">
+					<Link to="/artists">
 						<AddFab color="primary" aria-label="add">
 							<AddIcon />
 						</AddFab>

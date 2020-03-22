@@ -1,11 +1,11 @@
-import ArtistFormValidator from "./ArtistFormValidator.helper";
+import FormValidator from "./FormValidator.helper";
 
-describe("ArtistFormValidator", () => {
+describe("FormValidator", () => {
 	// my typescript config does not allow objects whose methods are called to be null
 	let validator: any;
 
 	beforeEach(() => {
-		validator = new ArtistFormValidator();
+		validator = new FormValidator();
 	});
 	afterEach(() => {
 		validator = null;

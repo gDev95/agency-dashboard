@@ -15,7 +15,7 @@ import FormStepper from "../FormStepper/form-stepper";
 import { getProperties } from "../../helper/props";
 import { ArtistStateKeyHelper } from "../../helper/AristStateKeyHelper/aritst-state-key.helper";
 import SocialMediaFormGroup from "./SocialMediaLinksFormGroup/SocialMediaLinksFormGroup";
-import ArtistFormValidator from "../../helper/ArtistFormValidator.helper";
+import FormValidator from "../../helper/FormValidator.helper";
 
 interface ArtistState {
 	basicInformation: ArtistBasicInformation;
@@ -80,7 +80,7 @@ const ArtistForm = (props: Props) => {
 
 	const [disabledButton, setDisabledButton] = useState<boolean>(false);
 
-	const validator = new ArtistFormValidator();
+	const validator = new FormValidator();
 
 	useEffect(() => {
 		if (basicInformation && socialMediaLinks && advancedInformation) {
