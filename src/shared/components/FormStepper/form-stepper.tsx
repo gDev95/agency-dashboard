@@ -79,7 +79,7 @@ export default function FormStepper(props: Props) {
 								<ErrorText>
 									Something went wrong while updating the artist
 								</ErrorText>
-								<Emoji label="rocket" symbol={"😭"} size={50} />
+								<Emoji label="crying-face" symbol={"😭"} size={50} />
 							</FinishedStepWrapper>
 						) : (
 							<FinishedStepWrapper>
