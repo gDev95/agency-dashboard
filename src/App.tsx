@@ -4,13 +4,13 @@ import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import PrivateRoute from "./shared/components/PrivateRoute/PrivateRoute";
-import { selectIsAuthenticated } from "./shared/selectors/selectors";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import { selectIsAuthenticated } from "./selectors/selectors";
 
-import Dashboard from "./components/Dashboard";
-import AddArtists from "./components/AddArtist";
-import EditArtist from "./components/EditArtist/EditArtist";
-import Login from "./components/Login/Login";
+import Dashboard from "./artist/dashboard";
+import { AddArtists } from "./artist";
+import EditArtist from "./artist/editArtist";
+import Login from "./login/login";
 
 const StyledAppTitle = styled(Typography)`
 	flex-grow: 1;
