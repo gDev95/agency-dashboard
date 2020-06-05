@@ -4,9 +4,9 @@ import "./base.scss";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { ApolloProvider } from "@apollo/react-hooks";
-import client from "./shared/apollo/client";
+import client from "./apollo/client";
 import { Provider } from "react-redux";
-import store from "./shared/store/store";
+import store from "./store";
 
 ReactDOM.render(
 	<ApolloProvider client={client}>
