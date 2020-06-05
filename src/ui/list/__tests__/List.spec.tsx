@@ -1,7 +1,7 @@
 import React from "react";
 import { render, getByTestId, fireEvent } from "@testing-library/react";
 
-import List from "../List";
+import List from "../list";
 import { BrowserRouter } from "react-router-dom";
 
 describe("List", () => {

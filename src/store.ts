@@ -1,8 +1,7 @@
 import { createStore, combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
-import { authenticationReducer } from "./reducers/reducer";
 
-import { AuthenticationState } from "../login/actions";
+import { authenticationReducer, AuthenticationState } from "./login";
 
 export interface AppState {
 	auth: AuthenticationState;
@@ -11,7 +10,7 @@ export interface AppState {
 
 const rootReducer = combineReducers({
 	auth: authenticationReducer,
-	form: formReducer
+	form: formReducer,
 });
 
 export default createStore(

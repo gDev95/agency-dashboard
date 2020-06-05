@@ -17,12 +17,6 @@ export interface AuthenticationFailureAction {
 	payload: { error: any };
 }
 
-export interface AuthenticationState {
-	isAuthenticated: boolean;
-	isLoading: boolean;
-	error?: any;
-}
-
 export function authenticationStartAction(): AuthenticationStartAction {
 	return { type: AUTHENTICATION_START, payload: {} };
 }

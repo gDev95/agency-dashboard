@@ -1,5 +1,5 @@
 import React from "react";
-import { ArtistStateKeyHelper } from "./aritst-state-key.helper";
+import { ArtistStateKeyHelper } from "../artistState";
 
 describe("ArtistStateKeyHelper", () => {
 	describe("when getting the key of Artist state by index", () => {

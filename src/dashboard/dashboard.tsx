@@ -16,15 +16,14 @@ import AccountCirlceIcon from "@material-ui/icons/AccountCircle";
 import MessageIcon from "@material-ui/icons/Message";
 import CloseIcon from "@material-ui/icons/Close";
 
-import List from "../List/List";
+import List from "../ui/list/list";
 import { postItems, eventItems } from "../sample-data/items";
-import AddFab from "./styled/AddFab";
+
 import GridContainer from "../ui/gridContainer";
 import { useArtistsQuery, useDeleteArtistMutation } from "../generated/graphql";
-import DashboardPaper from "./styled/DashboardPaper";
-import { ListItemExtractor } from "../shared/helper/ListItemExtractor/list-item-extractor.helper";
+import { LoadingIndicator } from "../ui";
 
-import { ItemTypes } from "../models/ItemTypes/item.types";
+type ItemTypes = "ARTIST" | "NEWS" | "EVENTS";
 
 const AddFab = styled(Fab)`
 	position: absolute !important;
@@ -58,12 +57,12 @@ export const Dashboard = (props: any) => {
 	}
 
 	if (loading) {
-		return <LoadingComponent />;
+		return <LoadingIndicator />;
 	}
 
 	const handleDelete = (type: ItemTypes) => async (id: string) => {
 		switch (type) {
-			case ItemTypes.Artist:
+			case "ARTIST":
 				try {
 					await deleteArtist({
 						variables: { id }
@@ -74,9 +73,9 @@ export const Dashboard = (props: any) => {
 					setOpen(true);
 				}
 				break;
-			case ItemTypes.News:
+			case "NEWS":
 				break;
-			case ItemTypes.Events:
+			case "EVENTS":
 				break;
 			default:
 				break;
@@ -107,7 +106,7 @@ export const Dashboard = (props: any) => {
 					<List
 						items={artistItems}
 						subheader="Artists"
-						onDelete={handleDelete(ItemTypes.Artist)}
+						onDelete={handleDelete("ARTIST")}
 						path="artist"
 					>
 						<ListItemIcon>
@@ -127,7 +126,7 @@ export const Dashboard = (props: any) => {
 					<List
 						items={postItems}
 						subheader="News"
-						onDelete={handleDelete(ItemTypes.News)}
+						onDelete={handleDelete("NEWS")}
 						path="news"
 					>
 						<ListItemIcon>
@@ -144,7 +143,7 @@ export const Dashboard = (props: any) => {
 					<List
 						items={eventItems}
 						subheader="Events"
-						onDelete={handleDelete(ItemTypes.Events)}
+						onDelete={handleDelete("EVENTS")}
 						path="events"
 					>
 						<ListItemIcon>

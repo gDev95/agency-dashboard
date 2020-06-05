@@ -5,7 +5,7 @@ import Form from "./styled/Form";
 
 import AdvancedInformatioFormGroup from "./advanced/AdvancedInformationFormGroup";
 import BasicInformationFormGroup from "./basic";
-import FormStepper from "../../helper/FormStepper/form-stepper";
+import FormStepper from "../../helper/formStepper";
 import { getProperties } from "../../shared/helper/props";
 import { ArtistStateKeyHelper } from "../../shared/helper/AristStateKeyHelper/aritst-state-key.helper";
 import SocialMediaFormGroup from "./socialMedia";
@@ -13,7 +13,7 @@ import FormValidator from "../../shared/helper/FormValidator.helper";
 import {
 	SocialMediaLinks,
 	ArtistAdvancedInformation,
-	ArtistBasicInformation
+	ArtistBasicInformation,
 } from "../artist.model";
 
 interface ArtistState {
@@ -42,23 +42,23 @@ const INITIAL_STATE = {
 		description: "",
 		logoUrl: "",
 		coverImageUrl: "",
-		profileImageUrl: ""
+		profileImageUrl: "",
 	},
 	advancedInformation: {
 		labels: [{ link: "", logoUrl: "" }],
 		rider: {
 			equipment: [""],
-			equipmentImageUrl: ""
+			equipmentImageUrl: "",
 		},
-		hospitality: [""]
+		hospitality: [""],
 	},
 	socialMediaLinks: {
 		facebook: "",
 		instagram: "",
 		beatport: "",
 		residentAdvisor: "",
-		soundCloud: ""
-	}
+		soundCloud: "",
+	},
 };
 
 export const ArtistForm = (props: Props) => {
@@ -69,7 +69,7 @@ export const ArtistForm = (props: Props) => {
 		submitButtonLabel,
 		onFormSubmit,
 		hasReset = true,
-		error
+		error,
 	} = props;
 
 	const [activeStep, setActiveStep] = React.useState(0);
@@ -90,7 +90,7 @@ export const ArtistForm = (props: Props) => {
 			setArtistValues({
 				basicInformation,
 				advancedInformation,
-				socialMediaLinks
+				socialMediaLinks,
 			});
 		}
 	}, [basicInformation, advancedInformation, socialMediaLinks]);
@@ -104,14 +104,14 @@ export const ArtistForm = (props: Props) => {
 			...artistValues,
 			[primaryProperty]: {
 				...artistValues[primaryProperty],
-				[nestedProperty]: value
-			}
+				[nestedProperty]: value,
+			},
 		});
 	};
 
 	const validateStep = (type: keyof ArtistState) => {
 		Object.entries(getProperties(artistValues, type)).forEach(
-			formGroupEntry => {
+			(formGroupEntry) => {
 				const key = formGroupEntry[0];
 				const value = formGroupEntry[1];
 				validator.errors = formErrors;
@@ -136,11 +136,11 @@ export const ArtistForm = (props: Props) => {
 		validateStep(ArtistStateKeyHelper.getKeyByIndex(activeStep));
 		formErrors.size !== 0 && setDisabledButton(true);
 		formErrors.size === 0 &&
-			setActiveStep(prevActiveStep => prevActiveStep + 1);
+			setActiveStep((prevActiveStep) => prevActiveStep + 1);
 	};
 
 	const handleBack = () => {
-		setActiveStep(prevActiveStep => prevActiveStep - 1);
+		setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};
 
 	const handleReset = () => {
@@ -177,7 +177,7 @@ export const ArtistForm = (props: Props) => {
 							{...artistValues.socialMediaLinks}
 							formErrors={formErrors}
 							onChange={handleFormChange("socialMediaLinks")}
-						/>
+						/>,
 					]}
 					submitButtonLabel={submitButtonLabel}
 					handleFormSubmit={handleFormSubmit}
