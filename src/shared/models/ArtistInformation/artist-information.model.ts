@@ -1,10 +1,11 @@
+import { isArray } from "util";
+
 import {
 	ArtistBasicInformation,
 	Events,
 	SocialMediaLinks,
 	ArtistAdvancedInformation
 } from "../Artist/Artist.model";
-import { isArray } from "util";
 
 interface ArtistFormInformationInterface {
 	basicInformation: ArtistBasicInformation;
@@ -24,17 +25,13 @@ export class ArtistFormInformation implements ArtistFormInformationInterface {
 		socialMediaLinks: any,
 		events: any
 	) {
-		this.basicInformation = this.extractTypenamePropFromObject(
-			basicInformation
-		);
+		this.basicInformation = this.removeTypenameFromObject(basicInformation);
 
-		this.advancedInformation = this.extractTypenamePropFromObject(
+		this.advancedInformation = this.removeTypenameFromObject(
 			advancedInformation
 		);
 
-		this.socialMediaLinks = this.extractTypenamePropFromObject(
-			socialMediaLinks
-		);
+		this.socialMediaLinks = this.removeTypenameFromObject(socialMediaLinks);
 		this.events = events;
 	}
 
@@ -43,7 +40,7 @@ export class ArtistFormInformation implements ArtistFormInformationInterface {
 	// the entity we need to remove it otherwise we get error that there were invalid values
 	// its really hacky for now I admit
 	//  https://github.com/apollographql/apollo-client/issues/1564
-	private extractTypenamePropFromObject(object: any) {
+	private removeTypenameFromObject(object: any) {
 		Object.keys(object).forEach(key => {
 			if (typeof object[key] === "object") {
 				delete object[key].__typename;
