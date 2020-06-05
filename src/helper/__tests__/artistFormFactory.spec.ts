@@ -1,4 +1,4 @@
-import { ArtistFormInformationFactory } from "./artist-form-information.factory";
+import { ArtistFormInformationFactory } from "../artistFormFactory";
 
 describe("ArtistFormInformationFactory", () => {
 	describe("when artist is missing necessary information", () => {
@@ -8,10 +8,10 @@ describe("ArtistFormInformationFactory", () => {
 					name: "Paul The Tester",
 					hometown: "Berlin",
 					description: "This is a test description",
-					profileImageUrl: "something"
+					profileImageUrl: "something",
 				},
 
-				events: []
+				events: [],
 			};
 			const artist = ArtistFormInformationFactory.create({ ...fakeArtist });
 			expect(artist).not.toBeTruthy();
@@ -28,22 +28,22 @@ describe("ArtistFormInformationFactory", () => {
 					profileImageUrl: "something",
 					logoUrl: "something",
 					coverImageUrl: "something",
-					__typename: "typename"
+					__typename: "typename",
 				},
 				advancedInformation: {
 					labels: [
 						{
 							logoUrl: "something",
 							link: "link-to-label.com",
-							__typename: "typename"
-						}
+							__typename: "typename",
+						},
 					],
 					rider: {
 						equipment: ["Some stuff"],
 						equipmentImageUrl: "something",
-						__typename: "typename"
+						__typename: "typename",
 					},
-					hospitality: ["drinks"]
+					hospitality: ["drinks"],
 				},
 				socialMediaLinks: {
 					facebook: "facebook.com",
@@ -51,9 +51,9 @@ describe("ArtistFormInformationFactory", () => {
 					instagram: "instagram.com",
 					soundCloud: "soundcloud.com",
 					residentAdvisor: "residentadvisor.com",
-					__typename: "typename"
+					__typename: "typename",
 				},
-				events: []
+				events: [],
 			};
 			const artist = ArtistFormInformationFactory.create({ ...fakeArtist });
 			expect(artist).toEqual({
@@ -63,29 +63,29 @@ describe("ArtistFormInformationFactory", () => {
 					description: "This is a test description",
 					profileImageUrl: "something",
 					logoUrl: "something",
-					coverImageUrl: "something"
+					coverImageUrl: "something",
 				},
 				advancedInformation: {
 					labels: [
 						{
 							logoUrl: "something",
-							link: "link-to-label.com"
-						}
+							link: "link-to-label.com",
+						},
 					],
 					rider: {
 						equipment: ["Some stuff"],
-						equipmentImageUrl: "something"
+						equipmentImageUrl: "something",
 					},
-					hospitality: ["drinks"]
+					hospitality: ["drinks"],
 				},
 				socialMediaLinks: {
 					facebook: "facebook.com",
 					beatport: "beatport.com",
 					instagram: "instagram.com",
 					soundCloud: "soundcloud.com",
-					residentAdvisor: "residentadvisor.com"
+					residentAdvisor: "residentadvisor.com",
 				},
-				events: []
+				events: [],
 			});
 		});
 	});

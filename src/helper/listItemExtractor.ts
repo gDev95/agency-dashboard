@@ -1,4 +1,4 @@
-import { ArtistListItem } from "../../../artist/Artist.model";
+import { ArtistListItem } from "../artist";
 
 export class ListItemExtractor {
 	public static getArtistItems(data: any) {
@@ -6,7 +6,7 @@ export class ListItemExtractor {
 			return {
 				id: artist.id,
 				primaryText: artist.basicInformation.name,
-				secondaryText: artist.createdAt
+				secondaryText: artist.createdAt,
 			};
 		});
 	}

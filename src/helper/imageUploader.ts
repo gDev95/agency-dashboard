@@ -1,4 +1,4 @@
-import { storage } from "../../config/firebase.config";
+import { storage } from "../config/firebase.config";
 
 export class ImageUploadHelper {
 	private uploadedUrl: string = "";

@@ -1,17 +1,22 @@
 import {
-	AuthenticationState,
 	AuthenticationStartAction,
 	AuthenticationSuccessAction,
 	AuthenticationFailureAction,
 	AUTHENTICATION_START,
 	AUTHENTICATION_SUCCESS,
-	AUTHENTICATION_FAILURE
-} from "../login/actions";
+	AUTHENTICATION_FAILURE,
+} from "./actions";
+
+export interface AuthenticationState {
+	isAuthenticated: boolean;
+	isLoading: boolean;
+	error?: any;
+}
 
 const initialState: AuthenticationState = {
 	isAuthenticated: false,
 	isLoading: false,
-	error: null
+	error: null,
 };
 
 export function authenticationReducer(
@@ -28,13 +33,13 @@ export function authenticationReducer(
 			return {
 				...state,
 				isLoading: false,
-				isAuthenticated: true
+				isAuthenticated: true,
 			};
 		case AUTHENTICATION_FAILURE:
 			return {
 				...state,
 				isLoading: false,
-				error: action.payload.error
+				error: action.payload.error,
 			};
 		default:
 			return state;

@@ -1,17 +1,34 @@
 import React, { ReactNode } from "react";
 import {
+	List as MaterialUiList,
 	ListItem,
 	ListItemText,
 	ListItemSecondaryAction,
 	IconButton,
-	Typography
+	Typography,
+	ListSubheader
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import StyledMaterialList from "./styled-components/StyledList";
-import StyledListSubheader from "./styled-components/StyledListSubheader";
-import StyledLink from "../ui/customLink";
-import EmptyListWrapper from "./styled-components/EmptyListWrapper";
+import StyledLink from "../customLink";
+import styled from "styled-components";
+
+const StyledListSubheader = styled(ListSubheader)`
+	font-weight: bold;
+	font-size: 16px;
+`;
+
+const StyledMaterialList = styled(MaterialUiList)`
+	max-width: 100%;
+	background-color: #fff;
+	text-decoration: none;
+`;
+
+const EmptyListWrapper = styled.div`
+	display: flex;
+	max-width: 100%;
+	padding: 20px;
+`;
 
 interface Props {
 	items: any[];

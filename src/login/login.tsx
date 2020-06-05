@@ -5,7 +5,7 @@ import {
 	Typography,
 	Button,
 	Container,
-	Paper
+	Paper,
 } from "@material-ui/core";
 import { useHistory } from "react-router";
 import styled from "styled-components";
@@ -13,16 +13,16 @@ import styled from "styled-components";
 import {
 	authenticationStartAction,
 	authenticationFailureAction,
-	authenticationSuccessAction
+	authenticationSuccessAction,
 } from "./actions";
 import {
 	selectIsLoggingIn,
-	selectErrorsInAuthentication
+	selectErrorsInAuthentication,
 } from "../selectors/selectors";
 
 import { useLoginMutation } from "../generated/graphql";
 import { LoadingIndicator } from "../ui";
-import FormValidator from "../helper/FormValidator.helper";
+import FormValidator from "../helper/formValidator";
 
 const LoginContainer = styled(Container)`
 	display: flex;
@@ -49,7 +49,7 @@ interface Credentials {
 
 const INITIAL_CREDENTIALS = {
 	email: "",
-	password: ""
+	password: "",
 };
 
 const Login = () => {
@@ -71,7 +71,7 @@ const Login = () => {
 
 		try {
 			const response = await login({
-				variables: { email, password }
+				variables: { email, password },
 			});
 
 			if (response && response.errors && response.errors.length > 0) {
@@ -100,7 +100,7 @@ const Login = () => {
 	): void => {
 		setCredentials({
 			...credentials,
-			[primaryProperty]: event.target.value
+			[primaryProperty]: event.target.value,
 		});
 	};
 

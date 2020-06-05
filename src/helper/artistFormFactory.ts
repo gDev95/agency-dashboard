@@ -1,4 +1,4 @@
-import { ArtistFormInformation } from "../../models/ArtistInformation/artist-information.model";
+import { ArtistFormInformation } from "../artist";
 
 export class ArtistFormInformationFactory {
 	public static create(data: any): ArtistFormInformation | null {
@@ -14,7 +14,7 @@ export class ArtistFormInformationFactory {
 			basicInformation,
 			advancedInformation,
 			socialMediaLinks,
-			events
+			events,
 		} = data;
 		const artistFormInformation = new ArtistFormInformation(
 			basicInformation,
