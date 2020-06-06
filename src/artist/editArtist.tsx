@@ -1,29 +1,23 @@
 import React, { useState } from "react";
 import { Grid, Paper } from "@material-ui/core";
 
+import { useParams } from "react-router-dom";
+import { LoadingIndicator, GridContainer, List } from "../ui";
+import { useArtistQuery, useUpdateArtistMutation } from "../generated/graphql";
+import { ArtistFormInformationFactory } from "../helper";
 import {
 	ArtistBasicInformation,
+	ArtistAdvancedInformation,
 	SocialMediaLinks,
-	ArtistAdvancedInformation
-} from "../../Artist.model";
-import List from "../../List/List";
-import ArtistForm from "../form/form";
-import GridContainer from "../../styled-components/GridContainer";
-import {
-	useArtistQuery,
-	useUpdateArtistMutation
-} from "../../generated/graphql";
+} from "./artist.model";
 
-import { useRouteMatch } from "react-router";
-import { ArtistFormInformationFactory } from "../../../shared/helper/ArtistFormInformationFactory/artist-form-information.factory";
-import { LoadingComponent } from "../ui";
+import { ArtistForm } from "./form";
 
 export const EditArtist = () => {
-	const match = useRouteMatch();
-	const artistId = match.params[0];
+	const { id: artistId } = useParams<{ id: string }>();
 
 	const { data, loading, refetch } = useArtistQuery({
-		variables: { id: artistId }
+		variables: { id: artistId },
 	});
 
 	const [updateArtist] = useUpdateArtistMutation();
@@ -33,7 +27,7 @@ export const EditArtist = () => {
 		data && data.artist && ArtistFormInformationFactory.create(data.artist);
 
 	if (loading) {
-		return <LoadingComponent />;
+		return <LoadingIndicator />;
 	}
 	if (!artist) {
 		return <h3>Not Found</h3>;
@@ -47,12 +41,12 @@ export const EditArtist = () => {
 		const updatedArtist = {
 			basicInformation,
 			advancedInformation,
-			socialMediaLinks
+			socialMediaLinks,
 		};
 
 		try {
 			await updateArtist({
-				variables: { id: artistId, artist: updatedArtist }
+				variables: { id: artistId, artist: updatedArtist },
 			});
 			refetch();
 		} catch (error) {

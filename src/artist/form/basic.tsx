@@ -3,16 +3,15 @@ import React, { useState } from "react";
 import { Button, TextField } from "@material-ui/core";
 import CheckIcon from "@material-ui/icons/Check";
 import LinkedCameraIcon from "@material-ui/icons/LinkedCamera";
-
-import FormGroupHeader from "./styled/FormGroupHeader";
-import ImageUploader from "./styled/ImageUploader";
-
-import UploadingProgress from "./styled/UploadingProgress";
-
-import { ImageUploadHelper } from "../../../shared/helper/ImageUploadHelper/image-uploader";
-import TextFieldWrapper from "./styled/TextFieldWrapper";
-import ProfileImageButton from "./styled/ProfileImageButton";
-import ErrorText from "./styled/ErrorText";
+import { ImageUploadHelper } from "../../helper";
+import {
+	UploadingProgress,
+	FormGroupHeader,
+	ImageUploader,
+	ErrorText,
+	ProfileImageButton,
+	TextFieldWrapper,
+} from "./styled";
 
 interface Props {
 	profileImageUrl: string;
@@ -34,7 +33,7 @@ export const BasicInformationFormGroup = (props: Props) => {
 		name,
 		description,
 		formErrors,
-		onChange
+		onChange,
 	} = props;
 
 	const handleImageChange = (type: string) => (

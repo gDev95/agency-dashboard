@@ -1,9 +1,7 @@
 import React from "react";
 
 import { TextField } from "@material-ui/core";
-
-import FormGroupHeader from "./styled/FormGroupHeader";
-import TextFieldWrapper from "./styled/TextFieldWrapper";
+import { FormGroupHeader, TextFieldWrapper } from "./styled";
 
 interface Props {
 	facebook: string;
@@ -23,7 +21,7 @@ export const SocialMediaFormGroup = (props: Props) => {
 		residentAdvisor,
 		soundCloud,
 		formErrors,
-		onChange
+		onChange,
 	} = props;
 
 	const handleTextChange = (type: string) => (

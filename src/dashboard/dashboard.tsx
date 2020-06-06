@@ -8,7 +8,7 @@ import {
 	IconButton,
 	Snackbar,
 	Fab,
-	Paper
+	Paper,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import EventIcon from "@material-ui/icons/Event";
@@ -16,12 +16,11 @@ import AccountCirlceIcon from "@material-ui/icons/AccountCircle";
 import MessageIcon from "@material-ui/icons/Message";
 import CloseIcon from "@material-ui/icons/Close";
 
-import List from "../ui/list/list";
 import { postItems, eventItems } from "../sample-data/items";
 
-import GridContainer from "../ui/gridContainer";
 import { useArtistsQuery, useDeleteArtistMutation } from "../generated/graphql";
-import { LoadingIndicator } from "../ui";
+import { LoadingIndicator, List, GridContainer, Emoji } from "../ui";
+import { ListItemExtractor } from "../helper";
 
 type ItemTypes = "ARTIST" | "NEWS" | "EVENTS";
 
@@ -44,6 +43,17 @@ const DashboardPaper = styled(Paper)`
 	background-color: #fff;
 `;
 
+const ErrorWrapper = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+`;
+
+const StyledError = styled(Typography)`
+	color: red;
+`;
+
 export const Dashboard = (props: any) => {
 	const { loading, data, error, refetch } = useArtistsQuery();
 	const [deleteArtist] = useDeleteArtistMutation();
@@ -53,7 +63,12 @@ export const Dashboard = (props: any) => {
 		data && data.artists && ListItemExtractor.getArtistItems(data);
 
 	if (error) {
-		return <Typography>{error}</Typography>;
+		return (
+			<ErrorWrapper>
+				<StyledError>{error.message}</StyledError>
+				<Emoji label="crying-face" symbol={"😭"} size={30} />
+			</ErrorWrapper>
+		);
 	}
 
 	if (loading) {
@@ -65,7 +80,7 @@ export const Dashboard = (props: any) => {
 			case "ARTIST":
 				try {
 					await deleteArtist({
-						variables: { id }
+						variables: { id },
 					});
 					refetch();
 				} catch (error) {
@@ -158,13 +173,13 @@ export const Dashboard = (props: any) => {
 			<Snackbar
 				anchorOrigin={{
 					vertical: "bottom",
-					horizontal: "left"
+					horizontal: "left",
 				}}
 				open={open}
 				autoHideDuration={10000}
 				onClose={handleClose}
 				ContentProps={{
-					"aria-describedby": "message-id"
+					"aria-describedby": "message-id",
 				}}
 				message={
 					<span id="message-id">
@@ -179,7 +194,7 @@ export const Dashboard = (props: any) => {
 						onClick={handleClose}
 					>
 						<CloseIcon />
-					</IconButton>
+					</IconButton>,
 				]}
 			/>
 		</GridContainer>

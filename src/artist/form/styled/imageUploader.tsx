@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const ImageUploader = styled.div`
+export const ImageUploader = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -8,5 +8,3 @@ const ImageUploader = styled.div`
 	align-items: center;
 	height: 320px;
 `;
-
-export default ImageUploader;

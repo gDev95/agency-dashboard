@@ -6,14 +6,16 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import CheckIcon from "@material-ui/icons/Check";
 import CameraEnhanceIcon from "@material-ui/icons/CameraEnhance";
 
-import LabelWrapper from "../styled/LabelWrapper";
-import FormGroupHeader from "../styled/FormGroupHeader";
-import TextFieldWrapper from "../styled/TextFieldWrapper";
-import { Label, Rider } from "../../../../artist/Artist.model";
-import ButtonWrapper from "../styled/ButtonWrapper";
-import { ImageUploadHelper } from "../../../shared/helper/ImageUploadHelper/image-uploader";
-import UploadingProgress from "../styled/UploadingProgress";
-import ErrorText from "../styled/ErrorText";
+import { Rider, Label } from "../artist.model";
+import { ImageUploadHelper } from "../../helper";
+import {
+	FormGroupHeader,
+	UploadingProgress,
+	TextFieldWrapper,
+	LabelWrapper,
+	ErrorText,
+	ButtonWrapper,
+} from "./styled";
 
 interface Props {
 	labels: Label[];
@@ -37,7 +39,7 @@ export const AdvancedInformatioFormGroup = (props: Props) => {
 			case "rider": {
 				onChange(type, {
 					...rider,
-					equipment: [...rider.equipment, ""]
+					equipment: [...rider.equipment, ""],
 				});
 				return;
 			}
@@ -64,7 +66,7 @@ export const AdvancedInformatioFormGroup = (props: Props) => {
 				updatedEquipment.pop();
 				onChange(type, {
 					...rider,
-					equipment: [...updatedEquipment]
+					equipment: [...updatedEquipment],
 				});
 				return;
 			}
@@ -93,7 +95,7 @@ export const AdvancedInformatioFormGroup = (props: Props) => {
 				updatedEquipment[index] = event.target.value;
 				onChange(type, {
 					...rider,
-					equipment: [...updatedEquipment]
+					equipment: [...updatedEquipment],
 				});
 				return;
 			}
@@ -136,7 +138,7 @@ export const AdvancedInformatioFormGroup = (props: Props) => {
 					case "rider": {
 						onChange(type, {
 							...rider,
-							equipmentImageUrl: url
+							equipmentImageUrl: url,
 						});
 						break;
 					}

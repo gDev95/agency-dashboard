@@ -2,23 +2,25 @@ import React, { useState } from "react";
 import { Grid, Paper, Snackbar, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
-import List from "../List/List";
-import ArtistForm from "./form/form";
-import GridContainer from "../ui/gridContainer";
 import { useArtistsQuery, useAddArtistMutation } from "../generated/graphql";
 
 import moment from "moment";
 import {
 	ArtistBasicInformation,
 	ArtistAdvancedInformation,
-	SocialMediaLinks
+	SocialMediaLinks,
 } from "./artist.model";
+import { List, GridContainer } from "../ui";
+import { ArtistForm } from "./form";
+import { ListItemExtractor } from "../helper";
 
 export const AddArtists = () => {
+	console.log("I am being rendered");
 	const { data, refetch } = useArtistsQuery();
 	const [addArtist] = useAddArtistMutation();
 
 	const [open, setOpen] = useState<boolean>(false);
+
 	const artistItems =
 		data && data.artists && ListItemExtractor.getArtistItems(data);
 
@@ -34,12 +36,12 @@ export const AddArtists = () => {
 			basicInformation,
 			advancedInformation,
 			socialMediaLinks,
-			events
+			events,
 		};
 
 		try {
 			await addArtist({
-				variables: { artist: newArtist }
+				variables: { artist: newArtist },
 			});
 			refetch();
 		} catch (error) {
@@ -83,13 +85,13 @@ export const AddArtists = () => {
 			<Snackbar
 				anchorOrigin={{
 					vertical: "bottom",
-					horizontal: "left"
+					horizontal: "left",
 				}}
 				open={open}
 				autoHideDuration={10000}
 				onClose={handleClose}
 				ContentProps={{
-					"aria-describedby": "message-id"
+					"aria-describedby": "message-id",
 				}}
 				message={
 					<span id="message-id">Could not add Artist, please try again.</span>
@@ -102,7 +104,7 @@ export const AddArtists = () => {
 						onClick={handleClose}
 					>
 						<CloseIcon />
-					</IconButton>
+					</IconButton>,
 				]}
 			/>
 		</GridContainer>

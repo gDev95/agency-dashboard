@@ -6,12 +6,9 @@ import styled from "styled-components";
 
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { selectIsAuthenticated } from "./selectors/selectors";
-
-import Dashboard from "./artist/dashboard";
-import { AddArtists } from "./artist";
-import EditArtist from "./artist/editArtist";
-import Login from "./login/login";
-
+import { AddArtists, EditArtist } from "./artist";
+import { Dashboard } from "./dashboard";
+import { LoginPage } from "./login";
 const StyledAppTitle = styled(Typography)`
 	flex-grow: 1;
 `;
@@ -21,7 +18,7 @@ function App() {
 
 	const renderAppRoutes = () => (
 		<>
-			<Route exact={true} path="/login" component={Login} />
+			<Route exact={true} path="/login" component={LoginPage} />
 			<PrivateRoute
 				isAuthenticated={isAuthenticated}
 				exact={true}
@@ -35,7 +32,7 @@ function App() {
 			/>
 			<PrivateRoute
 				isAuthenticated={isAuthenticated}
-				path="/artist/*"
+				path="/artist/:id"
 				component={EditArtist}
 			/>
 		</>
@@ -68,8 +65,8 @@ function App() {
 				<Redirect to="/dashboard" />
 			</Route>
 			<Route exact={true} path="/dashboard" component={Dashboard} />
-			<Route exact={true} path="/dashboard/artists" component={AddArtists} />
-			<Route path="/dashboard/artist/*" component={EditArtist} />
+			<Route exact={true} path="/artists" component={AddArtists} />
+			<Route path="/artists/:id" component={EditArtist} />
 		</Router>
 	);
 }

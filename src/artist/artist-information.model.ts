@@ -4,8 +4,8 @@ import {
 	ArtistBasicInformation,
 	Events,
 	SocialMediaLinks,
-	ArtistAdvancedInformation
-} from "../../../artist/Artist.model";
+	ArtistAdvancedInformation,
+} from "./artist.model";
 
 interface ArtistFormInformationInterface {
 	basicInformation: ArtistBasicInformation;
@@ -41,7 +41,7 @@ export class ArtistFormInformation implements ArtistFormInformationInterface {
 	// its really hacky for now I admit
 	//  https://github.com/apollographql/apollo-client/issues/1564
 	private removeTypenameFromObject(object: any) {
-		Object.keys(object).forEach(key => {
+		Object.keys(object).forEach((key) => {
 			if (typeof object[key] === "object") {
 				delete object[key].__typename;
 			}

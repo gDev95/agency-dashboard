@@ -52,7 +52,7 @@ const INITIAL_CREDENTIALS = {
 	password: "",
 };
 
-const Login = () => {
+export const LoginPage = () => {
 	const [credentials, setCredentials] = useState<Credentials>(
 		INITIAL_CREDENTIALS
 	);
