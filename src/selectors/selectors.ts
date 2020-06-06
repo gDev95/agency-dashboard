@@ -1,4 +1,4 @@
-import { AuthenticationState } from "../login/actions";
+import { AuthenticationState } from "../login";
 
 export function selectIsAuthenticated(state: AuthenticationState) {
 	return state.isAuthenticated;

@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Paper } from "@material-ui/core";
 
-import Form from "./styled/Form";
-
-import AdvancedInformatioFormGroup from "./advanced/AdvancedInformationFormGroup";
-import BasicInformationFormGroup from "./basic";
 import FormStepper from "../../helper/formStepper";
-import { getProperties } from "../../shared/helper/props";
-import { ArtistStateKeyHelper } from "../../shared/helper/AristStateKeyHelper/aritst-state-key.helper";
-import SocialMediaFormGroup from "./socialMedia";
-import FormValidator from "../../shared/helper/FormValidator.helper";
+
 import {
 	SocialMediaLinks,
 	ArtistAdvancedInformation,
 	ArtistBasicInformation,
 } from "../artist.model";
+import FormValidator from "../../helper/formValidator";
+import { BasicInformationFormGroup } from "./basic";
+import { SocialMediaFormGroup } from "./socialMedia";
+import { AdvancedInformatioFormGroup } from "./advanced";
+import { ArtistStateKeyHelper, getProperties } from "../../helper";
+import { FormRoot } from "./styled";
 
 interface ArtistState {
 	basicInformation: ArtistBasicInformation;
@@ -150,7 +149,7 @@ export const ArtistForm = (props: Props) => {
 
 	return (
 		<Paper>
-			<Form autoComplete="off">
+			<FormRoot autoComplete="off">
 				<FormStepper
 					handleNext={handleNext}
 					handleBack={handleBack}
@@ -182,7 +181,7 @@ export const ArtistForm = (props: Props) => {
 					submitButtonLabel={submitButtonLabel}
 					handleFormSubmit={handleFormSubmit}
 				/>
-			</Form>
+			</FormRoot>
 		</Paper>
 	);
 };

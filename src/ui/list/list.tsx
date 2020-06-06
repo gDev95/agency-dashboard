@@ -6,7 +6,7 @@ import {
 	ListItemSecondaryAction,
 	IconButton,
 	Typography,
-	ListSubheader
+	ListSubheader,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 
@@ -38,7 +38,7 @@ interface Props {
 	onDelete?(id: string): void;
 }
 
-const List = (props: Props) => {
+export const List = (props: Props) => {
 	const { items, subheader, children, path, onDelete } = props;
 
 	if (!items || items.length <= 0) {
@@ -91,5 +91,3 @@ const List = (props: Props) => {
 		</StyledMaterialList>
 	);
 };
-
-export default List;

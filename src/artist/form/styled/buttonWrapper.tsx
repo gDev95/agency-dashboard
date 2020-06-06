@@ -5,16 +5,16 @@ interface Props {
 	direction?: string;
 }
 
-const ButtonWrapper = styled.div<Props>`
+export const ButtonWrapper = styled.div<Props>`
 	display: flex;
-	${props =>
+	${(props) =>
 		props.position && props.direction === "column"
 			? css`
 					align-items: center;
 					flex-direction: column;
 			  `
 			: null};
-	${props =>
+	${(props) =>
 		props.position
 			? css`
 					justify-conent: center;
@@ -22,5 +22,3 @@ const ButtonWrapper = styled.div<Props>`
 			: null};
 	padding: 40px;
 `;
-
-export default ButtonWrapper;

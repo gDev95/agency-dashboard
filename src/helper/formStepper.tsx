@@ -10,7 +10,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import { Emoji } from "../ui";
-import ErrorText from "../artist/form/styled/ErrorText";
+import { ErrorText } from "../artist/form/styled";
 
 const FinishedStepWrapper = styled.div`
 	display: flex;
