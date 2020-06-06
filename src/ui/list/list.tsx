@@ -34,19 +34,18 @@ interface Props {
 	items: any[];
 	subheader: string;
 	path: string;
+	label: string;
 	children?: ReactNode;
 	onDelete?(id: string): void;
 }
 
 export const List = (props: Props) => {
-	const { items, subheader, children, path, onDelete } = props;
+	const { items, subheader, children, path, onDelete, label } = props;
 
 	if (!items || items.length <= 0) {
 		return (
 			<EmptyListWrapper>
-				<Typography data-testid="emptyListMessage">
-					No {path} added yet
-				</Typography>
+				<Typography>No {label} added yet</Typography>
 			</EmptyListWrapper>
 		);
 	}
@@ -68,7 +67,6 @@ export const List = (props: Props) => {
 						<ListItem button={true}>
 							{children ? children : null}
 							<ListItemText
-								data-testid={`itemText${index}`}
 								primary={item.primaryText}
 								secondary={item.secondaryText}
 							/>

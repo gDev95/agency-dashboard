@@ -80,7 +80,7 @@ export const EditArtist = () => {
 			</Grid>
 			<Grid item={true} xs={12} md={6}>
 				<Paper>
-					<List items={[]} subheader="Events" path="events/" />
+					<List items={[]} subheader="Events" path="events/" label="events" />
 				</Paper>
 			</Grid>
 		</GridContainer>

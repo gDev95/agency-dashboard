@@ -79,7 +79,12 @@ export const AddArtists = () => {
 			</Grid>
 			<Grid item={true} xs={12} md={6}>
 				<Paper>
-					<List items={artistItems} subheader="Latest Artist" path="artist" />
+					<List
+						items={artistItems}
+						subheader="Latest Artist"
+						path="artist"
+						label="artists"
+					/>
 				</Paper>
 			</Grid>
 			<Snackbar
