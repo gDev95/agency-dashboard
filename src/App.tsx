@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 
-import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import { PrivateRoute } from "./routing";
 import { selectIsAuthenticated } from "./selectors/selectors";
 import { AddArtists, EditArtist } from "./artist";
 import { Dashboard } from "./dashboard";

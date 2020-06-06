@@ -5,7 +5,7 @@ interface Props extends RouteProps {
 	isAuthenticated: boolean;
 }
 
-const PrivateRoute = ({
+export const PrivateRoute = ({
 	component: Component,
 	isAuthenticated = false,
 	...otherProps
@@ -24,5 +24,3 @@ const PrivateRoute = ({
 		}
 	/>
 );
-
-export default PrivateRoute;
