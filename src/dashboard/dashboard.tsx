@@ -123,6 +123,7 @@ export const Dashboard = (props: any) => {
 						subheader="Artists"
 						onDelete={handleDelete("ARTIST")}
 						path="artist"
+						label="artists"
 					>
 						<ListItemIcon>
 							<AccountCirlceIcon />
@@ -143,6 +144,7 @@ export const Dashboard = (props: any) => {
 						subheader="News"
 						onDelete={handleDelete("NEWS")}
 						path="news"
+						label="news"
 					>
 						<ListItemIcon>
 							<MessageIcon />
@@ -160,6 +162,7 @@ export const Dashboard = (props: any) => {
 						subheader="Events"
 						onDelete={handleDelete("EVENTS")}
 						path="events"
+						label="events"
 					>
 						<ListItemIcon>
 							<EventIcon />

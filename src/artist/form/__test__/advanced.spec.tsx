@@ -1,7 +1,8 @@
 import React from "react";
-import { Label, Rider } from "../../../../../artist/Artist.model";
-import AdvancedInformatioFormGroup from "../advanced";
+import { Label, Rider } from "../../artist.model";
+
 import { render, getByDisplayValue } from "@testing-library/react";
+import { AdvancedInformatioFormGroup } from "../advanced";
 
 interface Props {
 	labels: Label[];
@@ -16,11 +17,11 @@ describe("AdvancedInformationFormGroup", () => {
 		labels: [{ logoUrl: "http://image.com", link: "www.test.com" }],
 		rider: {
 			equipment: ["speakers"],
-			equipmentImageUrl: "http://image.com"
+			equipmentImageUrl: "http://image.com",
 		},
 		hospitality: ["free drinks"],
 		formErrors: new Set(),
-		onChange: () => {}
+		onChange: () => {},
 	};
 
 	describe("when passing labels, rider and hospitality with no error", () => {
