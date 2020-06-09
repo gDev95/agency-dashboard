@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import {
 	Stepper,
 	Step,
@@ -9,8 +9,11 @@ import {
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { Emoji } from "../ui";
-import { ErrorText } from "../artist/form/styled";
+import { Emoji } from "../../ui";
+import { ErrorText } from "./styled";
+import { BasicInformationForm } from "./basic";
+import { useSelector } from "react-redux";
+import { AppState } from "../../store";
 
 const FinishedStepWrapper = styled.div`
 	display: flex;
@@ -26,48 +29,38 @@ function getSteps() {
 }
 
 interface Props {
-	formComponents: any[];
 	submitButtonLabel: string;
-	disableButton: boolean;
-	step: number;
 	hasReset: boolean;
-	error?: boolean;
-	handleNext(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
-	handleBack(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
-	handleReset(): void;
-	handleFormSubmit(
-		event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-	): void;
+	handleFormSubmit: () => unknown;
 }
 
 export default function FormStepper(props: Props) {
 	const steps = getSteps();
+	const [step, setActiveStep] = useState<number>(0);
+	const { handleFormSubmit, submitButtonLabel, hasReset } = props;
 
-	const {
-		formComponents,
-		handleFormSubmit,
-		submitButtonLabel,
-		step,
-		handleBack,
-		handleNext,
-		handleReset,
-		disableButton,
-		hasReset,
-		error,
-	} = props;
-
-	const getStepContent = (currentStep: number) => {
-		switch (currentStep) {
-			case 0:
-				return formComponents[currentStep];
-			case 1:
-				return formComponents[currentStep];
-			case 2:
-				return formComponents[currentStep];
-			default:
-				return "Unknown step";
-		}
+	const handleNext = () => {
+		setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
 	};
+
+	const handleBack = () => {
+		setActiveStep((prevActiveStep: number) => prevActiveStep - 1);
+	};
+
+	const handleReset = () => {
+		setActiveStep(0);
+	};
+
+	const error = useSelector((state: AppState) => state.artist.error);
+
+	const FormStep = useMemo(() => {
+		switch (step) {
+			case 0:
+				return BasicInformationForm;
+			default:
+				throw new Error("This step does not exist");
+		}
+	}, [step]);
 
 	return (
 		<div>
@@ -114,23 +107,7 @@ export default function FormStepper(props: Props) {
 					</div>
 				) : (
 					<div>
-						{getStepContent(step)}
-						<div>
-							<Button disabled={step === 0} onClick={handleBack}>
-								Back
-							</Button>
-
-							<Button
-								variant="contained"
-								color="primary"
-								disabled={disableButton}
-								onClick={
-									step === steps.length - 1 ? handleFormSubmit : handleNext
-								}
-							>
-								{step === steps.length - 1 ? submitButtonLabel : "Next"}
-							</Button>
-						</div>
+						<FormStep handleNext={handleNext} handleBack={handleBack} />
 					</div>
 				)}
 			</div>

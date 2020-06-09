@@ -2,8 +2,10 @@ import { createStore, combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 
 import { authenticationReducer, AuthenticationState } from "./login";
+import { artistReducer, ArtistState } from "./artist";
 
 export interface AppState {
+	artist: ArtistState;
 	auth: AuthenticationState;
 	form: any; // Get type for redux-form state
 }
@@ -11,6 +13,7 @@ export interface AppState {
 const rootReducer = combineReducers({
 	auth: authenticationReducer,
 	form: formReducer,
+	artist: artistReducer,
 });
 
 export default createStore(

@@ -110,48 +110,6 @@ export const AdvancedInformatioFormGroup = (props: Props) => {
 		}
 	};
 
-	const handleImageChange = (type: string, index?: number) => async (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setUploading(true);
-		const imageData = event.target.files ? event.target.files[0] : null;
-		const imageName = type + "-image-" + Date.now();
-		const imageUploader = new ImageUploadHelper();
-
-		if (!imageData) {
-			setUploading(false);
-			return;
-		}
-
-		try {
-			console.log(labels, index);
-			imageUploader.upload(imageName, imageData, (url: string) => {
-				switch (type) {
-					case "labels":
-						if (index === null || index === undefined || index === -1) {
-							return;
-						}
-						const updatedLabels = [...labels];
-						updatedLabels[index].logoUrl = url;
-						onChange(type, [...updatedLabels]);
-						break;
-					case "rider": {
-						onChange(type, {
-							...rider,
-							equipmentImageUrl: url,
-						});
-						break;
-					}
-					default:
-						return;
-				}
-				setUploading(false);
-			});
-		} catch (error) {
-			console.error(error, type);
-		}
-	};
-
 	return (
 		<>
 			{isUploading && <UploadingProgress />}
@@ -168,7 +126,6 @@ export const AdvancedInformatioFormGroup = (props: Props) => {
 								id={`labelImage${index}`}
 								multiple={false}
 								type="file"
-								onChange={handleImageChange("labels", index)}
 							/>
 							<label htmlFor={`labelImage${index}`}>
 								<Fab color="primary" component="span">
@@ -243,7 +200,6 @@ export const AdvancedInformatioFormGroup = (props: Props) => {
 					id="raised-button-file"
 					multiple={true}
 					type="file"
-					onChange={handleImageChange("rider")}
 				/>
 				<label htmlFor="raised-button-file">
 					<Button color="primary" variant="contained" component="span">

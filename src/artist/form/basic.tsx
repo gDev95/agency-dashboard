@@ -1,94 +1,55 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Button, TextField } from "@material-ui/core";
-import CheckIcon from "@material-ui/icons/Check";
-import LinkedCameraIcon from "@material-ui/icons/LinkedCamera";
-import { ImageUploadHelper } from "../../helper";
+import { Button, TextField, Typography } from "@material-ui/core";
+import { validateBasicInformation as validate } from "./validate";
 import {
 	UploadingProgress,
 	FormGroupHeader,
 	ImageUploader,
-	ErrorText,
-	ProfileImageButton,
 	TextFieldWrapper,
 } from "./styled";
+import { Field, reduxForm, InjectedFormProps } from "redux-form";
+import { formPropsAdapter } from "./formPropsAdapter";
+import { ImageUploadInput } from "./imageUploadInput";
+import { useSelector } from "react-redux";
+import { AppState } from "../../store";
+import styled from "styled-components";
 
-interface Props {
-	profileImageUrl: string;
-	coverImageUrl: string;
-	logoUrl: string;
-	name: string;
-	description: string;
-	formErrors: Set<string>;
-	onChange(property: string, value: any): void;
+const ImageUploadWrapper = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+	height: 150px;
+	padding: 30px;
+`;
+
+const StyledTypography = styled(Typography)`
+	align-self: flex-start;
+`;
+
+interface CustomPropTypes {
+	profileImageUrl?: string;
+	coverImageUrl?: string;
+	logoUrl?: string;
+	name?: string;
+	description?: string;
+	handleNext: () => void;
+	handleBack: () => void;
 }
 
-export const BasicInformationFormGroup = (props: Props) => {
-	const [isUploading, setUploading] = useState<boolean>(false);
-
-	const {
-		profileImageUrl,
-		coverImageUrl,
-		logoUrl,
-		name,
-		description,
-		formErrors,
-		onChange,
-	} = props;
-
-	const handleImageChange = (type: string) => (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setUploading(true);
-		const imageData = event.target.files ? event.target.files[0] : null;
-		const imageName = type + "-image-" + Date.now();
-		const imageUploader = new ImageUploadHelper();
-
-		if (!imageData) {
-			setUploading(false);
-			return;
-		}
-
-		try {
-			imageUploader.upload(imageName, imageData, (url: string) => {
-				switch (type) {
-					case "profileImageUrl":
-						onChange(type, url);
-						break;
-					case "coverImageUrl": {
-						onChange(type, url);
-						break;
-					}
-					case "logoUrl": {
-						onChange(type, url);
-						break;
-					}
-					default:
-						return;
-				}
-				setUploading(false);
-				formErrors.has(type) && formErrors.delete(type);
-			});
-		} catch (error) {
-			console.error(error, type);
-		}
-	};
-
-	const handleTextChange = (type: string) => (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		switch (type) {
-			case "name":
-				onChange(type, event.target.value);
-				return;
-			case "description": {
-				onChange(type, event.target.value);
-				return;
-			}
-			default:
-				return;
-		}
-	};
+const INITIAL_STATE = {
+	name: "",
+	description: "",
+	logoUrl: "",
+	coverImageUrl: "",
+	profileImageUrl: "",
+};
+const AdaptedTextField = formPropsAdapter(TextField);
+const RawBasicInformationForm = (props: any) => {
+	const isUploading = useSelector(
+		(state: AppState) => state.artist.isImageUploading
+	);
 
 	return (
 		<>
@@ -96,83 +57,70 @@ export const BasicInformationFormGroup = (props: Props) => {
 			<FormGroupHeader variant="h6" gutterBottom={true}>
 				Basic Information
 			</FormGroupHeader>
-			<ImageUploader>
-				<>
-					<input
-						accept="image/*"
-						style={{ display: "none" }}
-						id="profileImageUrl"
-						multiple={true}
-						type="file"
-						onChange={handleImageChange("profileImageUrl")}
-					/>
-					<label htmlFor="profileImageUrl">
-						<ProfileImageButton
-							data-testid="basicInformationProfilePicture"
-							profileImage={profileImageUrl && profileImageUrl}
-							component="div"
-						>
-							{!profileImageUrl && (
-								<LinkedCameraIcon style={{ fontSize: 60 }} />
-							)}
-						</ProfileImageButton>
-					</label>
-				</>
+			<ImageUploadWrapper>
+				<StyledTypography>Required*</StyledTypography>
+				<Field
+					name="profileImageUrl"
+					buttonLabel="Upload Profile Image"
+					component={ImageUploadInput}
+					formName="basicInformation"
+					isRequired={true}
+				/>
+				<Field
+					name="coverImageUrl"
+					buttonLabel="Upload Cover Image"
+					component={ImageUploadInput}
+					formName="basicInformation"
+					isRequired={true}
+				/>
+				<Field
+					name="logoUrl"
+					buttonLabel="Upload Logo"
+					component={ImageUploadInput}
+					formName="basicInformation"
+					isRequired={true}
+				/>
+			</ImageUploadWrapper>
 
-				<input
-					accept="image/*"
-					style={{ display: "none" }}
-					id="coverImageUrl"
-					multiple={true}
-					type="file"
-					onChange={handleImageChange("coverImageUrl")}
-				/>
-				<label htmlFor="coverImageUrl">
-					<Button color="primary" variant="contained" component="span">
-						{coverImageUrl ? <CheckIcon /> : null}
-						Upload Cover Image
-					</Button>
-				</label>
-				<input
-					accept="image/*"
-					style={{ display: "none" }}
-					id="logoUrl"
-					multiple={true}
-					type="file"
-					onChange={handleImageChange("logoUrl")}
-				/>
-				<label htmlFor="logoUrl">
-					<Button color="primary" variant="contained" component="span">
-						{logoUrl ? <CheckIcon /> : null}
-						Upload a Logo
-					</Button>
-				</label>
-				{formErrors.has("profileImageUrl") ||
-				formErrors.has("coverImageUrl") ||
-				formErrors.has("logoUrl") ? (
-					<ErrorText>Make sure you uploaded all images</ErrorText>
-				) : null}
-			</ImageUploader>
 			<TextFieldWrapper>
-				<TextField
-					data-testid="basicInformationName"
+				<Field
+					isRequired={true}
+					name="name"
+					component={AdaptedTextField}
 					label="Name"
-					value={name}
-					onChange={handleTextChange("name")}
-					margin="normal"
-					error={formErrors.has("name")}
+					placeHolder="Name of Artist"
 				/>
-				<TextField
-					data-testid="basicInformationDescription"
+				<Field
+					name="description"
+					isRequired={true}
+					component={AdaptedTextField}
 					label="Description"
-					value={description}
-					onChange={handleTextChange("description")}
-					helperText="Describe the artist by telling his story (for example)"
-					margin="normal"
-					multiline={true}
-					error={formErrors.has("description")}
+					placeHolder="Describe the artist"
 				/>
 			</TextFieldWrapper>
+			<div>
+				<Button disabled={true} onClick={props.handleBack}>
+					Back
+				</Button>
+
+				<Button
+					variant="contained"
+					color="primary"
+					disabled={!props.valid}
+					onClick={props.handleNext}
+				>
+					Next
+				</Button>
+			</div>
 		</>
 	);
 };
+
+export const BasicInformationForm = reduxForm<{}, CustomPropTypes>({
+	destroyOnUnmount: false,
+	forceUnregisterOnUnmount: true,
+	form: "basicInformation",
+	touchOnChange: true,
+	validate,
+	initialValues: INITIAL_STATE,
+})(RawBasicInformationForm);

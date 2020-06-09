@@ -11,8 +11,9 @@ import {
 	SocialMediaLinks,
 } from "./artist.model";
 import { List, GridContainer } from "../ui";
-import { ArtistForm } from "./form";
+
 import { ListItemExtractor } from "../helper";
+import { ArtistForm } from "./form";
 
 export const AddArtists = () => {
 	console.log("I am being rendered");
@@ -24,30 +25,26 @@ export const AddArtists = () => {
 	const artistItems =
 		data && data.artists && ListItemExtractor.getArtistItems(data);
 
-	const handleSubmitForm = async (
-		basicInformation: ArtistBasicInformation,
-		advancedInformation: ArtistAdvancedInformation,
-		socialMediaLinks: SocialMediaLinks
-	) => {
+	const handleSubmitForm = async () => {
 		const createdAt = moment().format("YYYY-MM-DD");
 		const events: any = [];
-		const newArtist = {
-			createdAt,
-			basicInformation,
-			advancedInformation,
-			socialMediaLinks,
-			events,
-		};
+		// const newArtist = {
+		// 	createdAt,
+		// 	basicInformation,
+		// 	advancedInformation,
+		// 	socialMediaLinks,
+		// 	events,
+		// };
 
-		try {
-			await addArtist({
-				variables: { artist: newArtist },
-			});
-			refetch();
-		} catch (error) {
-			setOpen(true);
-			console.error("Something went wrong", error);
-		}
+		// try {
+		// 	await addArtist({
+		// 		variables: { artist: newArtist },
+		// 	});
+		// 	refetch();
+		// } catch (error) {
+		// 	setOpen(true);
+		// 	console.error("Something went wrong", error);
+		// }
 	};
 
 	const handleClose = (
