@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 import { PrivateRoute } from "./routing";
 import { selectIsAuthenticated } from "./selectors/selectors";
-import { AddArtists, EditArtist } from "./artist";
+import { AddArtists } from "./artist";
 import { Dashboard } from "./dashboard";
 import { LoginPage } from "./login";
 const StyledAppTitle = styled(Typography)`
@@ -30,11 +30,11 @@ function App() {
 				path="/artists"
 				component={AddArtists}
 			/>
-			<PrivateRoute
+			{/* <PrivateRoute
 				isAuthenticated={isAuthenticated}
 				path="/artist/:id"
 				component={EditArtist}
-			/>
+			/> */}
 		</>
 	);
 
@@ -66,7 +66,7 @@ function App() {
 			</Route>
 			<Route exact={true} path="/dashboard" component={Dashboard} />
 			<Route exact={true} path="/artists" component={AddArtists} />
-			<Route path="/artists/:id" component={EditArtist} />
+			{/* <Route path="/artists/:id" component={EditArtist} /> */}
 		</Router>
 	);
 }

@@ -3,7 +3,12 @@ import { storage } from "../config/firebase.config";
 export class ImageUploadHelper {
 	private uploadedUrl: string = "";
 
-	public upload(name: string, data: any, resolve: (url: string) => void): void {
+	public upload(
+		name: string,
+		data: any,
+		resolve: (url: string) => void,
+		reject: (error: any) => void
+	): void {
 		const uploadImage = storage.ref(`images/${name}`).put(data);
 
 		uploadImage.on(
@@ -12,7 +17,7 @@ export class ImageUploadHelper {
 				// @ts-ignore
 			},
 			(error: any) => {
-				throw error;
+				reject(error);
 			},
 			() => {
 				return storage

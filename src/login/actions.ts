@@ -3,26 +3,24 @@ export const AUTHENTICATION_SUCCESS = "AUTHENTICATION_SUCCESS";
 export const AUTHENTICATION_FAILURE = "AUTHENTICATION_FAILURE";
 
 export interface AuthenticationStartAction {
-	type: typeof AUTHENTICATION_START;
-	payload: {};
+	type: "AUTHENTICATION_START";
 }
 
 export interface AuthenticationSuccessAction {
-	type: typeof AUTHENTICATION_SUCCESS;
-	payload: {};
+	type: "AUTHENTICATION_SUCCESS";
 }
 
 export interface AuthenticationFailureAction {
-	type: typeof AUTHENTICATION_FAILURE;
+	type: "AUTHENTICATION_FAILURE";
 	payload: { error: any };
 }
 
 export function authenticationStartAction(): AuthenticationStartAction {
-	return { type: AUTHENTICATION_START, payload: {} };
+	return { type: AUTHENTICATION_START };
 }
 
 export function authenticationSuccessAction(): AuthenticationSuccessAction {
-	return { type: AUTHENTICATION_SUCCESS, payload: {} };
+	return { type: AUTHENTICATION_SUCCESS };
 }
 
 export function authenticationFailureAction(
