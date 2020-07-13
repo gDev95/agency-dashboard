@@ -3,7 +3,7 @@ export interface Label {
 	link: string;
 }
 
-export interface Rider {
+export interface Setup {
 	equipment: string[];
 	equipmentImageUrl: string;
 }
@@ -18,16 +18,16 @@ export interface ArtistBasicInformation {
 
 export interface ArtistAdvancedInformation {
 	labels: Label[];
-	rider: Rider;
+	setup: Setup;
 	hospitality: string[];
 }
 
 export interface SocialMediaLinks {
-	facebook: string;
-	beatport: string;
-	instagram: string;
-	soundCloud: string;
-	residentAdvisor: string;
+	facebook: string | null;
+	beatport: string | null;
+	instagram: string | null;
+	soundCloud: string | null;
+	residentAdvisor: string | null;
 }
 
 export interface Events {

@@ -1,10 +1,10 @@
-import React, { useState, useRef, ComponentType } from "react";
+import React, { useRef } from "react";
 import { Button, FormHelperText } from "@material-ui/core";
 import ReportIcon from "@material-ui/icons/Report";
 import CheckIcon from "@material-ui/icons/Check";
 import styled from "styled-components";
 import { ImageUploadHelper } from "../../helper";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { uploadImageStartAction, uploadImageFinishAction } from "../actions";
 import { WrappedFieldInputProps, WrappedFieldMetaProps } from "redux-form";
 import { useFormValue } from "./useFormValue";
@@ -19,6 +19,7 @@ interface PropTypes {
 	buttonLabel: string;
 	formName: string;
 	isRequired: boolean;
+	isNested?: boolean;
 }
 
 export const ImageUploadInput = ({
@@ -26,6 +27,7 @@ export const ImageUploadInput = ({
 	input,
 	meta,
 	formName,
+	isNested = false,
 }: PropTypes) => {
 	const dispatch = useDispatch();
 
@@ -57,7 +59,9 @@ export const ImageUploadInput = ({
 			}
 		);
 	};
-	const isUploaded = useFormValue(formName, input.name);
+
+	const isUploaded = useFormValue(formName, input.name, isNested);
+
 	const inputRef = useRef(null);
 	return (
 		<>
@@ -87,9 +91,7 @@ export const ImageUploadInput = ({
 				)}
 			</Button>
 
-			{meta.touched && meta.error && (
-				<StyledErrorText>{meta.error}</StyledErrorText>
-			)}
+			{meta.error && <StyledErrorText>{meta.error}</StyledErrorText>}
 		</>
 	);
 };

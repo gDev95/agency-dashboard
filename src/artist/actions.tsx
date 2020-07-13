@@ -32,14 +32,14 @@ export const uploadImageFinishAction = (): UploadImageFinishAction => ({
 	type: UPLOAD_IMAGE_FINISH,
 });
 
-export const AddArtistStartAction = (): AddArtistStartAction => ({
+export const addArtistStartAction = (): AddArtistStartAction => ({
 	type: ADD_ARTIST_START,
 });
 
-export const AddArtistFinishAction = (): AddArtistFinishAction => ({
+export const addArtistFinishAction = (): AddArtistFinishAction => ({
 	type: ADD_ARTIST_FINISH,
 });
 
-export const AddArtistErrorAction = (): AddArtistErrorAction => ({
+export const addArtistErrorAction = (): AddArtistErrorAction => ({
 	type: ADD_ARTIST_ERROR,
 });

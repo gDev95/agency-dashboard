@@ -6,8 +6,11 @@ import styled from "styled-components";
 const StyledErrorText = styled(FormHelperText)`
 	color: red !important;
 `;
+
 interface CustomProps extends WrappedFieldProps {
 	isRequired?: boolean;
+	multiline?: boolean;
+	hideError?: boolean;
 }
 export function formPropsAdapter(
 	InputComponent: ComponentType<TextFieldProps>
@@ -16,21 +19,22 @@ export function formPropsAdapter(
 		input,
 		meta,
 		isRequired = false,
+
+		hideError = false,
 		...otherProps
 	}: CustomProps) {
-		console.log("REQUIRED ", isRequired);
 		return (
-			<>
+			<div {...otherProps}>
 				<InputComponent
 					{...otherProps}
 					{...input}
 					key={input.name}
-					helperText={isRequired && !meta.touched && "Required*"}
+					helperText={isRequired && "Required*"}
 				/>
-				{meta.touched && meta.error && (
+				{!hideError && meta.touched && meta.error && (
 					<StyledErrorText>{meta.error}</StyledErrorText>
 				)}
-			</>
+			</div>
 		);
 	};
 }

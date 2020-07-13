@@ -1,27 +1,24 @@
 import React, { useMemo, useState } from "react";
-import {
-	Stepper,
-	Step,
-	StepLabel,
-	Button,
-	Typography,
-} from "@material-ui/core";
+import { Stepper, Step, StepLabel } from "@material-ui/core";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-import { Emoji } from "../../ui";
-import { ErrorText } from "./styled";
+import { LoadingIndicator } from "../../ui";
 import { BasicInformationForm } from "./basic";
-import { useSelector } from "react-redux";
-import { AppState } from "../../store";
 
-const FinishedStepWrapper = styled.div`
-	display: flex;
-	width: 100%;
-	height: 100%;
-	align-items: center;
-	justify-content: space-between;
-	flex-direction: column;
+import { AdvancedInformationForm } from "./advanced";
+import { SocialMediaForm } from "./socialMedia";
+import { FinishFormStep } from "./finishStep";
+import { FormSummary } from "./formSummary";
+import {
+	ArtistAdvancedInformation,
+	SocialMediaLinks,
+	ArtistBasicInformation,
+} from "../artist.model";
+
+const StyledStepper = styled(Stepper)`
+	/* this seems necessary to force the overwride*/
+	padding: 0 !important;
+	padding-bottom: 15px !important;
 `;
 
 function getSteps() {
@@ -29,18 +26,36 @@ function getSteps() {
 }
 
 interface Props {
+	basicInformation?: ArtistBasicInformation;
+	advancedInformation?: ArtistAdvancedInformation;
+	socialMediaLinks?: SocialMediaLinks;
 	submitButtonLabel: string;
 	hasReset: boolean;
-	handleFormSubmit: () => unknown;
+	handleFormSubmit: (
+		basic: ArtistBasicInformation,
+		advanced: ArtistAdvancedInformation,
+		socialMedia: SocialMediaLinks
+	) => void;
 }
 
 export default function FormStepper(props: Props) {
 	const steps = getSteps();
 	const [step, setActiveStep] = useState<number>(0);
-	const { handleFormSubmit, submitButtonLabel, hasReset } = props;
+	const {
+		handleFormSubmit,
+		submitButtonLabel,
+		hasReset,
+		basicInformation,
+		advancedInformation,
+		socialMediaLinks,
+	} = props;
 
 	const handleNext = () => {
-		setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
+		if (step !== steps.length - 1) {
+			setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
+		} else {
+			setActiveStep((prevActiveStep: number) => prevActiveStep + 1);
+		}
 	};
 
 	const handleBack = () => {
@@ -51,21 +66,58 @@ export default function FormStepper(props: Props) {
 		setActiveStep(0);
 	};
 
-	const error = useSelector((state: AppState) => state.artist.error);
-
-	const FormStep = useMemo(() => {
+	const formStep = useMemo(() => {
 		switch (step) {
 			case 0:
-				return BasicInformationForm;
+				return (
+					<BasicInformationForm
+						basicInformation={basicInformation}
+						handleNext={handleNext}
+						handleBack={handleBack}
+					/>
+				);
+			case 1:
+				return (
+					<AdvancedInformationForm
+						advancedInformation={advancedInformation}
+						handleNext={handleNext}
+						handleBack={handleBack}
+					/>
+				);
+			case 2:
+				return (
+					<SocialMediaForm
+						socialMediaLinks={socialMediaLinks}
+						handleNext={handleNext}
+						handleBack={handleBack}
+					/>
+				);
+			case 3:
+				return (
+					<FormSummary
+						handleNext={handleNext}
+						handleSubmit={handleFormSubmit}
+						handleBack={handleBack}
+						submitButtonLabel={submitButtonLabel}
+					/>
+				);
+			case 4:
+				return (
+					<FinishFormStep
+						hasReset={hasReset}
+						handleReset={handleReset}
+						handleBack={handleBack}
+					/>
+				);
 			default:
-				throw new Error("This step does not exist");
+				return <LoadingIndicator />;
 		}
 	}, [step]);
 
 	return (
 		<div>
-			<Stepper activeStep={step}>
-				{steps.map((label, index) => {
+			<StyledStepper activeStep={step}>
+				{steps.map((label) => {
 					const stepProps: { completed?: boolean } = {};
 					const labelProps: { optional?: React.ReactNode } = {};
 
@@ -75,41 +127,9 @@ export default function FormStepper(props: Props) {
 						</Step>
 					);
 				})}
-			</Stepper>
+			</StyledStepper>
 			<div>
-				{step === steps.length ? (
-					<div>
-						{error ? (
-							<FinishedStepWrapper>
-								<ErrorText>
-									Something went wrong while updating the artist
-								</ErrorText>
-								<Emoji label="crying-face" symbol={"😭"} size={50} />
-							</FinishedStepWrapper>
-						) : (
-							<FinishedStepWrapper>
-								<Typography>
-									All steps completed - you&apos;re finished
-								</Typography>
-								<Emoji label="rocket" symbol={"🚀"} size={50} />
-							</FinishedStepWrapper>
-						)}
-						{hasReset ? (
-							<Button onClick={handleReset}>Reset</Button>
-						) : (
-							<>
-								<Button onClick={handleBack}>Back</Button>
-								<Link to="/">
-									<Button>Go to Dashboard</Button>
-								</Link>
-							</>
-						)}
-					</div>
-				) : (
-					<div>
-						<FormStep handleNext={handleNext} handleBack={handleBack} />
-					</div>
-				)}
+				<div>{formStep}</div>
 			</div>
 		</div>
 	);

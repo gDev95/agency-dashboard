@@ -1,104 +1,99 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { TextField } from "@material-ui/core";
-import { FormGroupHeader, TextFieldWrapper } from "./styled";
+import { TextFieldWrapper, ButtonWrapper } from "./styled";
+import { reduxForm, Field, change } from "redux-form";
+import { AdaptedTextField } from "./AdaptedTextField";
+import styled from "styled-components";
+import { Button } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 
-interface Props {
-	facebook: string;
-	instagram: string;
-	beatport: string;
-	residentAdvisor: string;
-	soundCloud: string;
-	formErrors: Set<string>;
-	onChange(property: string, value: string): void;
+const StyledRoot = styled.div`
+	padding-top: 40px;
+`;
+const StyledTextField = styled(AdaptedTextField)`
+	margin-top: 20px;
+`;
+interface InitialStateType {
+	facebook: string | null;
+	instagram: string | null;
+	beatport: string | null;
+	residentAdvisor: string | null;
+	soundCloud: string | null;
 }
 
-export const SocialMediaFormGroup = (props: Props) => {
-	const {
-		facebook,
-		instagram,
-		beatport,
-		residentAdvisor,
-		soundCloud,
-		formErrors,
-		onChange,
-	} = props;
+const INITIAL_STATE = {
+	facebook: null,
+	instagram: null,
+	beatport: null,
+	residentAdvisor: null,
+	soundCloud: null,
+};
 
-	const handleTextChange = (type: string) => (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		switch (type) {
-			case "facebook":
-				onChange(type, event.target.value);
-				return;
-			case "instagram": {
-				onChange(type, event.target.value);
-				return;
-			}
-			case "beatport": {
-				onChange(type, event.target.value);
-				return;
-			}
-			case "residentAdvisor": {
-				onChange(type, event.target.value);
-				return;
-			}
-			case "soundCloud": {
-				onChange(type, event.target.value);
-				return;
-			}
-			default:
-				return;
+const RawSocialMediaForm = (props: any) => {
+	const { socialMediaLinks } = props;
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (socialMediaLinks) {
+			Object.keys(socialMediaLinks).map((key) =>
+				dispatch(change("socialMedia", key, socialMediaLinks[key]))
+			);
 		}
-	};
+	}, [socialMediaLinks]);
 	return (
-		<>
-			<FormGroupHeader variant="subtitle1">Social Media Links</FormGroupHeader>
+		<StyledRoot>
 			<TextFieldWrapper>
-				<TextField
-					label="Facebook"
-					value={facebook}
-					onChange={handleTextChange("facebook")}
-					error={formErrors.has("facebook")}
+				<Field
+					isRequired={true}
+					name="facebook"
+					component={StyledTextField}
+					placeholder="Link to Facebook Page"
+				/>
+				<Field
+					name="instagram"
+					isRequired={true}
+					component={StyledTextField}
+					placeholder="Link to Instagram Profile"
+				/>
+				<Field
+					name="beatport"
+					isRequired={true}
+					component={StyledTextField}
+					placeholder="Link to Beatport Profile"
+				/>
+				<Field
+					name="residentAdvisor"
+					isRequired={true}
+					component={StyledTextField}
+					placeholder="Link to Resident Advisor Page"
+				/>
+				<Field
+					name="soundCloud"
+					isRequired={true}
+					component={StyledTextField}
+					placeholder="Link to SoundCloud Profile"
 				/>
 			</TextFieldWrapper>
+			<ButtonWrapper>
+				<Button onClick={props.handleBack}>Back</Button>
 
-			<TextFieldWrapper>
-				<TextField
-					label="Instagram"
-					value={instagram}
-					onChange={handleTextChange("instagram")}
-					margin="normal"
-					error={formErrors.has("instagram")}
-				/>
-			</TextFieldWrapper>
-			<TextFieldWrapper>
-				<TextField
-					label="Beatport"
-					value={beatport}
-					onChange={handleTextChange("beatport")}
-					margin="normal"
-					error={formErrors.has("beatport")}
-				/>
-			</TextFieldWrapper>
-			<TextFieldWrapper>
-				<TextField
-					label="Resident Advisor"
-					value={residentAdvisor}
-					onChange={handleTextChange("residentAdvisor")}
-					margin="normal"
-					error={formErrors.has("residentAdvisor")}
-				/>
-			</TextFieldWrapper>
-			<TextFieldWrapper>
-				<TextField
-					label="SoundCloud"
-					value={soundCloud}
-					onChange={handleTextChange("soundCloud")}
-					margin="normal"
-					error={formErrors.has("soundCloud")}
-				/>
-			</TextFieldWrapper>
-		</>
+				<Button
+					variant="contained"
+					color="primary"
+					disabled={!props.valid}
+					onClick={props.handleNext}
+				>
+					Next
+				</Button>
+			</ButtonWrapper>
+		</StyledRoot>
 	);
 };
+
+export const SocialMediaForm = reduxForm<InitialStateType, any>({
+	destroyOnUnmount: false,
+	forceUnregisterOnUnmount: true,
+	form: "socialMedia",
+	touchOnChange: true,
+	initialValues: INITIAL_STATE,
+})(RawSocialMediaForm);
