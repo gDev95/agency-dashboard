@@ -38,7 +38,7 @@ describe("ArtistFormInformationFactory", () => {
 							__typename: "typename",
 						},
 					],
-					rider: {
+					setup: {
 						equipment: ["Some stuff"],
 						equipmentImageUrl: "something",
 						__typename: "typename",
@@ -72,7 +72,7 @@ describe("ArtistFormInformationFactory", () => {
 							link: "link-to-label.com",
 						},
 					],
-					rider: {
+					setup: {
 						equipment: ["Some stuff"],
 						equipmentImageUrl: "something",
 					},

@@ -1,19 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Button, TextField, Typography } from "@material-ui/core";
 import { validateBasicInformation as validate } from "./validate";
 import {
 	UploadingProgress,
 	FormGroupHeader,
-	ImageUploader,
 	TextFieldWrapper,
+	ButtonWrapper,
 } from "./styled";
-import { Field, reduxForm, InjectedFormProps } from "redux-form";
+import {
+	Field,
+	reduxForm,
+	InjectedFormProps,
+	initialize,
+	change,
+} from "redux-form";
 import { formPropsAdapter } from "./formPropsAdapter";
 import { ImageUploadInput } from "./imageUploadInput";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store";
 import styled from "styled-components";
+
+import { ArtistBasicInformation } from "../artist.model";
 
 const ImageUploadWrapper = styled.div`
 	display: flex;
@@ -29,11 +37,7 @@ const StyledTypography = styled(Typography)`
 `;
 
 interface CustomPropTypes {
-	profileImageUrl?: string;
-	coverImageUrl?: string;
-	logoUrl?: string;
-	name?: string;
-	description?: string;
+	basicInformation: ArtistBasicInformation;
 	handleNext: () => void;
 	handleBack: () => void;
 }
@@ -51,6 +55,15 @@ const RawBasicInformationForm = (props: any) => {
 		(state: AppState) => state.artist.isImageUploading
 	);
 
+	const { basicInformation } = props;
+	const dispatch = useDispatch();
+	useEffect(() => {
+		if (basicInformation) {
+			Object.keys(basicInformation).map((key) =>
+				dispatch(change("basicInformation", key, basicInformation[key]))
+			);
+		}
+	}, [basicInformation]);
 	return (
 		<>
 			{isUploading && <UploadingProgress />}
@@ -58,7 +71,6 @@ const RawBasicInformationForm = (props: any) => {
 				Basic Information
 			</FormGroupHeader>
 			<ImageUploadWrapper>
-				<StyledTypography>Required*</StyledTypography>
 				<Field
 					name="profileImageUrl"
 					buttonLabel="Upload Profile Image"
@@ -87,18 +99,17 @@ const RawBasicInformationForm = (props: any) => {
 					isRequired={true}
 					name="name"
 					component={AdaptedTextField}
-					label="Name"
-					placeHolder="Name of Artist"
+					placeholder="Name of Artist"
 				/>
 				<Field
 					name="description"
 					isRequired={true}
 					component={AdaptedTextField}
-					label="Description"
-					placeHolder="Describe the artist"
+					placeholder="Description"
+					multiline={true}
 				/>
 			</TextFieldWrapper>
-			<div>
+			<ButtonWrapper>
 				<Button disabled={true} onClick={props.handleBack}>
 					Back
 				</Button>
@@ -111,14 +122,15 @@ const RawBasicInformationForm = (props: any) => {
 				>
 					Next
 				</Button>
-			</div>
+			</ButtonWrapper>
 		</>
 	);
 };
 
-export const BasicInformationForm = reduxForm<{}, CustomPropTypes>({
+export const BasicInformationForm = reduxForm<{}, any>({
 	destroyOnUnmount: false,
 	forceUnregisterOnUnmount: true,
+	enableReinitialize: true,
 	form: "basicInformation",
 	touchOnChange: true,
 	validate,

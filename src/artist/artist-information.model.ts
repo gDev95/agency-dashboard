@@ -42,7 +42,8 @@ export class ArtistFormInformation implements ArtistFormInformationInterface {
 	//  https://github.com/apollographql/apollo-client/issues/1564
 	private removeTypenameFromObject(object: any) {
 		Object.keys(object).forEach((key) => {
-			if (typeof object[key] === "object") {
+			console.log(object, key, object[key]);
+			if (typeof object[key] === "object" && object[key]) {
 				delete object[key].__typename;
 			}
 			if (isArray(object[key])) {

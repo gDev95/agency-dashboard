@@ -41,7 +41,7 @@ export const GET_ARTIST = gql`
 					logoUrl
 					link
 				}
-				rider {
+				setup {
 					equipment
 					equipmentImageUrl
 				}

@@ -10,23 +10,23 @@ describe("ArtistInformation", () => {
 					hometown: "Berlin",
 					description: "This is a test description",
 					profileImageUrl: "something",
-					__typename: "basicInformation"
+					__typename: "basicInformation",
 				},
 				advancedInformation: {
 					labels: [
 						{
 							logoUrl: "something",
 							link: "link-to-label.com",
-							__typename: "labels"
-						}
+							__typename: "labels",
+						},
 					],
-					rider: {
+					setup: {
 						equipment: ["Some stuff"],
 						equipmentImageUrl: "something",
-						__typename: "rider"
+						__typename: "setup",
 					},
 					hospitality: ["drinks"],
-					__typename: "advancedInformation"
+					__typename: "advancedInformation",
 				},
 				socialMediaLinks: {
 					facebook: "facebook.com",
@@ -34,9 +34,9 @@ describe("ArtistInformation", () => {
 					instagram: "instagram.com",
 					soundCloud: "soundcloud.com",
 					residentAdvisor: "residentadvisor.com",
-					__typename: "SocialMediaLinks"
+					__typename: "SocialMediaLinks",
 				},
-				events: []
+				events: [],
 			};
 			expect(
 				new ArtistFormInformation(
@@ -50,29 +50,29 @@ describe("ArtistInformation", () => {
 					name: "Paul The Tester",
 					hometown: "Berlin",
 					description: "This is a test description",
-					profileImageUrl: "something"
+					profileImageUrl: "something",
 				},
 				advancedInformation: {
 					labels: [
 						{
 							logoUrl: "something",
-							link: "link-to-label.com"
-						}
+							link: "link-to-label.com",
+						},
 					],
-					rider: {
+					setup: {
 						equipment: ["Some stuff"],
-						equipmentImageUrl: "something"
+						equipmentImageUrl: "something",
 					},
-					hospitality: ["drinks"]
+					hospitality: ["drinks"],
 				},
 				socialMediaLinks: {
 					facebook: "facebook.com",
 					beatport: "beatport.com",
 					instagram: "instagram.com",
 					soundCloud: "soundcloud.com",
-					residentAdvisor: "residentadvisor.com"
+					residentAdvisor: "residentadvisor.com",
 				},
-				events: []
+				events: [],
 			});
 		});
 	});

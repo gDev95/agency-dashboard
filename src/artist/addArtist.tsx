@@ -5,46 +5,60 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useArtistsQuery, useAddArtistMutation } from "../generated/graphql";
 
 import moment from "moment";
+
+import { List, GridContainer } from "../ui";
+
+import { ListItemExtractor } from "../helper";
+import { ArtistForm } from "./form";
+import { addArtistStartAction, addArtistErrorAction } from "./actions";
+import { useDispatch } from "react-redux";
 import {
 	ArtistBasicInformation,
 	ArtistAdvancedInformation,
 	SocialMediaLinks,
 } from "./artist.model";
-import { List, GridContainer } from "../ui";
-
-import { ListItemExtractor } from "../helper";
-import { ArtistForm } from "./form";
 
 export const AddArtists = () => {
-	console.log("I am being rendered");
 	const { data, refetch } = useArtistsQuery();
 	const [addArtist] = useAddArtistMutation();
-
+	const dispatch = useDispatch();
 	const [open, setOpen] = useState<boolean>(false);
 
 	const artistItems =
 		data && data.artists && ListItemExtractor.getArtistItems(data);
 
-	const handleSubmitForm = async () => {
+	const handleSubmitForm = async (
+		basicInformation: ArtistBasicInformation,
+		advancedInformation: ArtistAdvancedInformation,
+		socialMediaLinks: SocialMediaLinks
+	) => {
 		const createdAt = moment().format("YYYY-MM-DD");
 		const events: any = [];
-		// const newArtist = {
-		// 	createdAt,
-		// 	basicInformation,
-		// 	advancedInformation,
-		// 	socialMediaLinks,
-		// 	events,
-		// };
+		const newArtist = {
+			createdAt,
+			basicInformation,
+			advancedInformation,
+			socialMediaLinks,
+			events,
+		};
+		console.log("socialMedia form values", socialMediaLinks);
 
-		// try {
-		// 	await addArtist({
-		// 		variables: { artist: newArtist },
-		// 	});
-		// 	refetch();
-		// } catch (error) {
-		// 	setOpen(true);
-		// 	console.error("Something went wrong", error);
-		// }
+		console.log("Compare social media values", {
+			newArtist,
+			social1: newArtist.socialMediaLinks,
+			social2: socialMediaLinks,
+		});
+
+		try {
+			dispatch(addArtistStartAction());
+			await addArtist({
+				variables: { artist: newArtist },
+			});
+			refetch();
+		} catch (error) {
+			dispatch(addArtistErrorAction());
+			setOpen(true);
+		}
 	};
 
 	const handleClose = (
@@ -64,7 +78,6 @@ export const AddArtists = () => {
 			justify="space-around"
 			alignItems="flex-start"
 			wrap="wrap"
-			spacing={3}
 		>
 			<Grid item={true} xs={12} md={5}>
 				<Paper>

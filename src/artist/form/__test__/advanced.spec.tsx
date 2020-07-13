@@ -1,12 +1,12 @@
 import React from "react";
-import { Label, Rider } from "../../artist.model";
+import { Label, Setup } from "../../artist.model";
 
 import { render, getByDisplayValue } from "@testing-library/react";
 import { AdvancedInformatioFormGroup } from "../advanced";
 
 interface Props {
 	labels: Label[];
-	rider: Rider;
+	setup: Setup;
 	hospitality: string[];
 	formErrors: Set<string>;
 	onChange(property: string, value: any): void;
@@ -15,7 +15,7 @@ interface Props {
 describe("AdvancedInformationFormGroup", () => {
 	const fakeProps: Props = {
 		labels: [{ logoUrl: "http://image.com", link: "www.test.com" }],
-		rider: {
+		setup: {
 			equipment: ["speakers"],
 			equipmentImageUrl: "http://image.com",
 		},
@@ -24,7 +24,7 @@ describe("AdvancedInformationFormGroup", () => {
 		onChange: () => {},
 	};
 
-	describe("when passing labels, rider and hospitality with no error", () => {
+	describe("when passing labels, setup and hospitality with no error", () => {
 		it("sets the values in form accordingly", () => {
 			const { container } = render(
 				<AdvancedInformatioFormGroup {...fakeProps} />
