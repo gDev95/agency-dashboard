@@ -5,7 +5,10 @@ import CheckIcon from "@material-ui/icons/Check";
 import styled from "styled-components";
 import { ImageUploadHelper } from "../../helper";
 import { useDispatch } from "react-redux";
-import { uploadImageStartAction, uploadImageFinishAction } from "../actions";
+import {
+	uploadImageStartAction,
+	uploadImageFinishAction,
+} from "../../artist/actions";
 import { WrappedFieldInputProps, WrappedFieldMetaProps } from "redux-form";
 import { useFormValue } from "./useFormValue";
 

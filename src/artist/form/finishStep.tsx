@@ -8,9 +8,11 @@ import { AppState } from "../../store";
 import styled from "styled-components";
 import { reset } from "redux-form";
 
-/* Despite this might having a positive impact for the end user, this component was a emergency solution to allow the latest, if unchanged, values of the Social media form 
- to be present when submitting. 
- 
+/*
+Despite this might having a positive impact for the end user,
+ this component was a emergency solution to allow the latest, if unchanged, values of the Social media form
+ to be present when submitting.
+
  Ideally we should have 1 form with sections.
 */
 
@@ -29,12 +31,7 @@ interface Props {
 	handleBack: () => void;
 }
 
-export function FinishFormStep({
-	hasReset,
-	handleReset,
-	handleBack,
-	...otherProps
-}: Props) {
+export function FinishFormStep({ hasReset, handleReset, handleBack }: Props) {
 	const dispatch = useDispatch();
 	const error = useSelector((state: AppState) => state.artist.error);
 	return (

@@ -6,7 +6,7 @@ import { AdaptedTextField } from "./AdaptedTextField";
 import { Field } from "redux-form";
 import { WrappedFieldArrayProps } from "redux-form";
 import styled from "styled-components";
-import { ErrorText } from "./styled";
+import { ErrorText } from "../../artist/form/styled";
 
 const StyledList = styled.li`
 	list-style: none;

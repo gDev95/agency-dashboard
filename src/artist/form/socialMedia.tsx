@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { TextFieldWrapper, ButtonWrapper } from "./styled";
 import { reduxForm, Field, change } from "redux-form";
-import { AdaptedTextField } from "./AdaptedTextField";
+import { AdaptedTextField } from "../../ui/form";
 import styled from "styled-components";
 import { Button } from "@material-ui/core";
 import { useDispatch } from "react-redux";

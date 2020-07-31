@@ -8,10 +8,9 @@ import { FormGroupHeader, UploadingProgress, ButtonWrapper } from "./styled";
 import { useSelector, useDispatch } from "react-redux";
 import { reduxForm, FieldArray, change } from "redux-form";
 import { AppState } from "../../store";
-
 import { ArtistLabels } from "./labels";
 import { ArtistSetup } from "./setup";
-import { TextFieldArray } from "./TextFieldArray";
+import { TextFieldArray } from "../../ui/form";
 
 const INITIAL_STATE = {
 	labels: [],

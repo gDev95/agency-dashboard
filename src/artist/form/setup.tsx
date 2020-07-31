@@ -1,8 +1,7 @@
 import React from "react";
 import { Field, FieldArray } from "redux-form";
-import { ImageUploadInput } from "./imageUploadInput";
+import { ImageUploadInput, TextFieldArray } from "../../ui/form";
 import styled from "styled-components";
-import { TextFieldArray } from "./TextFieldArray";
 
 const StyledRoot = styled.div`
 	display: flex;
