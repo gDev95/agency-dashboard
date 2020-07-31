@@ -8,15 +8,8 @@ import {
 	TextFieldWrapper,
 	ButtonWrapper,
 } from "./styled";
-import {
-	Field,
-	reduxForm,
-	InjectedFormProps,
-	initialize,
-	change,
-} from "redux-form";
-import { formPropsAdapter } from "./formPropsAdapter";
-import { ImageUploadInput } from "./imageUploadInput";
+import { Field, reduxForm, change } from "redux-form";
+import { ImageUploadInput, formPropsAdapter } from "../../ui/form";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store";
 import styled from "styled-components";
