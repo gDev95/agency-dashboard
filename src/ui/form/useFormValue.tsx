@@ -12,6 +12,6 @@ export function useFormValue(
 	if (isNested) {
 		return get(value, fieldName);
 	}
-
+	console.log("asdsa");
 	return value[fieldName];
 }
