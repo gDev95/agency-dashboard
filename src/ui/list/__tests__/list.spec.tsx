@@ -25,7 +25,7 @@ describe("List", () => {
 			</BrowserRouter>
 		);
 
-		const children = getByText(container, "Children tested");
+		getByText(container, "Children tested");
 	});
 
 	it("shoud display message if no items were passed", () => {
@@ -35,6 +35,6 @@ describe("List", () => {
 			</BrowserRouter>
 		);
 
-		const children = getByText(container, "No fakeItems added yet");
+		getByText(container, "No fakeItems added yet");
 	});
 });
