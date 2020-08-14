@@ -38,7 +38,7 @@
         "babel-jest": "^24.8.0",
         "bcryptjs": "^2.4.3",
         "enzyme-to-json": "^3.4.0",
-        "eslint": "^7.6.0",
+        "eslint": "^6.6.0",
         "eslint-import-resolver-alias": "^1.1.2",
         "eslint-plugin-import": "^2.22.0",
         "eslint-plugin-mocha": "^8.0.0",
