@@ -5,7 +5,7 @@ import { get } from "lodash";
 export function useFormValue(
 	formName: string,
 	fieldName: string,
-	isNested: boolean
+	isNested = false
 ): any {
 	const formSelector = getFormValues(formName);
 	const value: any = useSelector(formSelector);
