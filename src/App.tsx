@@ -43,14 +43,14 @@ function App() {
                 <AppBar position="static">
                     <Toolbar>
                         <StyledAppTitle variant="h6">NOBO Bookings</StyledAppTitle>
-                        <Button href="/" color="inherit">
+                        <Button href="/dashboard" color="inherit">
                             Dashboard
                         </Button>
                     </Toolbar>
                 </AppBar>
             </AppBar>
             <Route exact={true} path="/">
-                <Redirect to="/dashboard" />
+                <h3>Hello</h3>
             </Route>
             <Route exact={true} path="/dashboard" component={Dashboard} />
             <Route exact={true} path="/artists" component={AddArtists} />
