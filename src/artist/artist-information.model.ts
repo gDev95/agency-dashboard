@@ -1,5 +1,3 @@
-import { isArray } from "util";
-
 import { ArtistBasicInformation, Events, SocialMediaLinks, ArtistAdvancedInformation } from "./artist.model";
 
 interface ArtistFormInformationInterface {
@@ -15,11 +13,11 @@ export class ArtistFormInformation implements ArtistFormInformationInterface {
     public advancedInformation: ArtistAdvancedInformation;
     public events: Events;
     constructor(basicInformation: any, advancedInformation: any, socialMediaLinks: any, events: any) {
-        this.basicInformation = this.removeTypenameFromObject(basicInformation);
+        this.basicInformation = ArtistFormInformation.stripTypenames(basicInformation);
 
-        this.advancedInformation = this.removeTypenameFromObject(advancedInformation);
+        this.advancedInformation = ArtistFormInformation.stripTypenames(advancedInformation);
 
-        this.socialMediaLinks = this.removeTypenameFromObject(socialMediaLinks);
+        this.socialMediaLinks = ArtistFormInformation.stripTypenames(socialMediaLinks);
         this.events = events;
     }
 
@@ -27,20 +25,21 @@ export class ArtistFormInformation implements ArtistFormInformationInterface {
     // Since we want to plug in the properties of Artist straight into the form and use the values later for updating
     // the entity we need to remove it otherwise we get error that there were invalid values
     // its really hacky for now I admit
+    //UPDATE 2021, no longer my solution: https://stackoverflow.com/questions/52873741/apollo-boost-typename-in-query-prevent-new-mutation
     //  https://github.com/apollographql/apollo-client/issues/1564
-    private removeTypenameFromObject(object: any) {
-        Object.keys(object).forEach(key => {
-            if (typeof object[key] === "object" && object[key]) {
-                delete object[key].__typename;
+    private static stripTypenames(value: any): any {
+        if (Array.isArray(value)) {
+            return value.map(ArtistFormInformation.stripTypenames);
+        } else if (value !== null && typeof value === "object") {
+            const newObject: any = {};
+            for (const property in value) {
+                if (property !== "__typename") {
+                    newObject[property] = ArtistFormInformation.stripTypenames(value[property]);
+                }
             }
-            if (isArray(object[key])) {
-                object[key].forEach((item: any) => typeof item === "object" && delete item.__typename);
-            }
-        });
-
-        delete object.__typename;
-        const newObject = { ...object };
-
-        return newObject;
+            return newObject;
+        } else {
+            return value;
+        }
     }
 }
