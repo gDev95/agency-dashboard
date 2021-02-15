@@ -45,7 +45,7 @@ export const ImageUploadInput = ({ buttonLabel: label, input, meta, formName, is
                 dispatch(uploadImageFinishAction());
                 fileInput.onChange(url);
             },
-            (error) => {
+            () => {
                 fileInput.onChange(null);
                 dispatch(uploadImageFinishAction());
                 throw new Error("An error occured during the upload please try again");
