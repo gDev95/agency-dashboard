@@ -28,7 +28,6 @@ export const EditArtist = () => {
         return <LoadingIndicator />;
     }
     if (!artist) {
-        console.log("Artist ", data);
         return <h3>Not Found</h3>;
     }
 

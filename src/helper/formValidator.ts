@@ -22,7 +22,7 @@ export default class FormValidator {
 
     private validateArray(key: string, value: any[]) {
         if (value.length > 0) {
-            value.forEach(item => {
+            value.forEach((item) => {
                 this.validate(key, item);
             });
         } else {
@@ -31,6 +31,6 @@ export default class FormValidator {
     }
 
     private validateObject(key: string, value: any) {
-        Object.entries(value).forEach(entry => this.validate(entry[0], entry[1]));
+        Object.entries(value).forEach((entry) => this.validate(entry[0], entry[1]));
     }
 }

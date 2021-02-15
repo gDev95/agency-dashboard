@@ -8,7 +8,7 @@ export const firebaseConfig = {
     projectId: "agency-image-storage",
     storageBucket: "gs://agency-image-storage.appspot.com/",
     messagingSenderId: "98115748325",
-    appId: "1:98115748325:web:5c4060dc196f2b27"
+    appId: "1:98115748325:web:5c4060dc196f2b27",
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);

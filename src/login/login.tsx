@@ -36,7 +36,7 @@ interface Credentials {
 
 const INITIAL_CREDENTIALS = {
     email: "",
-    password: ""
+    password: "",
 };
 
 export const LoginPage = () => {
@@ -56,7 +56,7 @@ export const LoginPage = () => {
 
         try {
             const response = await login({
-                variables: { email, password }
+                variables: { email, password },
             });
 
             if (response && response.errors && response.errors.length > 0) {
@@ -83,7 +83,7 @@ export const LoginPage = () => {
     const handleOnChange = (primaryProperty: keyof Credentials) => (event: React.ChangeEvent<HTMLInputElement>): void => {
         setCredentials({
             ...credentials,
-            [primaryProperty]: event.target.value
+            [primaryProperty]: event.target.value,
         });
     };
 

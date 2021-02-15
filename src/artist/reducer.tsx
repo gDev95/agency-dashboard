@@ -8,7 +8,7 @@ import {
     ADD_ARTIST_ERROR,
     ADD_ARTIST_FINISH,
     ADD_ARTIST_START,
-    AddArtistStartAction
+    AddArtistStartAction,
 } from "./actions";
 
 export interface ArtistState {
@@ -20,7 +20,7 @@ export interface ArtistState {
 const initialState: ArtistState = {
     isImageUploading: false,
     isAddingArtist: false,
-    error: false
+    error: false,
 };
 
 export function artistReducer(

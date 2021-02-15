@@ -70,7 +70,7 @@ export const Dashboard = (props: any) => {
             case "ARTIST":
                 try {
                     await deleteArtist({
-                        variables: { id }
+                        variables: { id },
                     });
                     refetch();
                 } catch (err) {
@@ -137,19 +137,19 @@ export const Dashboard = (props: any) => {
             <Snackbar
                 anchorOrigin={{
                     vertical: "bottom",
-                    horizontal: "left"
+                    horizontal: "left",
                 }}
                 open={open}
                 autoHideDuration={10000}
                 onClose={handleClose}
                 ContentProps={{
-                    "aria-describedby": "message-id"
+                    "aria-describedby": "message-id",
                 }}
                 message={<span id="message-id">Oops, an error occured deleting an item, reload or try again.</span>}
                 action={[
                     <IconButton key="close" aria-label="close" color="inherit" onClick={handleClose}>
                         <CloseIcon />
-                    </IconButton>
+                    </IconButton>,
                 ]}
             />
         </GridContainer>
