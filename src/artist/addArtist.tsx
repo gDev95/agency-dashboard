@@ -32,13 +32,13 @@ export const AddArtists = () => {
             basicInformation,
             advancedInformation,
             socialMediaLinks,
-            events
+            events,
         };
 
         try {
             dispatch(addArtistStartAction());
             await addArtist({
-                variables: { artist: newArtist }
+                variables: { artist: newArtist },
             });
             refetch();
         } catch (error) {
@@ -69,19 +69,19 @@ export const AddArtists = () => {
             <Snackbar
                 anchorOrigin={{
                     vertical: "bottom",
-                    horizontal: "left"
+                    horizontal: "left",
                 }}
                 open={open}
                 autoHideDuration={10000}
                 onClose={handleClose}
                 ContentProps={{
-                    "aria-describedby": "message-id"
+                    "aria-describedby": "message-id",
                 }}
                 message={<span id="message-id">Could not add Artist, please try again.</span>}
                 action={[
                     <IconButton key="close" aria-label="close" color="inherit" onClick={handleClose}>
                         <CloseIcon />
-                    </IconButton>
+                    </IconButton>,
                 ]}
             />
         </GridContainer>
