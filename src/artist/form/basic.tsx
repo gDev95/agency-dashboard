@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Tooltip, Typography } from "@material-ui/core";
 import { Field, reduxForm, change } from "redux-form";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { ImageUploadInput, formPropsAdapter } from "../../ui/form";
 import { AppState } from "../../store";
-import { ArtistBasicInformation } from "../artist.model";
 
 import { UploadingProgress, FormGroupHeader, TextFieldWrapper, ButtonWrapper } from "./styled";
 import { validateBasicInformation as validate } from "./validate";
@@ -20,20 +19,20 @@ const ImageUploadWrapper = styled.div`
     padding: 30px;
 `;
 
-interface CustomPropTypes {
-    basicInformation: ArtistBasicInformation;
-    handleNext: () => void;
-    handleBack: () => void;
-}
-
+const CheckboxWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
 const INITIAL_STATE = {
     name: "",
     description: "",
     logoUrl: "",
     coverImageUrl: "",
     profileImageUrl: "",
+    isDraft: false,
 };
 const AdaptedTextField = formPropsAdapter(TextField);
+
 const RawBasicInformationForm = (props: any) => {
     const isUploading = useSelector((state: AppState) => state.artist.isImageUploading);
 
@@ -79,6 +78,12 @@ const RawBasicInformationForm = (props: any) => {
                 <Field isRequired={true} name="name" component={AdaptedTextField} placeholder="Name of Artist" />
                 <Field name="description" isRequired={true} component={AdaptedTextField} placeholder="Description" multiline={true} />
             </TextFieldWrapper>
+            <CheckboxWrapper>
+                <Field name="isDraft" id="draft" component="input" type="checkbox" isRequired={true} />
+                <Tooltip title="If checked, the artist will not show up on the website" aria-label="draft">
+                    <Typography>Draft Mode</Typography>
+                </Tooltip>
+            </CheckboxWrapper>
             <ButtonWrapper>
                 <Button disabled={true} onClick={props.handleBack}>
                     Back

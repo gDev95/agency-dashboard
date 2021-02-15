@@ -42,6 +42,7 @@ export function FormSummary({ handleSubmit, handleBack, handleNext, submitButton
                     </StyledListItem>
                     <StyledListItem>Name: {basic.name}</StyledListItem>
                     <StyledListItem>Description: {basic.description}</StyledListItem>
+                    <StyledListItem>Is Artist in Draft Mode: {basic.isDraft ? "Yes" : "No"}</StyledListItem>
                 </ul>
                 <Typography> Advanced Information</Typography>
 
