@@ -14,6 +14,7 @@ export interface ArtistBasicInformation {
     logoUrl: string;
     coverImageUrl: string;
     profileImageUrl: string;
+    isDraft: boolean;
 }
 
 export interface ArtistAdvancedInformation {

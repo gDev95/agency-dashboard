@@ -25,21 +25,21 @@ export interface AddArtistErrorAction {
 }
 
 export const uploadImageStartAction = (): UploadImageStartAction => ({
-    type: UPLOAD_IMAGE_START
+    type: UPLOAD_IMAGE_START,
 });
 
 export const uploadImageFinishAction = (): UploadImageFinishAction => ({
-    type: UPLOAD_IMAGE_FINISH
+    type: UPLOAD_IMAGE_FINISH,
 });
 
 export const addArtistStartAction = (): AddArtistStartAction => ({
-    type: ADD_ARTIST_START
+    type: ADD_ARTIST_START,
 });
 
 export const addArtistFinishAction = (): AddArtistFinishAction => ({
-    type: ADD_ARTIST_FINISH
+    type: ADD_ARTIST_FINISH,
 });
 
 export const addArtistErrorAction = (): AddArtistErrorAction => ({
-    type: ADD_ARTIST_ERROR
+    type: ADD_ARTIST_ERROR,
 });

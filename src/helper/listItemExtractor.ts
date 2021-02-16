@@ -6,7 +6,7 @@ export class ListItemExtractor {
             return {
                 id: artist.id,
                 primaryText: artist.basicInformation.name,
-                secondaryText: artist.createdAt
+                secondaryText: artist.createdAt,
             };
         });
     }

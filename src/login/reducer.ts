@@ -4,7 +4,7 @@ import {
     AuthenticationFailureAction,
     AUTHENTICATION_START,
     AUTHENTICATION_SUCCESS,
-    AUTHENTICATION_FAILURE
+    AUTHENTICATION_FAILURE,
 } from "./actions";
 
 export interface AuthenticationState {
@@ -16,7 +16,7 @@ export interface AuthenticationState {
 const initialState: AuthenticationState = {
     isAuthenticated: false,
     isLoading: false,
-    error: null
+    error: null,
 };
 
 export function authenticationReducer(
@@ -30,13 +30,13 @@ export function authenticationReducer(
             return {
                 ...state,
                 isLoading: false,
-                isAuthenticated: true
+                isAuthenticated: true,
             };
         case AUTHENTICATION_FAILURE:
             return {
                 ...state,
                 isLoading: false,
-                error: action.payload.error
+                error: action.payload.error,
             };
         default:
             return state;
