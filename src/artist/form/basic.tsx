@@ -14,7 +14,8 @@ const ImageUploadWrapper = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     height: 150px;
     padding: 30px;
 `;
@@ -53,25 +54,19 @@ const RawBasicInformationForm = (props: any) => {
             <ImageUploadWrapper>
                 <Field
                     name="profileImageUrl"
-                    buttonLabel="Upload Profile Image"
+                    buttonLabel="Profile Image"
                     component={ImageUploadInput}
                     formName="basicInformation"
                     isRequired={true}
                 />
                 <Field
                     name="coverImageUrl"
-                    buttonLabel="Upload Cover Image"
+                    buttonLabel="Cover Image"
                     component={ImageUploadInput}
                     formName="basicInformation"
                     isRequired={true}
                 />
-                <Field
-                    name="logoUrl"
-                    buttonLabel="Upload Logo"
-                    component={ImageUploadInput}
-                    formName="basicInformation"
-                    isRequired={true}
-                />
+                <Field name="logoUrl" buttonLabel="Logo" component={ImageUploadInput} formName="basicInformation" isRequired={true} />
             </ImageUploadWrapper>
 
             <TextFieldWrapper>

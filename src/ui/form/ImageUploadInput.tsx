@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Button, FormHelperText } from "@material-ui/core";
 import ReportIcon from "@material-ui/icons/Report";
 import CheckIcon from "@material-ui/icons/Check";
+import PublishIcon from "@material-ui/icons/Publish";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { WrappedFieldInputProps, WrappedFieldMetaProps } from "redux-form";
@@ -13,6 +14,12 @@ import { useFormValue } from "./useFormValue";
 
 const StyledErrorText = styled(FormHelperText)`
     color: red !important;
+`;
+
+const StyledRoot = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 interface PropTypes {
@@ -57,7 +64,7 @@ export const ImageUploadInput = ({ buttonLabel: label, input, meta, formName, is
 
     const inputRef = useRef(null);
     return (
-        <>
+        <StyledRoot>
             <input
                 ref={inputRef}
                 onChange={(event) => handleImageChange(event, input)}
@@ -77,14 +84,16 @@ export const ImageUploadInput = ({ buttonLabel: label, input, meta, formName, is
                 {meta.touched && meta.error && <ReportIcon />}
                 {isUploaded ? (
                     <>
-                        <CheckIcon /> <span>Successfully uploaded</span>
+                        <CheckIcon /> <span>{label} uploaded</span>
                     </>
                 ) : (
-                    label
+                    <>
+                        <PublishIcon /> <span>{label}</span>
+                    </>
                 )}
             </Button>
 
             {meta.error && <StyledErrorText>{meta.error}</StyledErrorText>}
-        </>
+        </StyledRoot>
     );
 };

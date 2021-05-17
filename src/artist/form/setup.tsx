@@ -15,7 +15,7 @@ export const ArtistSetup = () => {
             <FieldArray name="setup.equipment" label="Equipment" component={TextFieldArray} />
             <Field
                 name={`setup.equipmentImageUrl`}
-                buttonLabel="Upload Image of Equipment"
+                buttonLabel="Image of Equipment"
                 component={ImageUploadInput}
                 isNested={true}
                 formName="advancedInformation"
