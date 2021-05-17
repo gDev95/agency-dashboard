@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 export const GET_ARTIST_LIST = gql`
-    query Artists {
-        artists {
+    query Artists($isDraft: Boolean) {
+        artists(isDraft: $isDraft) {
             id
             createdAt
             basicInformation {

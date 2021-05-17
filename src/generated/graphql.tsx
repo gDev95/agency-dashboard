@@ -151,6 +151,11 @@ export type RootQueryTypeArtistArgs = {
 };
 
 
+export type RootQueryTypeArtistsArgs = {
+  isDraft?: Maybe<Scalars['Boolean']>;
+};
+
+
 export type RootQueryTypeMeArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -190,7 +195,9 @@ export type User = {
   token?: Maybe<Scalars['String']>;
 };
 
-export type ArtistsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ArtistsQueryVariables = Exact<{
+  isDraft?: Maybe<Scalars['Boolean']>;
+}>;
 
 
 export type ArtistsQuery = (
@@ -310,8 +317,8 @@ export type LoginMutation = (
 
 
 export const ArtistsDocument = gql`
-    query Artists {
-  artists {
+    query Artists($isDraft: Boolean) {
+  artists(isDraft: $isDraft) {
     id
     createdAt
     basicInformation {
@@ -333,6 +340,7 @@ export const ArtistsDocument = gql`
  * @example
  * const { data, loading, error } = useArtistsQuery({
  *   variables: {
+ *      isDraft: // value for 'isDraft'
  *   },
  * });
  */
