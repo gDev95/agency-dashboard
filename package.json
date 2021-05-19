@@ -5,8 +5,8 @@
         "node": "12.18.3"
     },
     "scripts": {
-        "dev": "REACT_APP_BASE_API_URL=http://localhost:9000 react-scripts start",
-        "start": "REACT_APP_BASE_API_URL=/api/ react-scripts start",
+        "dev": "react-scripts start",
+        "start": "react-scriptsstart",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",

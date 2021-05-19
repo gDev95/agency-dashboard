@@ -45,7 +45,7 @@ rules:
     eqeqeq: 2
     jsx-quotes: [2, "prefer-double"]
     no-debugger: 2
-    no-console: 2
+    no-console: 1
     no-extra-semi: 2
     no-irregular-whitespace: 2
 
@@ -57,8 +57,6 @@ rules:
     no-shadow: 2
     no-undef: 2
     no-unused-expressions: 0
-    # no-unused-vars: [2, { "ignoreRestSiblings": true }]
-    "@typescript-eslint/no-unused-vars": [2, { "ignoreRestSiblings": true }]
     no-var: 2
     radix: 2
 

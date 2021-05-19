@@ -1,16 +1,20 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import firebase from "firebase/app";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import "firebase/storage";
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyDbcwiVF8jxwQaDflfCYqa4GUOfMFIHM-k",
-    authDomain: "agency-image-storage.firebaseapp.com",
-    databaseURL: "https://agency-image-storage.firebaseio.com",
-    projectId: "agency-image-storage",
-    storageBucket: "gs://agency-image-storage.appspot.com/",
-    messagingSenderId: "98115748325",
-    appId: "1:98115748325:web:5c4060dc196f2b27",
+    apiKey: process.env.REACT_APP_BASE_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_BASE_FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.REACT_APP_BASE_FIREBASE_DATABASE_URL,
+    projectId: process.env.REACT_APP_BASE_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_BASE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_BASE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_BASE_FIREBASE_APP_ID,
 };
+
 // Initialize Firebase
+
 firebase.initializeApp(firebaseConfig);
 
 export const storage = firebase.storage();
