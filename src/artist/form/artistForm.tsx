@@ -12,6 +12,8 @@ interface Props {
     basicInformation?: ArtistBasicInformation;
     advancedInformation?: ArtistAdvancedInformation;
     socialMediaLinks?: SocialMediaLinks;
+    // eslint claiming these variables aren't used ...
+    // eslint-disable-next-line no-unused-vars
     onFormSubmit: (basic: ArtistBasicInformation, advanced: ArtistAdvancedInformation, socialMedia: SocialMediaLinks) => void;
 }
 

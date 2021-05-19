@@ -1,5 +1,5 @@
 export interface ListItem {
-  id: number;
-  primaryText: string;
-  secondaryText: string;
+    id: number;
+    primaryText: string;
+    secondaryText: string;
 }

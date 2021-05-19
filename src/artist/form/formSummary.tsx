@@ -9,6 +9,8 @@ import { ArtistBasicInformation, SocialMediaLinks, ArtistAdvancedInformation } f
 import { ButtonWrapper } from "./styled";
 
 interface Props {
+    // eslint claiming these variables aren't used I call ...
+    // eslint-disable-next-line no-unused-vars
     handleSubmit: (basic: ArtistBasicInformation, advanced: ArtistAdvancedInformation, socialMedia: SocialMediaLinks) => void;
     handleBack: () => void;
     handleNext: () => void;
