@@ -27,6 +27,8 @@ interface Props {
     socialMediaLinks?: SocialMediaLinks;
     submitButtonLabel: string;
     hasReset: boolean;
+    // eslint claiming these variables aren't used ...
+    // eslint-disable-next-line no-unused-vars
     handleFormSubmit: (basic: ArtistBasicInformation, advanced: ArtistAdvancedInformation, socialMedia: SocialMediaLinks) => void;
 }
 

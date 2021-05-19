@@ -13,7 +13,7 @@ export interface AppState {
 const rootReducer = combineReducers({
     auth: authenticationReducer,
     form: formReducer,
-    artist: artistReducer
+    artist: artistReducer,
 });
 
 export const store = createStore(

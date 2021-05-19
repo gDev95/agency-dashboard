@@ -80,12 +80,16 @@ export const LoginPage = () => {
         validator.errors.size < 1 && logIn();
     };
 
-    const handleOnChange = (primaryProperty: keyof Credentials) => (event: React.ChangeEvent<HTMLInputElement>): void => {
-        setCredentials({
-            ...credentials,
-            [primaryProperty]: event.target.value,
-        });
-    };
+    const handleOnChange =
+        (primaryProperty: keyof Credentials) =>
+        // eslint should know HTMLInputElement
+        // eslint-disable-next-line no-undef
+        (event: React.ChangeEvent<HTMLInputElement>): void => {
+            setCredentials({
+                ...credentials,
+                [primaryProperty]: event.target.value,
+            });
+        };
 
     return (
         <LoginContainer maxWidth="sm">
