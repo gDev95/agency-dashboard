@@ -4,11 +4,14 @@ import ReportIcon from "@material-ui/icons/Report";
 import CheckIcon from "@material-ui/icons/Check";
 import PublishIcon from "@material-ui/icons/Publish";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { WrappedFieldInputProps, WrappedFieldMetaProps } from "redux-form";
 
 import { ImageUploadHelper } from "../../helper";
-import { uploadImageStartAction, uploadImageFinishAction } from "../../artist/actions";
+import { uploadImageStartAction, uploadImageFinishAction, uploadImageCancelAction } from "../../artist/actions";
+import { truncateFileName } from "../../helper/truncateFileName";
+import { AppStateType } from "../../store";
+import { selectUploadedImage } from "../../artist/selectors";
 
 import { useFormValue } from "./useFormValue";
 
@@ -23,6 +26,7 @@ const StyledRoot = styled.div`
 `;
 
 interface PropTypes {
+    key?: string;
     input: WrappedFieldInputProps;
     meta: WrappedFieldMetaProps;
     buttonLabel: string;
@@ -31,35 +35,33 @@ interface PropTypes {
     isNested?: boolean;
 }
 
-export const ImageUploadInput = ({ buttonLabel: label, input, meta, formName, isNested = false }: PropTypes) => {
+export const ImageUploadInput = ({ key, buttonLabel: label, input, meta, formName, isNested = false }: PropTypes) => {
     const dispatch = useDispatch();
-
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>, fileInput: WrappedFieldInputProps) => {
-        dispatch(uploadImageStartAction());
-        const imageData = event.target.files ? event.target.files[0] : null;
-        const imageName = "-image-" + Date.now();
-        const imageUploader = new ImageUploadHelper();
-
-        if (!imageData) {
-            dispatch(uploadImageFinishAction());
-            return;
+        if (!event.target.files) {
+            throw new Error("Expected file to be selected but it is not");
         }
 
+        const imageData = event.target.files[0];
+        const newImageName = "image-" + Date.now();
+        const imageUploader = new ImageUploadHelper();
+
+        dispatch(uploadImageStartAction(key ? input.name + key : input.name, imageData.name));
         imageUploader.upload(
-            imageName,
+            newImageName,
             imageData,
             (url: string) => {
                 dispatch(uploadImageFinishAction());
                 fileInput.onChange(url);
             },
-            () => {
+            (error) => {
                 fileInput.onChange(null);
-                dispatch(uploadImageFinishAction());
-                throw new Error("An error occured during the upload please try again");
+                dispatch(uploadImageCancelAction(input.name + key));
+                throw error;
             }
         );
     };
-
+    const uploadedImage = useSelector((state: AppStateType) => selectUploadedImage(state.artist, key ? input.name + key : input.name));
     const isUploaded = useFormValue(formName, input.name, isNested);
 
     const inputRef = useRef(null);
@@ -82,9 +84,9 @@ export const ImageUploadInput = ({ buttonLabel: label, input, meta, formName, is
                 onClick={() => inputRef.current.click()}
             >
                 {meta.touched && meta.error && <ReportIcon />}
-                {isUploaded ? (
+                {isUploaded && uploadedImage ? (
                     <>
-                        <CheckIcon /> <span>{label} uploaded</span>
+                        <CheckIcon /> <span>{truncateFileName(uploadedImage.fileName)}</span>
                     </>
                 ) : (
                     <>

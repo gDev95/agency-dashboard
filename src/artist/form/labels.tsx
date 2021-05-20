@@ -37,6 +37,7 @@ export const ArtistLabels = ({ fields, meta }: WrappedFieldArrayProps) => {
                                 name={`${label}.logoUrl`}
                                 buttonLabel="Logo"
                                 component={ImageUploadInput}
+                                key={index}
                                 formName="advancedInformation"
                                 isNested={true}
                                 isRequired={true}

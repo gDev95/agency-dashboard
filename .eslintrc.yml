@@ -49,6 +49,7 @@ rules:
     no-console: 1
     no-extra-semi: 2
     no-irregular-whitespace: 2
+    no-case-declarations: 0
 
     # We only want ot import e.g. `lodash.map` and never `lodash` or `lodash/map`
     # However, we need to have it as a dependency for compantibility with benchmark.js

@@ -9,7 +9,7 @@ import { List, GridContainer } from "../ui";
 import { ListItemExtractor } from "../helper";
 
 import { ArtistForm } from "./form";
-import { addArtistStartAction, addArtistErrorAction } from "./actions";
+import { addArtistStartAction, addArtistErrorAction, addArtistFinishAction, resetUploadedImagesAction } from "./actions";
 import { ArtistBasicInformation, ArtistAdvancedInformation, SocialMediaLinks } from "./artist.model";
 
 export const AddArtists = () => {
@@ -40,6 +40,8 @@ export const AddArtists = () => {
             await addArtist({
                 variables: { artist: newArtist },
             });
+            dispatch(addArtistFinishAction());
+            dispatch(resetUploadedImagesAction());
             refetch();
         } catch (error) {
             dispatch(addArtistErrorAction());

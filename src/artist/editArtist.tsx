@@ -10,7 +10,7 @@ import { ArtistFormInformationFactory } from "../helper";
 
 import { ArtistBasicInformation, ArtistAdvancedInformation, SocialMediaLinks } from "./artist.model";
 import { ArtistForm } from "./form";
-import { addArtistErrorAction } from "./actions";
+import { addArtistErrorAction, addArtistFinishAction, resetUploadedImagesAction } from "./actions";
 
 export const EditArtist = () => {
     const { id: artistId } = useParams<{ id: string }>();
@@ -46,6 +46,8 @@ export const EditArtist = () => {
             await updateArtist({
                 variables: { id: artistId, artist: updatedArtist },
             });
+            dispatch(addArtistFinishAction());
+            dispatch(resetUploadedImagesAction());
         } catch (error) {
             dispatch(addArtistErrorAction());
             setOpen(true);

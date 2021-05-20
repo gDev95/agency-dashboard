@@ -7,13 +7,13 @@ import {
     AUTHENTICATION_FAILURE,
 } from "./actions";
 
-export interface AuthenticationState {
+export type AuthenticationStateType = {
     isAuthenticated: boolean;
     isLoading: boolean;
     error?: any;
-}
+};
 
-const initialState: AuthenticationState = {
+const initialState: AuthenticationStateType = {
     isAuthenticated: false,
     isLoading: false,
     error: null,
