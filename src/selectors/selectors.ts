@@ -1,13 +1,13 @@
-import { AuthenticationStateType } from "../login";
+import { AppStateType } from "../store";
 
-export function selectIsAuthenticated(state: AuthenticationStateType) {
-    return state.isAuthenticated;
+export function selectIsAuthenticated(state: AppStateType) {
+    return state.auth.isAuthenticated;
 }
 
-export function selectIsLoggingIn(state: AuthenticationStateType) {
-    return state.isLoading;
+export function selectIsLoggingIn(state: AppStateType) {
+    return state.auth.isLoading;
 }
 
-export function selectErrorsInAuthentication(state: AuthenticationStateType) {
-    return state.error;
+export function selectErrorsInAuthentication(state: AppStateType) {
+    return state.auth.error;
 }

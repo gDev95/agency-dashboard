@@ -43,9 +43,7 @@ export function artistReducer(
     switch (action.type) {
         case UPLOAD_IMAGE_START:
             const filteredUploadedImages = state.uploadedImages.filter((image) => image.id !== action.payload.id);
-            console.log("uploadedImages", filteredUploadedImages);
-            console.log("new Image", { id: action.payload.id, fileName: action.payload.fileName });
-            console.log("updated arrray", [...filteredUploadedImages, { id: action.payload.id, fileName: action.payload.fileName }]);
+
             return {
                 ...state,
                 isImageUploading: true,

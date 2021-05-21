@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ListItemIcon, Grid, Typography, IconButton, Snackbar, Fab, Paper } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import EventIcon from "@material-ui/icons/Event";
 import AccountCirlceIcon from "@material-ui/icons/AccountCircle";
-import MessageIcon from "@material-ui/icons/Message";
 import CloseIcon from "@material-ui/icons/Close";
+import { useDispatch, useSelector } from "react-redux";
 
-import { postItems, eventItems } from "../sample-data/items";
 import { useArtistsQuery, useDeleteArtistMutation } from "../generated/graphql";
 import { LoadingIndicator, List, GridContainer, Emoji } from "../ui";
 import { ListItemExtractor } from "../helper";
+import { PageContentForm } from "../pageContent/pageContentForm";
+import { deleteNotificationAction, selectNotification, showNotificationAction } from "../notifications";
 
 type ItemTypes = "ARTIST" | "NEWS" | "EVENTS";
 
@@ -34,6 +34,12 @@ const DashboardPaper = styled(Paper)`
     background-color: #fff;
 `;
 
+const PageContentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+`;
+
 const ErrorWrapper = styled.div`
     display: flex;
     justify-content: center;
@@ -46,11 +52,12 @@ const StyledError = styled(Typography)`
 `;
 
 export const Dashboard = (props: any) => {
-    const { loading, data, error, refetch } = useArtistsQuery();
+    const { loading, data: artistData, error, refetch } = useArtistsQuery();
     const [deleteArtist] = useDeleteArtistMutation();
-
-    const [open, setOpen] = useState<boolean>(false);
-    const artistItems = data && data.artists && ListItemExtractor.getArtistItems(data);
+    const dispatch = useDispatch();
+    const notification = useSelector(selectNotification);
+    console.log("Notification ", notification);
+    const artistItems = artistData && artistData.artists && ListItemExtractor.getArtistItems(artistData);
 
     if (error) {
         return (
@@ -74,7 +81,8 @@ export const Dashboard = (props: any) => {
                     });
                     refetch();
                 } catch (err) {
-                    setOpen(true);
+                    console.log("Error occured when updating page content");
+                    dispatch(showNotificationAction("Deleting Artist failed, please try again"));
                 }
                 break;
             case "NEWS":
@@ -90,12 +98,12 @@ export const Dashboard = (props: any) => {
         if (reason === "clickaway") {
             return;
         }
-        setOpen(false);
+        dispatch(deleteNotificationAction());
     };
 
     return (
         <GridContainer {...props} container={true} direction="row" justify="space-around" alignItems="flex-start" wrap="wrap">
-            <Grid item={true} xs={12} md={3}>
+            <Grid item={true} xs={12} md={5}>
                 <DashboardPaper>
                     <List items={artistItems} subheader="Artists" onDelete={handleDelete("ARTIST")} path="artist" label="artists">
                         <ListItemIcon>
@@ -104,34 +112,18 @@ export const Dashboard = (props: any) => {
                     </List>
 
                     <Link to="/artists">
-                        <AddFab color="primary" aria-label="add">
+                        <AddFab color="secondary" aria-label="add">
                             <AddIcon />
                         </AddFab>
                     </Link>
                 </DashboardPaper>
             </Grid>
-            <Grid item={true} xs={12} md={3}>
+            <Grid item={true} xs={12} md={5}>
                 <DashboardPaper>
-                    <List items={postItems} subheader="News" onDelete={handleDelete("NEWS")} path="news" label="news">
-                        <ListItemIcon>
-                            <MessageIcon />
-                        </ListItemIcon>
-                    </List>
-                    <AddFab color="primary" aria-label="add">
-                        <AddIcon />
-                    </AddFab>
-                </DashboardPaper>
-            </Grid>
-            <Grid item={true} xs={12} md={3}>
-                <DashboardPaper>
-                    <List items={eventItems} subheader="Events" onDelete={handleDelete("EVENTS")} path="events" label="events">
-                        <ListItemIcon>
-                            <EventIcon />
-                        </ListItemIcon>
-                    </List>
-                    <AddFab color="primary" aria-label="add">
-                        <AddIcon />
-                    </AddFab>
+                    <PageContentWrapper>
+                        <h2>Page Content Settings</h2>
+                        <PageContentForm />
+                    </PageContentWrapper>
                 </DashboardPaper>
             </Grid>
             <Snackbar
@@ -139,13 +131,13 @@ export const Dashboard = (props: any) => {
                     vertical: "bottom",
                     horizontal: "left",
                 }}
-                open={open}
+                open={notification.showNotification}
                 autoHideDuration={10000}
                 onClose={handleClose}
                 ContentProps={{
                     "aria-describedby": "message-id",
                 }}
-                message={<span id="message-id">Oops, an error occured deleting an item, reload or try again.</span>}
+                message={<span id="message-id">{notification.message}</span>}
                 action={[
                     <IconButton key="close" aria-label="close" color="inherit" onClick={handleClose}>
                         <CloseIcon />

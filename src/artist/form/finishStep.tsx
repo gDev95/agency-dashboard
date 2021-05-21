@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { reset } from "redux-form";
 
-import { AppStateType } from "../../store";
 import { Emoji } from "../../ui";
 import { selectArtistError } from "../selectors";
 
@@ -36,7 +35,7 @@ interface Props {
 
 export function FinishFormStep({ hasReset, handleReset, handleBack }: Props) {
     const dispatch = useDispatch();
-    const error = useSelector((state: AppStateType) => selectArtistError(state.artist));
+    const error = useSelector(selectArtistError);
     return (
         <FinishedStepWrapper>
             {error ? (
@@ -66,6 +65,7 @@ export function FinishFormStep({ hasReset, handleReset, handleBack }: Props) {
                             Go to Dashboard
                         </Button>
                     </Link>
+                    ]
                 </>
             )}
         </FinishedStepWrapper>
