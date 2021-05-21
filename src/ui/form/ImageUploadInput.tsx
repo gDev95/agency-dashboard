@@ -61,7 +61,7 @@ export const ImageUploadInput = ({ key, buttonLabel: label, input, meta, formNam
             }
         );
     };
-    const uploadedImage = useSelector((state: AppStateType) => selectUploadedImage(state.artist, key ? input.name + key : input.name));
+    const uploadedImage = useSelector((state: AppStateType) => selectUploadedImage(state, key ? input.name + key : input.name));
     const isUploaded = useFormValue(formName, input.name, isNested);
 
     const inputRef = useRef(null);

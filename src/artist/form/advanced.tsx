@@ -3,7 +3,6 @@ import { Button } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { reduxForm, FieldArray, change } from "redux-form";
 
-import { AppStateType } from "../../store";
 import { TextFieldArray } from "../../ui/form";
 import { selectIsImageUploading } from "../selectors";
 
@@ -19,7 +18,7 @@ const INITIAL_STATE = {
 };
 
 export const RawAdvancedInformationForm = (props: any) => {
-    const isUploading = useSelector((state: AppStateType) => selectIsImageUploading(state.artist));
+    const isUploading = useSelector(selectIsImageUploading);
     const { advancedInformation } = props;
     const dispatch = useDispatch();
 

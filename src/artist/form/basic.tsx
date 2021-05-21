@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import { ImageUploadInput, formPropsAdapter } from "../../ui/form";
-import { AppStateType } from "../../store";
 import { selectIsImageUploading } from "../selectors";
 
 import { UploadingProgress, FormGroupHeader, TextFieldWrapper, ButtonWrapper } from "./styled";
@@ -36,7 +35,7 @@ const INITIAL_STATE = {
 const AdaptedTextField = formPropsAdapter(TextField);
 
 const RawBasicInformationForm = (props: any) => {
-    const isUploading = useSelector((state: AppStateType) => selectIsImageUploading(state.artist));
+    const isUploading = useSelector(selectIsImageUploading);
 
     const { basicInformation } = props;
     const dispatch = useDispatch();

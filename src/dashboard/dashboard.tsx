@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ListItemIcon, Grid, Typography, IconButton, Snackbar, Fab, Paper } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import AccountCirlceIcon from "@material-ui/icons/AccountCircle";
 import CloseIcon from "@material-ui/icons/Close";
+import { useDispatch, useSelector } from "react-redux";
 
 import { useArtistsQuery, useDeleteArtistMutation } from "../generated/graphql";
 import { LoadingIndicator, List, GridContainer, Emoji } from "../ui";
 import { ListItemExtractor } from "../helper";
 import { PageContentForm } from "../pageContent/pageContentForm";
+import { deleteNotificationAction, selectNotification, showNotificationAction } from "../notifications";
 
 type ItemTypes = "ARTIST" | "NEWS" | "EVENTS";
 
@@ -52,8 +54,9 @@ const StyledError = styled(Typography)`
 export const Dashboard = (props: any) => {
     const { loading, data: artistData, error, refetch } = useArtistsQuery();
     const [deleteArtist] = useDeleteArtistMutation();
-
-    const [open, setOpen] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const notification = useSelector(selectNotification);
+    console.log("Notification ", notification);
     const artistItems = artistData && artistData.artists && ListItemExtractor.getArtistItems(artistData);
 
     if (error) {
@@ -78,7 +81,8 @@ export const Dashboard = (props: any) => {
                     });
                     refetch();
                 } catch (err) {
-                    setOpen(true);
+                    console.log("Error occured when updating page content");
+                    dispatch(showNotificationAction("Deleting Artist failed, please try again"));
                 }
                 break;
             case "NEWS":
@@ -94,7 +98,7 @@ export const Dashboard = (props: any) => {
         if (reason === "clickaway") {
             return;
         }
-        setOpen(false);
+        dispatch(deleteNotificationAction());
     };
 
     return (
@@ -127,13 +131,13 @@ export const Dashboard = (props: any) => {
                     vertical: "bottom",
                     horizontal: "left",
                 }}
-                open={open}
+                open={notification.showNotification}
                 autoHideDuration={10000}
                 onClose={handleClose}
                 ContentProps={{
                     "aria-describedby": "message-id",
                 }}
-                message={<span id="message-id">Oops, an error occured deleting an item, reload or try again.</span>}
+                message={<span id="message-id">{notification.message}</span>}
                 action={[
                     <IconButton key="close" aria-label="close" color="inherit" onClick={handleClose}>
                         <CloseIcon />

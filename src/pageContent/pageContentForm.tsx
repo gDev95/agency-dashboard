@@ -8,6 +8,7 @@ import SaveIcon from "@material-ui/icons/SaveOutlined";
 import { TextFieldWrapper } from "../artist/form/styled";
 import { formPropsAdapter, useForm } from "../ui/form";
 import { usePageContentQuery, useUpdatePageContentMutation } from "../generated/graphql";
+import { showNotificationAction } from "../notifications";
 
 const INITIAL_FORM_VALUES = {
     mission: { en: "", es: "" },
@@ -66,11 +67,14 @@ export const RawPageContentForm = () => {
             <HeadlineWrapper>
                 <h3>Slogan & Mission</h3>
                 <Button
-                    onClick={() => {
+                    onClick={async () => {
                         try {
-                            updatePageContent({ variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } } });
+                            await updatePageContent({
+                                variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } },
+                            });
                         } catch (error) {
-                            console.error(error);
+                            console.log("Error occured when updating page content");
+                            dispatch(showNotificationAction("Updating Page Content failed, please try again"));
                         }
                     }}
                     variant="contained"
