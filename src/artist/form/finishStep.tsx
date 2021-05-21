@@ -65,6 +65,7 @@ export function FinishFormStep({ hasReset, handleReset, handleBack }: Props) {
                             Go to Dashboard
                         </Button>
                     </Link>
+                    ]
                 </>
             )}
         </FinishedStepWrapper>
