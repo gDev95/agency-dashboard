@@ -73,7 +73,6 @@ export const RawPageContentForm = () => {
                                 variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } },
                             });
                         } catch (error) {
-                            console.log("Error occured when updating page content");
                             dispatch(showNotificationAction("Updating Page Content failed, please try again"));
                         }
                     }}
