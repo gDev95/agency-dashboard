@@ -7,7 +7,7 @@ import SaveIcon from "@material-ui/icons/SaveOutlined";
 
 import { TextFieldWrapper } from "../artist/form/styled";
 import { formPropsAdapter, useForm } from "../ui/form";
-import { usePageContentQuery, useUpdatePageContentMutation } from "../generated/graphql";
+import { useInitializePageContentMutation, usePageContentQuery, useUpdatePageContentMutation } from "../generated/graphql";
 import { showNotificationAction } from "../notifications";
 
 const INITIAL_FORM_VALUES = {
@@ -50,6 +50,7 @@ export const RawPageContentForm = () => {
     }, []);
     const { data: pageContentData } = usePageContentQuery();
     const [updatePageContent] = useUpdatePageContentMutation();
+    const [initializePageContent] = useInitializePageContentMutation();
     const pageContent = useForm("pageContent");
     useEffect(() => {
         if (pageContentData?.pageContent) {
@@ -61,7 +62,9 @@ export const RawPageContentForm = () => {
             dispatch(change("pageContent", "socialMedia.instagram", pageContentData.pageContent.socialMedia.instagram));
             dispatch(change("pageContent", "socialMedia.soundCloud", pageContentData.pageContent.socialMedia.soundcloud));
         }
-    }, [pageContentData, dispatch]);
+
+        pageContentData && !pageContentData.pageContent && initializePageContent();
+    }, [pageContentData, initializePageContent, dispatch]);
     return (
         <StyledRoot>
             <HeadlineWrapper>
@@ -73,7 +76,6 @@ export const RawPageContentForm = () => {
                                 variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } },
                             });
                         } catch (error) {
-                            console.log("Error occured when updating page content");
                             dispatch(showNotificationAction("Updating Page Content failed, please try again"));
                         }
                     }}

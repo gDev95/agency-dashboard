@@ -324,6 +324,17 @@ export type UpdatePageContentMutation = (
   )> }
 );
 
+export type InitializePageContentMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type InitializePageContentMutation = (
+  { __typename?: 'Mutation' }
+  & { initializePageContent?: Maybe<(
+    { __typename?: 'PageContent' }
+    & Pick<PageContent, 'lastModified'>
+  )> }
+);
+
 export type ArtistsQueryVariables = Exact<{
   isDraft?: Maybe<Scalars['Boolean']>;
 }>;
@@ -385,10 +396,10 @@ export type PageContentQuery = (
   { __typename?: 'RootQueryType' }
   & { pageContent?: Maybe<(
     { __typename?: 'PageContent' }
-    & { mission: (
+    & { slogan: (
       { __typename?: 'Content' }
       & Pick<Content, 'en' | 'es'>
-    ), slogan: (
+    ), mission: (
       { __typename?: 'Content' }
       & Pick<Content, 'en' | 'es'>
     ), socialMedia: (
@@ -577,6 +588,38 @@ export function useUpdatePageContentMutation(baseOptions?: Apollo.MutationHookOp
 export type UpdatePageContentMutationHookResult = ReturnType<typeof useUpdatePageContentMutation>;
 export type UpdatePageContentMutationResult = Apollo.MutationResult<UpdatePageContentMutation>;
 export type UpdatePageContentMutationOptions = Apollo.BaseMutationOptions<UpdatePageContentMutation, UpdatePageContentMutationVariables>;
+export const InitializePageContentDocument = gql`
+    mutation initializePageContent {
+  initializePageContent {
+    lastModified
+  }
+}
+    `;
+export type InitializePageContentMutationFn = Apollo.MutationFunction<InitializePageContentMutation, InitializePageContentMutationVariables>;
+
+/**
+ * __useInitializePageContentMutation__
+ *
+ * To run a mutation, you first call `useInitializePageContentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInitializePageContentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [initializePageContentMutation, { data, loading, error }] = useInitializePageContentMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useInitializePageContentMutation(baseOptions?: Apollo.MutationHookOptions<InitializePageContentMutation, InitializePageContentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InitializePageContentMutation, InitializePageContentMutationVariables>(InitializePageContentDocument, options);
+      }
+export type InitializePageContentMutationHookResult = ReturnType<typeof useInitializePageContentMutation>;
+export type InitializePageContentMutationResult = Apollo.MutationResult<InitializePageContentMutation>;
+export type InitializePageContentMutationOptions = Apollo.BaseMutationOptions<InitializePageContentMutation, InitializePageContentMutationVariables>;
 export const ArtistsDocument = gql`
     query Artists($isDraft: Boolean) {
   artists(isDraft: $isDraft) {
@@ -688,11 +731,11 @@ export type ArtistQueryResult = Apollo.QueryResult<ArtistQuery, ArtistQueryVaria
 export const PageContentDocument = gql`
     query PageContent {
   pageContent {
-    mission {
+    slogan {
       en
       es
     }
-    slogan {
+    mission {
       en
       es
     }

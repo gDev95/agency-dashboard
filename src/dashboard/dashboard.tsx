@@ -56,7 +56,6 @@ export const Dashboard = (props: any) => {
     const [deleteArtist] = useDeleteArtistMutation();
     const dispatch = useDispatch();
     const notification = useSelector(selectNotification);
-    console.log("Notification ", notification);
     const artistItems = artistData && artistData.artists && ListItemExtractor.getArtistItems(artistData);
 
     if (error) {
@@ -81,7 +80,6 @@ export const Dashboard = (props: any) => {
                     });
                     refetch();
                 } catch (err) {
-                    console.log("Error occured when updating page content");
                     dispatch(showNotificationAction("Deleting Artist failed, please try again"));
                 }
                 break;

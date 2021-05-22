@@ -54,14 +54,14 @@ export const GET_ARTIST = gql`
     }
 `;
 
-export const PAGE_CONTENT = gql`
+export const GET_PAGE_CONTENT = gql`
     query PageContent {
         pageContent {
-            mission {
+            slogan {
                 en
                 es
             }
-            slogan {
+            mission {
                 en
                 es
             }
