@@ -55,8 +55,8 @@ export const GET_ARTIST = gql`
 `;
 
 export const GET_PAGE_CONTENT = gql`
-    query PageContent {
-        pageContent {
+    query PageContent($id: ID!) {
+        pageContent(id: $id) {
             slogan {
                 en
                 es
