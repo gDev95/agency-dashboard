@@ -210,6 +210,11 @@ export type RootQueryTypeMeArgs = {
   password: Scalars['String'];
 };
 
+
+export type RootQueryTypePageContentArgs = {
+  id: Scalars['ID'];
+};
+
 export type Setup = {
   __typename?: 'Setup';
   equipment?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -389,7 +394,9 @@ export type ArtistQuery = (
   )> }
 );
 
-export type PageContentQueryVariables = Exact<{ [key: string]: never; }>;
+export type PageContentQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
 
 
 export type PageContentQuery = (
@@ -729,8 +736,8 @@ export type ArtistQueryHookResult = ReturnType<typeof useArtistQuery>;
 export type ArtistLazyQueryHookResult = ReturnType<typeof useArtistLazyQuery>;
 export type ArtistQueryResult = Apollo.QueryResult<ArtistQuery, ArtistQueryVariables>;
 export const PageContentDocument = gql`
-    query PageContent {
-  pageContent {
+    query PageContent($id: ID!) {
+  pageContent(id: $id) {
     slogan {
       en
       es
@@ -760,10 +767,11 @@ export const PageContentDocument = gql`
  * @example
  * const { data, loading, error } = usePageContentQuery({
  *   variables: {
+ *      id: // value for 'id'
  *   },
  * });
  */
-export function usePageContentQuery(baseOptions?: Apollo.QueryHookOptions<PageContentQuery, PageContentQueryVariables>) {
+export function usePageContentQuery(baseOptions: Apollo.QueryHookOptions<PageContentQuery, PageContentQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<PageContentQuery, PageContentQueryVariables>(PageContentDocument, options);
       }
