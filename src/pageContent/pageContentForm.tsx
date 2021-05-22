@@ -48,7 +48,7 @@ export const RawPageContentForm = () => {
         }
         return process.env.REACT_APP_PAGE_CONTENT_ID;
     }, []);
-    const { data: pageContentData } = usePageContentQuery();
+    const { data: pageContentData } = usePageContentQuery({ variables: process.env.REACT_APP_PAGE_CONTENT_ID });
     const [updatePageContent] = useUpdatePageContentMutation();
     const [initializePageContent] = useInitializePageContentMutation();
     const pageContent = useForm("pageContent");
