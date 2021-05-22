@@ -49,3 +49,11 @@ export const UPDATE_PAGE_CONTENT = gql`
         }
     }
 `;
+
+export const INITIALIZE_PAGE_CONTENT = gql`
+    mutation initializePageContent {
+        initializePageContent {
+            lastModified
+        }
+    }
+`;
