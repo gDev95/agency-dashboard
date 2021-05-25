@@ -171,6 +171,7 @@ export const RawPageContentForm = () => {
                         await updatePageContent({
                             variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } },
                         });
+                        dispatch(showNotificationAction("Successfully updated page content settings"));
                     } catch (error) {
                         dispatch(showNotificationAction("Updating Page Content failed, please try again"));
                     }
