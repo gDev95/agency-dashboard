@@ -71,23 +71,22 @@ export const RawPageContentForm = () => {
 
         pageContentData && !pageContentData.pageContent && initializePageContent();
     }, [pageContentData, initializePageContent, dispatch]);
+
+    const onSave = async () => {
+        try {
+            await updatePageContent({
+                variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } },
+            });
+            dispatch(showNotificationAction("Successfully updated page content settings"));
+        } catch (error) {
+            dispatch(showNotificationAction("Updating Page Content failed, please try again"));
+        }
+    };
     return (
         <StyledRoot>
             <HeadlineWrapper>
                 <h3>Slogan & Mission</h3>
-                <Button
-                    onClick={async () => {
-                        try {
-                            await updatePageContent({
-                                variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } },
-                            });
-                        } catch (error) {
-                            dispatch(showNotificationAction("Updating Page Content failed, please try again"));
-                        }
-                    }}
-                    variant="contained"
-                    color="secondary"
-                >
+                <Button onClick={onSave} variant="contained" color="secondary">
                     <StyledSaveIcon />
                     Save
                 </Button>
@@ -165,20 +164,7 @@ export const RawPageContentForm = () => {
             <TextFieldWrapper>
                 <Field name="contactDetails.phone" component={AdaptedTextField} placeholder="Phone" label="Phone" multiline={false} />
             </TextFieldWrapper>
-            <Button
-                onClick={async () => {
-                    try {
-                        await updatePageContent({
-                            variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } },
-                        });
-                        dispatch(showNotificationAction("Successfully updated page content settings"));
-                    } catch (error) {
-                        dispatch(showNotificationAction("Updating Page Content failed, please try again"));
-                    }
-                }}
-                variant="contained"
-                color="secondary"
-            >
+            <Button onClick={onSave} variant="contained" color="secondary">
                 <StyledSaveIcon />
                 Save
             </Button>
