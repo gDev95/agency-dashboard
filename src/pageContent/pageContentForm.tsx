@@ -16,7 +16,11 @@ const INITIAL_FORM_VALUES = {
     socialMedia: {
         facebook: "",
         instagram: "",
-        soundcloud: "",
+        soundCloud: "",
+    },
+    contactDetails: {
+        phone: "",
+        email: "",
     },
 };
 
@@ -60,7 +64,9 @@ export const RawPageContentForm = () => {
             dispatch(change("pageContent", "slogan.es", pageContentData.pageContent.slogan.es));
             dispatch(change("pageContent", "socialMedia.facebook", pageContentData.pageContent.socialMedia.facebook));
             dispatch(change("pageContent", "socialMedia.instagram", pageContentData.pageContent.socialMedia.instagram));
-            dispatch(change("pageContent", "socialMedia.soundCloud", pageContentData.pageContent.socialMedia.soundcloud));
+            dispatch(change("pageContent", "socialMedia.soundCloud", pageContentData.pageContent.socialMedia.soundCloud));
+            dispatch(change("pageContent", "contactDetails.email", pageContentData.pageContent.contactDetails.email));
+            dispatch(change("pageContent", "contactDetails.phone", pageContentData.pageContent.contactDetails.phone));
         }
 
         pageContentData && !pageContentData.pageContent && initializePageContent();
@@ -87,27 +93,94 @@ export const RawPageContentForm = () => {
                 </Button>
             </HeadlineWrapper>
             <TextFieldWrapper>
-                <Field name="slogan.en" component={AdaptedTextField} placeholder="Slogan (English)" multiline={false} />
+                <Field
+                    name="slogan.en"
+                    component={AdaptedTextField}
+                    placeholder="Slogan (English)"
+                    label="Slogan (English)"
+                    multiline={false}
+                />
             </TextFieldWrapper>
             <TextFieldWrapper>
-                <Field name="slogan.es" component={AdaptedTextField} placeholder="Slogan (Spanish)" multiline={false} />
+                <Field
+                    name="slogan.es"
+                    component={AdaptedTextField}
+                    placeholder="Slogan (Spanish)"
+                    label="Slogan (Spanish)"
+                    multiline={false}
+                />
             </TextFieldWrapper>
             <TextFieldWrapper>
-                <Field name="mission.en" component={AdaptedTextField} placeholder="Mission (English)" rows={6} multiline={true} />
+                <Field
+                    name="mission.en"
+                    component={AdaptedTextField}
+                    placeholder="Mission (English)"
+                    label="Mission (English)"
+                    rows={6}
+                    multiline={true}
+                />
             </TextFieldWrapper>
             <TextFieldWrapper>
-                <Field name="mission.es" component={AdaptedTextField} placeholder="Mission (Spanish)" rows={6} multiline={true} />
+                <Field
+                    name="mission.es"
+                    component={AdaptedTextField}
+                    placeholder="Mission (Spanish)"
+                    label="Mission (Spanish)"
+                    rows={6}
+                    multiline={true}
+                />
             </TextFieldWrapper>
             <h3>Social Media</h3>
             <TextFieldWrapper>
-                <Field name="socialMedia.facebook" component={AdaptedTextField} placeholder="Facebook Page" multiline={false} />
+                <Field
+                    name="socialMedia.facebook"
+                    component={AdaptedTextField}
+                    placeholder="Facebook Page"
+                    label="Facebook Page"
+                    multiline={false}
+                />
             </TextFieldWrapper>
             <TextFieldWrapper>
-                <Field name="socialMedia.instagram" component={AdaptedTextField} placeholder="Instagram Page" multiline={false} />
+                <Field
+                    name="socialMedia.instagram"
+                    component={AdaptedTextField}
+                    placeholder="Instagram Page"
+                    label="Instagram Page"
+                    multiline={false}
+                />
             </TextFieldWrapper>
             <TextFieldWrapper>
-                <Field name="socialMedia.soundcloud" component={AdaptedTextField} placeholder="SoundCloud Page" multiline={false} />
+                <Field
+                    name="socialMedia.soundcloud"
+                    component={AdaptedTextField}
+                    placeholder="SoundCloud Page"
+                    label="SoundCloud Page"
+                    multiline={false}
+                />
             </TextFieldWrapper>
+            <h3>Contact Details</h3>
+            <TextFieldWrapper>
+                <Field name="contactDetails.email" component={AdaptedTextField} placeholder="Email" label="Email" multiline={false} />
+            </TextFieldWrapper>
+            <TextFieldWrapper>
+                <Field name="contactDetails.phone" component={AdaptedTextField} placeholder="Phone" label="Phone" multiline={false} />
+            </TextFieldWrapper>
+            <Button
+                onClick={async () => {
+                    try {
+                        await updatePageContent({
+                            variables: { id: pageId, pageContent: { ...pageContent, lastModified: new Date() } },
+                        });
+                    } catch (error) {
+                        dispatch(showNotificationAction("Updating Page Content failed, please try again"));
+                    }
+                }}
+                variant="contained"
+                color="secondary"
+            >
+                <StyledSaveIcon />
+                Save
+            </Button>
         </StyledRoot>
     );
 };
