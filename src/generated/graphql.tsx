@@ -64,6 +64,17 @@ export type BasicInformationInput = {
   isDraft: Scalars['Boolean'];
 };
 
+export type ContactDetails = {
+  __typename?: 'ContactDetails';
+  email: Scalars['String'];
+  phone: Scalars['String'];
+};
+
+export type ContactDetailsInput = {
+  email: Scalars['String'];
+  phone: Scalars['String'];
+};
+
 export type Content = {
   __typename?: 'Content';
   en: Scalars['String'];
@@ -164,6 +175,7 @@ export type PageContent = {
   slogan: Content;
   mission: Content;
   socialMedia: PageContentSocialMedia;
+  contactDetails: ContactDetails;
 };
 
 export type PageContentInput = {
@@ -171,19 +183,20 @@ export type PageContentInput = {
   slogan: ContentInput;
   mission: ContentInput;
   socialMedia: PageContentSocialMediaInput;
+  contactDetails: ContactDetailsInput;
 };
 
 export type PageContentSocialMedia = {
   __typename?: 'PageContentSocialMedia';
   facebook: Scalars['String'];
   instagram: Scalars['String'];
-  soundcloud: Scalars['String'];
+  soundCloud: Scalars['String'];
 };
 
 export type PageContentSocialMediaInput = {
   facebook?: Maybe<Scalars['String']>;
   instagram?: Maybe<Scalars['String']>;
-  soundcloud?: Maybe<Scalars['String']>;
+  soundCloud?: Maybe<Scalars['String']>;
 };
 
 export type RootQueryType = {
@@ -411,7 +424,10 @@ export type PageContentQuery = (
       & Pick<Content, 'en' | 'es'>
     ), socialMedia: (
       { __typename?: 'PageContentSocialMedia' }
-      & Pick<PageContentSocialMedia, 'facebook' | 'instagram' | 'soundcloud'>
+      & Pick<PageContentSocialMedia, 'facebook' | 'instagram' | 'soundCloud'>
+    ), contactDetails: (
+      { __typename?: 'ContactDetails' }
+      & Pick<ContactDetails, 'email' | 'phone'>
     ) }
   )> }
 );
@@ -749,7 +765,11 @@ export const PageContentDocument = gql`
     socialMedia {
       facebook
       instagram
-      soundcloud
+      soundCloud
+    }
+    contactDetails {
+      email
+      phone
     }
   }
 }
