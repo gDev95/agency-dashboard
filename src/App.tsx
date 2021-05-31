@@ -7,7 +7,7 @@ import CloseIcon from "@material-ui/icons/Close";
 
 import { AddArtists, EditArtist } from "./artist";
 import { Dashboard } from "./dashboard";
-import { AddNews } from "./news";
+import { AddNews, EditNews } from "./news";
 import { deleteNotificationAction, selectNotification } from "./notifications";
 
 const StyledAppTitle = styled(Typography)`
@@ -67,6 +67,7 @@ function App() {
             <Route exact={true} path="/artists" component={AddArtists} />
             <Route path="/artist/:id" component={EditArtist} />
             <Route exact={true} path="/news" component={AddNews} />
+            <Route path="/news/:id" component={EditNews} />
             <Snackbar
                 anchorOrigin={{
                     vertical: "bottom",

@@ -1,12 +1,10 @@
 import { Button, Paper } from "@material-ui/core";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Field, reduxForm } from "redux-form";
+import { ConfigProps, Field, reduxForm } from "redux-form";
 import styled from "styled-components";
-import moment from "moment";
 
 import { TextFieldWrapper } from "../artist/form/styled";
-import { useAddNewsMutation } from "../generated/graphql";
 import { showNotificationAction } from "../notifications";
 import { AdaptedTextField, ImageUploadInput, useForm } from "../ui/form";
 
@@ -22,20 +20,23 @@ const SaveButton = styled(Button)`
     margin-top: 16px;
 `;
 const INITIAL_FORM_VALUES = {
-    link: "",
+    link: null,
     imageUrl: "",
     content: "",
     title: "",
 };
 
-const RawNewsForm = () => {
-    const [addNews] = useAddNewsMutation();
+type PropsType = {
+    onSubmit: () => void;
+} & ConfigProps;
+
+const RawNewsForm = ({ onSubmit }: PropsType) => {
     const dispatch = useDispatch();
     const news = useForm("news");
     const onSave = async () => {
         try {
-            const createdAt = moment().format("YYYY-MM-DD");
-            await addNews({ variables: { news: { ...news, createdAt } } });
+            // const createdAt = moment().format("YYYY-MM-DD");
+            await onSubmit(news);
             dispatch(showNotificationAction("Successfully saved news post"));
         } catch (error) {
             dispatch(showNotificationAction("Saving news post failed"));

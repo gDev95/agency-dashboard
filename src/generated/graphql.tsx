@@ -227,6 +227,7 @@ export type RootQueryType = {
   __typename?: 'RootQueryType';
   artist?: Maybe<Artist>;
   artists?: Maybe<Array<Maybe<Artist>>>;
+  newsPost?: Maybe<News>;
   news?: Maybe<Array<Maybe<News>>>;
   me?: Maybe<User>;
   pageContent?: Maybe<PageContent>;
@@ -243,8 +244,8 @@ export type RootQueryTypeArtistsArgs = {
 };
 
 
-export type RootQueryTypeNewsArgs = {
-  id?: Maybe<Scalars['ID']>;
+export type RootQueryTypeNewsPostArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -450,9 +451,7 @@ export type ArtistQuery = (
   )> }
 );
 
-export type NewsQueryVariables = Exact<{
-  id?: Maybe<Scalars['ID']>;
-}>;
+export type NewsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type NewsQuery = (
@@ -461,6 +460,19 @@ export type NewsQuery = (
     { __typename?: 'News' }
     & Pick<News, 'id' | 'createdAt' | 'title'>
   )>>> }
+);
+
+export type NewsPostQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type NewsPostQuery = (
+  { __typename?: 'RootQueryType' }
+  & { newsPost?: Maybe<(
+    { __typename?: 'News' }
+    & Pick<News, 'id' | 'createdAt' | 'title' | 'content' | 'imageUrl' | 'link'>
+  )> }
 );
 
 export type PageContentQueryVariables = Exact<{
@@ -841,8 +853,8 @@ export type ArtistQueryHookResult = ReturnType<typeof useArtistQuery>;
 export type ArtistLazyQueryHookResult = ReturnType<typeof useArtistLazyQuery>;
 export type ArtistQueryResult = Apollo.QueryResult<ArtistQuery, ArtistQueryVariables>;
 export const NewsDocument = gql`
-    query News($id: ID) {
-  news(id: $id) {
+    query News {
+  news {
     id
     createdAt
     title
@@ -862,7 +874,6 @@ export const NewsDocument = gql`
  * @example
  * const { data, loading, error } = useNewsQuery({
  *   variables: {
- *      id: // value for 'id'
  *   },
  * });
  */
@@ -877,6 +888,46 @@ export function useNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NewsQ
 export type NewsQueryHookResult = ReturnType<typeof useNewsQuery>;
 export type NewsLazyQueryHookResult = ReturnType<typeof useNewsLazyQuery>;
 export type NewsQueryResult = Apollo.QueryResult<NewsQuery, NewsQueryVariables>;
+export const NewsPostDocument = gql`
+    query NewsPost($id: ID!) {
+  newsPost(id: $id) {
+    id
+    createdAt
+    title
+    content
+    imageUrl
+    link
+  }
+}
+    `;
+
+/**
+ * __useNewsPostQuery__
+ *
+ * To run a query within a React component, call `useNewsPostQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNewsPostQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNewsPostQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useNewsPostQuery(baseOptions: Apollo.QueryHookOptions<NewsPostQuery, NewsPostQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NewsPostQuery, NewsPostQueryVariables>(NewsPostDocument, options);
+      }
+export function useNewsPostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NewsPostQuery, NewsPostQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NewsPostQuery, NewsPostQueryVariables>(NewsPostDocument, options);
+        }
+export type NewsPostQueryHookResult = ReturnType<typeof useNewsPostQuery>;
+export type NewsPostLazyQueryHookResult = ReturnType<typeof useNewsPostLazyQuery>;
+export type NewsPostQueryResult = Apollo.QueryResult<NewsPostQuery, NewsPostQueryVariables>;
 export const PageContentDocument = gql`
     query PageContent($id: ID!) {
   pageContent(id: $id) {
