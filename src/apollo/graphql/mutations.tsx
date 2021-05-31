@@ -34,6 +34,14 @@ export const DELETE_ARTIST = gql`
     }
 `;
 
+export const ADD_NEWS = gql`
+    mutation addNews($news: NewsInput!) {
+        addNews(news: $news) {
+            id
+        }
+    }
+`;
+
 export const LOGIN = gql`
     mutation login($email: String!, $password: String!) {
         login(email: $email, password: $password) {

@@ -136,6 +136,7 @@ export type Mutation = {
   addArtist?: Maybe<Artist>;
   updateArtist?: Maybe<Artist>;
   deleteArtist?: Maybe<Artist>;
+  addNews?: Maybe<News>;
   initializePageContent?: Maybe<PageContent>;
   updatePageContent?: Maybe<PageContent>;
   login?: Maybe<User>;
@@ -158,6 +159,11 @@ export type MutationDeleteArtistArgs = {
 };
 
 
+export type MutationAddNewsArgs = {
+  news: NewsInput;
+};
+
+
 export type MutationUpdatePageContentArgs = {
   id: Scalars['ID'];
   pageContent: PageContentInput;
@@ -167,6 +173,24 @@ export type MutationUpdatePageContentArgs = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type News = {
+  __typename?: 'News';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type NewsInput = {
+  createdAt?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  link?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
 };
 
 export type PageContent = {
@@ -203,6 +227,8 @@ export type RootQueryType = {
   __typename?: 'RootQueryType';
   artist?: Maybe<Artist>;
   artists?: Maybe<Array<Maybe<Artist>>>;
+  newsPost?: Maybe<Array<Maybe<News>>>;
+  allNews?: Maybe<Array<Maybe<News>>>;
   me?: Maybe<User>;
   pageContent?: Maybe<PageContent>;
 };
@@ -215,6 +241,11 @@ export type RootQueryTypeArtistArgs = {
 
 export type RootQueryTypeArtistsArgs = {
   isDraft?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type RootQueryTypeNewsPostArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -311,6 +342,19 @@ export type DeleteArtistMutation = (
       { __typename?: 'BasicInformation' }
       & Pick<BasicInformation, 'name'>
     )> }
+  )> }
+);
+
+export type AddNewsMutationVariables = Exact<{
+  news: NewsInput;
+}>;
+
+
+export type AddNewsMutation = (
+  { __typename?: 'Mutation' }
+  & { addNews?: Maybe<(
+    { __typename?: 'News' }
+    & Pick<News, 'id'>
   )> }
 );
 
@@ -543,6 +587,39 @@ export function useDeleteArtistMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteArtistMutationHookResult = ReturnType<typeof useDeleteArtistMutation>;
 export type DeleteArtistMutationResult = Apollo.MutationResult<DeleteArtistMutation>;
 export type DeleteArtistMutationOptions = Apollo.BaseMutationOptions<DeleteArtistMutation, DeleteArtistMutationVariables>;
+export const AddNewsDocument = gql`
+    mutation addNews($news: NewsInput!) {
+  addNews(news: $news) {
+    id
+  }
+}
+    `;
+export type AddNewsMutationFn = Apollo.MutationFunction<AddNewsMutation, AddNewsMutationVariables>;
+
+/**
+ * __useAddNewsMutation__
+ *
+ * To run a mutation, you first call `useAddNewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddNewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addNewsMutation, { data, loading, error }] = useAddNewsMutation({
+ *   variables: {
+ *      news: // value for 'news'
+ *   },
+ * });
+ */
+export function useAddNewsMutation(baseOptions?: Apollo.MutationHookOptions<AddNewsMutation, AddNewsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddNewsMutation, AddNewsMutationVariables>(AddNewsDocument, options);
+      }
+export type AddNewsMutationHookResult = ReturnType<typeof useAddNewsMutation>;
+export type AddNewsMutationResult = Apollo.MutationResult<AddNewsMutation>;
+export type AddNewsMutationOptions = Apollo.BaseMutationOptions<AddNewsMutation, AddNewsMutationVariables>;
 export const LoginDocument = gql`
     mutation login($email: String!, $password: String!) {
   login(email: $email, password: $password) {

@@ -1,10 +1,14 @@
 import { Button, Paper } from "@material-ui/core";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import styled from "styled-components";
+import moment from "moment";
 
 import { TextFieldWrapper } from "../artist/form/styled";
-import { AdaptedTextField, ImageUploadInput } from "../ui/form";
+import { useAddNewsMutation } from "../generated/graphql";
+import { showNotificationAction } from "../notifications";
+import { AdaptedTextField, ImageUploadInput, useForm } from "../ui/form";
 
 const StyledRoot = styled(Paper)`
     padding: 16px;
@@ -25,6 +29,18 @@ const INITIAL_FORM_VALUES = {
 };
 
 const RawNewsForm = () => {
+    const [addNews] = useAddNewsMutation();
+    const dispatch = useDispatch();
+    const news = useForm("news");
+    const onSave = async () => {
+        try {
+            const createdAt = moment().format("YYYY-MM-DD");
+            await addNews({ variables: { news: { ...news, createdAt } } });
+            dispatch(showNotificationAction("Successfully saved news post"));
+        } catch (error) {
+            dispatch(showNotificationAction("Saving news post failed"));
+        }
+    };
     return (
         <StyledRoot>
             <TextFieldWrapper>
@@ -38,7 +54,7 @@ const RawNewsForm = () => {
             </TextFieldWrapper>
             <Field name="imageUrl" component={ImageUploadInput} buttonLabel="Image" formName="news" isRequired={false} />
 
-            <SaveButton variant="contained" color="secondary">
+            <SaveButton onClick={onSave} variant="contained" color="secondary">
                 Save
             </SaveButton>
         </StyledRoot>
