@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { AddArtists, EditArtist } from "./artist";
 import { Dashboard } from "./dashboard";
+import { AddNews } from "./news";
 
 const StyledAppTitle = styled(Typography)`
     flex-grow: 1;
@@ -55,6 +56,7 @@ function App() {
             <Route exact={true} path="/dashboard" component={Dashboard} />
             <Route exact={true} path="/artists" component={AddArtists} />
             <Route path="/artist/:id" component={EditArtist} />
+            <Route exact={true} path="/news" component={AddNews} />
         </Router>
     );
 }
