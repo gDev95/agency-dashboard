@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ListItemIcon, Grid, Typography, IconButton, Snackbar, Fab, Paper, Tabs, Tab } from "@material-ui/core";
+import { ListItemIcon, Grid, Typography, Fab, Paper, Tabs, Tab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import AccountCirlceIcon from "@material-ui/icons/AccountCircle";
-import CloseIcon from "@material-ui/icons/Close";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useArtistsQuery, useDeleteArtistMutation } from "../generated/graphql";
 import { LoadingIndicator, List, GridContainer, Emoji } from "../ui";
 import { ListItemExtractor } from "../helper";
 import { PageContentForm } from "../pageContent/pageContentForm";
-import { deleteNotificationAction, selectNotification, showNotificationAction } from "../notifications";
+import { showNotificationAction } from "../notifications";
 import { TabPanel } from "../ui/tabs";
 
 type ItemTypes = "ARTIST" | "NEWS" | "EVENTS";
@@ -56,7 +55,7 @@ export const Dashboard = (props: any) => {
     const { loading, data: artistData, error, refetch } = useArtistsQuery();
     const [deleteArtist] = useDeleteArtistMutation();
     const dispatch = useDispatch();
-    const notification = useSelector(selectNotification);
+
     const artistItems = artistData && artistData.artists && ListItemExtractor.getArtistItems(artistData);
     const [tabValue, setTab] = useState<number>(0);
 
@@ -95,13 +94,6 @@ export const Dashboard = (props: any) => {
             default:
                 break;
         }
-    };
-
-    const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
-        if (reason === "clickaway") {
-            return;
-        }
-        dispatch(deleteNotificationAction());
     };
 
     return (
@@ -148,24 +140,6 @@ export const Dashboard = (props: any) => {
                     </PageContentWrapper>
                 </DashboardPaper>
             </Grid>
-            <Snackbar
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                }}
-                open={notification.showNotification}
-                autoHideDuration={10000}
-                onClose={handleClose}
-                ContentProps={{
-                    "aria-describedby": "message-id",
-                }}
-                message={<span id="message-id">{notification.message}</span>}
-                action={[
-                    <IconButton key="close" aria-label="close" color="inherit" onClick={handleClose}>
-                        <CloseIcon />
-                    </IconButton>,
-                ]}
-            />
         </GridContainer>
     );
 };
