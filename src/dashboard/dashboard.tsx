@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ListItemIcon, Grid, Typography, IconButton, Snackbar, Fab, Paper } from "@material-ui/core";
+import { ListItemIcon, Grid, Typography, IconButton, Snackbar, Fab, Paper, Tabs, Tab } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import AccountCirlceIcon from "@material-ui/icons/AccountCircle";
 import CloseIcon from "@material-ui/icons/Close";
@@ -12,6 +12,7 @@ import { LoadingIndicator, List, GridContainer, Emoji } from "../ui";
 import { ListItemExtractor } from "../helper";
 import { PageContentForm } from "../pageContent/pageContentForm";
 import { deleteNotificationAction, selectNotification, showNotificationAction } from "../notifications";
+import { TabPanel } from "../ui/tabs";
 
 type ItemTypes = "ARTIST" | "NEWS" | "EVENTS";
 
@@ -57,7 +58,11 @@ export const Dashboard = (props: any) => {
     const dispatch = useDispatch();
     const notification = useSelector(selectNotification);
     const artistItems = artistData && artistData.artists && ListItemExtractor.getArtistItems(artistData);
+    const [tabValue, setTab] = useState<number>(0);
 
+    const handleTabChange = (event: React.ChangeEvent<{}>, newTabValue: number) => {
+        setTab(newTabValue);
+    };
     if (error) {
         return (
             <ErrorWrapper>
@@ -103,17 +108,36 @@ export const Dashboard = (props: any) => {
         <GridContainer {...props} container={true} direction="row" justify="space-around" alignItems="flex-start" wrap="wrap">
             <Grid item={true} xs={12} md={5}>
                 <DashboardPaper>
-                    <List items={artistItems} subheader="Artists" onDelete={handleDelete("ARTIST")} path="artist" label="artists">
-                        <ListItemIcon>
-                            <AccountCirlceIcon />
-                        </ListItemIcon>
-                    </List>
+                    <Tabs variant="fullWidth" value={tabValue} onChange={handleTabChange} aria-label="simple tabs example">
+                        <Tab label="Artist" />
+                        <Tab label="News" />
+                    </Tabs>
+                    <TabPanel value={tabValue} index={0}>
+                        <List items={artistItems} subheader="Artists" onDelete={handleDelete("ARTIST")} path="artist" label="artists">
+                            <ListItemIcon>
+                                <AccountCirlceIcon />
+                            </ListItemIcon>
+                        </List>
 
-                    <Link to="/artists">
-                        <AddFab color="secondary" aria-label="add">
-                            <AddIcon />
-                        </AddFab>
-                    </Link>
+                        <Link to="/artists">
+                            <AddFab color="secondary" aria-label="addArtist">
+                                <AddIcon />
+                            </AddFab>
+                        </Link>
+                    </TabPanel>
+                    <TabPanel value={tabValue} index={1}>
+                        <List items={[]} subheader="News" onDelete={handleDelete("NEWS")} path="news" label="news">
+                            <ListItemIcon>
+                                <AccountCirlceIcon />
+                            </ListItemIcon>
+                        </List>
+
+                        <Link to="/news">
+                            <AddFab color="secondary" aria-label="addNews">
+                                <AddIcon />
+                            </AddFab>
+                        </Link>
+                    </TabPanel>
                 </DashboardPaper>
             </Grid>
             <Grid item={true} xs={12} md={5}>
