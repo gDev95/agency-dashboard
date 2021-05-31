@@ -6,7 +6,7 @@ import AddIcon from "@material-ui/icons/Add";
 import AccountCirlceIcon from "@material-ui/icons/AccountCircle";
 import { useDispatch } from "react-redux";
 
-import { useArtistsQuery, useDeleteArtistMutation } from "../generated/graphql";
+import { useArtistsQuery, useDeleteArtistMutation, useNewsQuery } from "../generated/graphql";
 import { LoadingIndicator, List, GridContainer, Emoji } from "../ui";
 import { ListItemExtractor } from "../helper";
 import { PageContentForm } from "../pageContent/pageContentForm";
@@ -52,20 +52,22 @@ const StyledError = styled(Typography)`
 `;
 
 export const Dashboard = (props: any) => {
-    const { loading, data: artistData, error, refetch } = useArtistsQuery();
+    const { loading, data: artistData, error: artistError, refetch } = useArtistsQuery();
+    const { data: newsData, error: newsError } = useNewsQuery();
     const [deleteArtist] = useDeleteArtistMutation();
     const dispatch = useDispatch();
 
     const artistItems = artistData && artistData.artists && ListItemExtractor.getArtistItems(artistData);
+    const newsItems = newsData && newsData.news && ListItemExtractor.getNewsItems(newsData);
     const [tabValue, setTab] = useState<number>(0);
 
     const handleTabChange = (event: React.ChangeEvent<{}>, newTabValue: number) => {
         setTab(newTabValue);
     };
-    if (error) {
+    if (artistError || newsError) {
         return (
             <ErrorWrapper>
-                <StyledError>{error.message}</StyledError>
+                <StyledError>{artistError ? artistError.message : newsError?.message}</StyledError>
                 <Emoji label="crying-face" symbol={"😭"} size={30} />
             </ErrorWrapper>
         );
@@ -118,7 +120,7 @@ export const Dashboard = (props: any) => {
                         </Link>
                     </TabPanel>
                     <TabPanel value={tabValue} index={1}>
-                        <List items={[]} subheader="News" onDelete={handleDelete("NEWS")} path="news" label="news">
+                        <List items={newsItems} subheader="News" onDelete={handleDelete("NEWS")} path="news" label="news">
                             <ListItemIcon>
                                 <AccountCirlceIcon />
                             </ListItemIcon>

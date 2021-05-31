@@ -54,6 +54,16 @@ export const GET_ARTIST = gql`
     }
 `;
 
+export const GET_ALL_NEWS = gql`
+    query News($id: ID) {
+        news(id: $id) {
+            id
+            createdAt
+            title
+        }
+    }
+`;
+
 export const GET_PAGE_CONTENT = gql`
     query PageContent($id: ID!) {
         pageContent(id: $id) {
