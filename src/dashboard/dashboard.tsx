@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ListItemIcon, Grid, Typography, Fab, Paper, Tabs, Tab } from '@material-ui/core';
@@ -73,6 +73,11 @@ export const Dashboard = (props: any) => {
       </ErrorWrapper>
     );
   }
+
+  useEffect(() => {
+    refetchArtist();
+    refetchNews();
+  }, []);
 
   if (loading) {
     return <LoadingIndicator />;

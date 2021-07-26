@@ -3,13 +3,33 @@ import { ArrowLeft } from '@material-ui/icons';
 import React from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
-import { ConfigProps, Field, reduxForm } from 'redux-form';
+import { useHistory } from 'react-router';
+import { Field, FormErrors, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 
 import { TextFieldWrapper, UploadingProgress } from '../artist/form/styled';
 import { selectIsImageUploading } from '../artist/selectors';
 import { showNotificationAction } from '../notifications';
 import { AdaptedTextField, ImageUploadInput, useForm } from '../ui/form';
+
+function isStringEmpty(str: string) {
+  if (str) {
+    return str.trim().length === 0;
+  }
+  return true;
+}
+
+export const validate = (values: any): FormErrors<any> => {
+  console.log('Values', values);
+  const errors: any = {};
+
+  if (isStringEmpty(values.title)) {
+    console.log('set error for title');
+    errors.title = 'A title is required!';
+  }
+  console.log('errors', errors);
+  return errors;
+};
 
 const StyledRoot = styled(Paper)`
   padding: 16px;
@@ -33,23 +53,22 @@ const StyledPreview = styled.div`
 `;
 const INITIAL_FORM_VALUES = {
   externalLink: null,
-  imageUrl: '',
-  videoLink: '',
+  imageUrl: null,
+  videoLink: null,
   title: '',
 };
 
-type PropsType = {
-  onSubmit: (variables: { news: any }) => void;
-} & ConfigProps;
-
-const RawNewsForm = ({ onSubmit }: PropsType) => {
+const RawNewsForm = ({ onSubmit, valid }: any) => {
   const isUploading = useSelector(selectIsImageUploading);
+  const history = useHistory();
   const dispatch = useDispatch();
   const news = useForm('news');
   const onSave = async () => {
     try {
+      console.log('news', news);
       await onSubmit(news);
       dispatch(showNotificationAction('Successfully saved news post'));
+      history.push('/dashboard');
     } catch (error) {
       dispatch(showNotificationAction('Saving news post failed'));
     }
@@ -58,7 +77,7 @@ const RawNewsForm = ({ onSubmit }: PropsType) => {
     <StyledRoot>
       {isUploading && <UploadingProgress />}
       <TextFieldWrapper>
-        <Field name="title" component={AdaptedTextField} label="News Title" />
+        <Field name="title" component={AdaptedTextField} label="News Title" required={true} />
       </TextFieldWrapper>
       <TextFieldWrapper>
         <Field name="videoLink" component={AdaptedTextField} label="Video Link" isRequired={false} />
@@ -71,7 +90,7 @@ const RawNewsForm = ({ onSubmit }: PropsType) => {
         {news.videoLink && <ReactPlayer url={news.videoLink} width="400px" height="200px" />}
         {news.imageUrl && <img src={news.imageUrl} width="400px" height="200px" />}
       </StyledPreview>
-      <SaveButton onClick={onSave} variant="contained" color="secondary">
+      <SaveButton onClick={onSave} disabled={!valid} variant="contained" color="secondary">
         Save
       </SaveButton>
       <Button href="/dashboard">
@@ -87,6 +106,7 @@ export const NewsForm = reduxForm<{}, any>({
   forceUnregisterOnUnmount: true,
   enableReinitialize: true,
   form: 'news',
+  validate,
   touchOnChange: true,
   initialValues: INITIAL_FORM_VALUES,
 })(RawNewsForm);
