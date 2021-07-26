@@ -9,7 +9,7 @@ const StyledRoot = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 18px;
+  padding: 18px;]
 `;
 
 export const AddNews = () => {

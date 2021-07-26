@@ -1,10 +1,13 @@
 import { Button, Paper } from '@material-ui/core';
+import { ArrowLeft } from '@material-ui/icons';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import ReactPlayer from 'react-player';
+import { useDispatch, useSelector } from 'react-redux';
 import { ConfigProps, Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
 
-import { TextFieldWrapper } from '../artist/form/styled';
+import { TextFieldWrapper, UploadingProgress } from '../artist/form/styled';
+import { selectIsImageUploading } from '../artist/selectors';
 import { showNotificationAction } from '../notifications';
 import { AdaptedTextField, ImageUploadInput, useForm } from '../ui/form';
 
@@ -19,6 +22,15 @@ const StyledRoot = styled(Paper)`
 const SaveButton = styled(Button)`
   margin-top: 16px;
 `;
+
+const StyledPreview = styled.div`
+  width: 100%;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 const INITIAL_FORM_VALUES = {
   externalLink: null,
   imageUrl: '',
@@ -31,6 +43,7 @@ type PropsType = {
 } & ConfigProps;
 
 const RawNewsForm = ({ onSubmit }: PropsType) => {
+  const isUploading = useSelector(selectIsImageUploading);
   const dispatch = useDispatch();
   const news = useForm('news');
   const onSave = async () => {
@@ -43,6 +56,7 @@ const RawNewsForm = ({ onSubmit }: PropsType) => {
   };
   return (
     <StyledRoot>
+      {isUploading && <UploadingProgress />}
       <TextFieldWrapper>
         <Field name="title" component={AdaptedTextField} label="News Title" />
       </TextFieldWrapper>
@@ -53,9 +67,17 @@ const RawNewsForm = ({ onSubmit }: PropsType) => {
 
       <Field name="imageUrl" component={ImageUploadInput} buttonLabel="Image" formName="news" isRequired={false} />
 
+      <StyledPreview>
+        {news.videoLink && <ReactPlayer url={news.videoLink} width="400px" height="200px" />}
+        {news.imageUrl && <img src={news.imageUrl} width="400px" height="200px" />}
+      </StyledPreview>
       <SaveButton onClick={onSave} variant="contained" color="secondary">
         Save
       </SaveButton>
+      <Button href="/dashboard">
+        <ArrowLeft />
+        Return to Dashboard
+      </Button>
     </StyledRoot>
   );
 };

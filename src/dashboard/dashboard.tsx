@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import AccountCirlceIcon from '@material-ui/icons/AccountCircle';
 import { useDispatch } from 'react-redux';
 
-import { useArtistsQuery, useDeleteArtistMutation, useNewsQuery } from '../generated/graphql';
+import { useArtistsQuery, useDeleteArtistMutation, useDeleteNewsMutation, useNewsQuery } from '../generated/graphql';
 import { LoadingIndicator, List, GridContainer, Emoji } from '../ui';
 import { ListItemExtractor } from '../helper';
 import { PageContentForm } from '../pageContent/pageContentForm';
@@ -52,9 +52,10 @@ const StyledError = styled(Typography)`
 `;
 
 export const Dashboard = (props: any) => {
-  const { loading, data: artistData, error: artistError, refetch } = useArtistsQuery();
-  const { data: newsData, error: newsError } = useNewsQuery();
+  const { loading, data: artistData, error: artistError, refetch: refetchArtist } = useArtistsQuery();
+  const { data: newsData, error: newsError, refetch: refetchNews } = useNewsQuery();
   const [deleteArtist] = useDeleteArtistMutation();
+  const [deleteNews] = useDeleteNewsMutation();
   const dispatch = useDispatch();
 
   const artistItems = artistData && artistData.artists && ListItemExtractor.getArtistItems(artistData);
@@ -84,12 +85,20 @@ export const Dashboard = (props: any) => {
           await deleteArtist({
             variables: { id },
           });
-          refetch();
+          refetchArtist();
         } catch (err) {
           dispatch(showNotificationAction('Deleting Artist failed, please try again'));
         }
         break;
       case 'NEWS':
+        try {
+          await deleteNews({
+            variables: { id },
+          });
+          refetchNews();
+        } catch (err) {
+          dispatch(showNotificationAction('Deleting News failed, please try again'));
+        }
         break;
       case 'EVENTS':
         break;
