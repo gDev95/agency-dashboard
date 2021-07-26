@@ -42,6 +42,14 @@ export const ADD_NEWS = gql`
     }
 `;
 
+export const UPDAET_NEWS = gql`
+    mutation updateNews($id: ID!, $news: NewsInput!) {
+        updateNews(id: $id, news: $news) {
+            id
+        }
+    }
+`;
+
 export const LOGIN = gql`
     mutation login($email: String!, $password: String!) {
         login(email: $email, password: $password) {

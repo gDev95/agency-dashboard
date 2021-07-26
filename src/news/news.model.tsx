@@ -1,5 +1,5 @@
 export type NewsListItem = {
-    id: string;
-    createdAt: string;
-    title: string;
+  id: string;
+  createdAt: string;
+  title: string;
 };
