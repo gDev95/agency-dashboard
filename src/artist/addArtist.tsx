@@ -31,13 +31,12 @@ export const AddArtists = () => {
     socialMediaLinks: SocialMediaLinks,
   ) => {
     const createdAt = moment().format('YYYY-MM-DD');
-    const events: any = [];
     const newArtist = {
       createdAt,
       basicInformation,
       advancedInformation,
       socialMediaLinks,
-      events,
+      events: [],
     };
 
     try {
