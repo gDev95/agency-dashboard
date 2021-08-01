@@ -1,5 +1,5 @@
-import { AppStateType } from "../store";
+import { AppStateType } from '../store';
 
 export function selectNotification(state: AppStateType) {
-    return state.notification;
+  return state.notification;
 }

@@ -136,6 +136,9 @@ export type Mutation = {
   addArtist?: Maybe<Artist>;
   updateArtist?: Maybe<Artist>;
   deleteArtist?: Maybe<Artist>;
+  addNews?: Maybe<News>;
+  updateNews?: Maybe<News>;
+  deleteNews?: Maybe<News>;
   initializePageContent?: Maybe<PageContent>;
   updatePageContent?: Maybe<PageContent>;
   login?: Maybe<User>;
@@ -158,6 +161,22 @@ export type MutationDeleteArtistArgs = {
 };
 
 
+export type MutationAddNewsArgs = {
+  news: NewsInput;
+};
+
+
+export type MutationUpdateNewsArgs = {
+  id: Scalars['ID'];
+  news: NewsInput;
+};
+
+
+export type MutationDeleteNewsArgs = {
+  id: Scalars['ID'];
+};
+
+
 export type MutationUpdatePageContentArgs = {
   id: Scalars['ID'];
   pageContent: PageContentInput;
@@ -167,6 +186,23 @@ export type MutationUpdatePageContentArgs = {
 export type MutationLoginArgs = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type News = {
+  __typename?: 'News';
+  id?: Maybe<Scalars['ID']>;
+  createdAt?: Maybe<Scalars['String']>;
+  imageUrl?: Maybe<Scalars['String']>;
+  externalLink?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  videoLink?: Maybe<Scalars['String']>;
+};
+
+export type NewsInput = {
+  imageUrl?: Maybe<Scalars['String']>;
+  externalLink?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  videoLink?: Maybe<Scalars['String']>;
 };
 
 export type PageContent = {
@@ -203,6 +239,8 @@ export type RootQueryType = {
   __typename?: 'RootQueryType';
   artist?: Maybe<Artist>;
   artists?: Maybe<Array<Maybe<Artist>>>;
+  newsPost?: Maybe<News>;
+  news?: Maybe<Array<Maybe<News>>>;
   me?: Maybe<User>;
   pageContent?: Maybe<PageContent>;
 };
@@ -215,6 +253,11 @@ export type RootQueryTypeArtistArgs = {
 
 export type RootQueryTypeArtistsArgs = {
   isDraft?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type RootQueryTypeNewsPostArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -314,6 +357,46 @@ export type DeleteArtistMutation = (
   )> }
 );
 
+export type AddNewsMutationVariables = Exact<{
+  news: NewsInput;
+}>;
+
+
+export type AddNewsMutation = (
+  { __typename?: 'Mutation' }
+  & { addNews?: Maybe<(
+    { __typename?: 'News' }
+    & Pick<News, 'id'>
+  )> }
+);
+
+export type UpdateNewsMutationVariables = Exact<{
+  id: Scalars['ID'];
+  news: NewsInput;
+}>;
+
+
+export type UpdateNewsMutation = (
+  { __typename?: 'Mutation' }
+  & { updateNews?: Maybe<(
+    { __typename?: 'News' }
+    & Pick<News, 'id'>
+  )> }
+);
+
+export type DeleteNewsMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteNewsMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteNews?: Maybe<(
+    { __typename?: 'News' }
+    & Pick<News, 'id' | 'title'>
+  )> }
+);
+
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
@@ -404,6 +487,30 @@ export type ArtistQuery = (
         & Pick<EventTime, 'start' | 'end'>
       )> }
     )>>> }
+  )> }
+);
+
+export type NewsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NewsQuery = (
+  { __typename?: 'RootQueryType' }
+  & { news?: Maybe<Array<Maybe<(
+    { __typename?: 'News' }
+    & Pick<News, 'id' | 'createdAt' | 'title'>
+  )>>> }
+);
+
+export type NewsPostQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type NewsPostQuery = (
+  { __typename?: 'RootQueryType' }
+  & { newsPost?: Maybe<(
+    { __typename?: 'News' }
+    & Pick<News, 'id' | 'createdAt' | 'title' | 'imageUrl' | 'externalLink' | 'videoLink'>
   )> }
 );
 
@@ -543,6 +650,107 @@ export function useDeleteArtistMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteArtistMutationHookResult = ReturnType<typeof useDeleteArtistMutation>;
 export type DeleteArtistMutationResult = Apollo.MutationResult<DeleteArtistMutation>;
 export type DeleteArtistMutationOptions = Apollo.BaseMutationOptions<DeleteArtistMutation, DeleteArtistMutationVariables>;
+export const AddNewsDocument = gql`
+    mutation addNews($news: NewsInput!) {
+  addNews(news: $news) {
+    id
+  }
+}
+    `;
+export type AddNewsMutationFn = Apollo.MutationFunction<AddNewsMutation, AddNewsMutationVariables>;
+
+/**
+ * __useAddNewsMutation__
+ *
+ * To run a mutation, you first call `useAddNewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddNewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addNewsMutation, { data, loading, error }] = useAddNewsMutation({
+ *   variables: {
+ *      news: // value for 'news'
+ *   },
+ * });
+ */
+export function useAddNewsMutation(baseOptions?: Apollo.MutationHookOptions<AddNewsMutation, AddNewsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddNewsMutation, AddNewsMutationVariables>(AddNewsDocument, options);
+      }
+export type AddNewsMutationHookResult = ReturnType<typeof useAddNewsMutation>;
+export type AddNewsMutationResult = Apollo.MutationResult<AddNewsMutation>;
+export type AddNewsMutationOptions = Apollo.BaseMutationOptions<AddNewsMutation, AddNewsMutationVariables>;
+export const UpdateNewsDocument = gql`
+    mutation updateNews($id: ID!, $news: NewsInput!) {
+  updateNews(id: $id, news: $news) {
+    id
+  }
+}
+    `;
+export type UpdateNewsMutationFn = Apollo.MutationFunction<UpdateNewsMutation, UpdateNewsMutationVariables>;
+
+/**
+ * __useUpdateNewsMutation__
+ *
+ * To run a mutation, you first call `useUpdateNewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateNewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateNewsMutation, { data, loading, error }] = useUpdateNewsMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      news: // value for 'news'
+ *   },
+ * });
+ */
+export function useUpdateNewsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateNewsMutation, UpdateNewsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateNewsMutation, UpdateNewsMutationVariables>(UpdateNewsDocument, options);
+      }
+export type UpdateNewsMutationHookResult = ReturnType<typeof useUpdateNewsMutation>;
+export type UpdateNewsMutationResult = Apollo.MutationResult<UpdateNewsMutation>;
+export type UpdateNewsMutationOptions = Apollo.BaseMutationOptions<UpdateNewsMutation, UpdateNewsMutationVariables>;
+export const DeleteNewsDocument = gql`
+    mutation deleteNews($id: ID!) {
+  deleteNews(id: $id) {
+    id
+    title
+  }
+}
+    `;
+export type DeleteNewsMutationFn = Apollo.MutationFunction<DeleteNewsMutation, DeleteNewsMutationVariables>;
+
+/**
+ * __useDeleteNewsMutation__
+ *
+ * To run a mutation, you first call `useDeleteNewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteNewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteNewsMutation, { data, loading, error }] = useDeleteNewsMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteNewsMutation(baseOptions?: Apollo.MutationHookOptions<DeleteNewsMutation, DeleteNewsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteNewsMutation, DeleteNewsMutationVariables>(DeleteNewsDocument, options);
+      }
+export type DeleteNewsMutationHookResult = ReturnType<typeof useDeleteNewsMutation>;
+export type DeleteNewsMutationResult = Apollo.MutationResult<DeleteNewsMutation>;
+export type DeleteNewsMutationOptions = Apollo.BaseMutationOptions<DeleteNewsMutation, DeleteNewsMutationVariables>;
 export const LoginDocument = gql`
     mutation login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
@@ -751,6 +959,82 @@ export function useArtistLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Art
 export type ArtistQueryHookResult = ReturnType<typeof useArtistQuery>;
 export type ArtistLazyQueryHookResult = ReturnType<typeof useArtistLazyQuery>;
 export type ArtistQueryResult = Apollo.QueryResult<ArtistQuery, ArtistQueryVariables>;
+export const NewsDocument = gql`
+    query News {
+  news {
+    id
+    createdAt
+    title
+  }
+}
+    `;
+
+/**
+ * __useNewsQuery__
+ *
+ * To run a query within a React component, call `useNewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNewsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useNewsQuery(baseOptions?: Apollo.QueryHookOptions<NewsQuery, NewsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NewsQuery, NewsQueryVariables>(NewsDocument, options);
+      }
+export function useNewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NewsQuery, NewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NewsQuery, NewsQueryVariables>(NewsDocument, options);
+        }
+export type NewsQueryHookResult = ReturnType<typeof useNewsQuery>;
+export type NewsLazyQueryHookResult = ReturnType<typeof useNewsLazyQuery>;
+export type NewsQueryResult = Apollo.QueryResult<NewsQuery, NewsQueryVariables>;
+export const NewsPostDocument = gql`
+    query NewsPost($id: ID!) {
+  newsPost(id: $id) {
+    id
+    createdAt
+    title
+    imageUrl
+    externalLink
+    videoLink
+  }
+}
+    `;
+
+/**
+ * __useNewsPostQuery__
+ *
+ * To run a query within a React component, call `useNewsPostQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNewsPostQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNewsPostQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useNewsPostQuery(baseOptions: Apollo.QueryHookOptions<NewsPostQuery, NewsPostQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NewsPostQuery, NewsPostQueryVariables>(NewsPostDocument, options);
+      }
+export function useNewsPostLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NewsPostQuery, NewsPostQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NewsPostQuery, NewsPostQueryVariables>(NewsPostDocument, options);
+        }
+export type NewsPostQueryHookResult = ReturnType<typeof useNewsPostQuery>;
+export type NewsPostLazyQueryHookResult = ReturnType<typeof useNewsPostLazyQuery>;
+export type NewsPostQueryResult = Apollo.QueryResult<NewsPostQuery, NewsPostQueryVariables>;
 export const PageContentDocument = gql`
     query PageContent($id: ID!) {
   pageContent(id: $id) {

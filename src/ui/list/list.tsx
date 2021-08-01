@@ -19,7 +19,7 @@ const StyledListSubheader = styled(ListSubheader)`
 `;
 
 const StyledMaterialList = styled(MaterialUiList)`
-    max-width: 100%;
+    width: 100%;
     background-color: #fff;
     text-decoration: none;
 `;
